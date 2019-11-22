@@ -1,0 +1,2796 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20191119121104
+Username: DBADUCK\Administrator
+RunAs User: DBADUCK\Administrator
+Configuration Name: 
+Machine: WIN10A (Microsoft Windows NT 10.0.18362.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 10144
+PSVersion: 5.1.18362.145
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.18362.145
+BuildVersion: 10.0.18362.145
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\administrator\Documents\WindowsPowerShell\Transcript_20191119_121104.txt
+11/19/2019 12:11:04 PM
+ ::
+[ s]
+ ::
+C:\Users\administrator
+ [1] #
+
+PS>notepad $profile
+11/19/2019 12:11:28 PM
+ ::
+[0.0347118 s]
+ ::
+C:\Users\administrator
+ [2] #
+
+PS>$ServerInstance = "WIN2019A"
+11/19/2019 12:11:45 PM
+ ::
+[0.0199999 s]
+ ::
+C:\Users\administrator
+ [3] #
+
+PS>$Database = "DEMODB"
+11/19/2019 12:11:45 PM
+ ::
+[0.0320017 s]
+ ::
+C:\Users\administrator
+ [4] #
+
+PS>Import-Module dbatools
+11/19/2019 12:11:54 PM
+ ::
+[3.5320987 s]
+ ::
+C:\Users\administrator
+ [5] #
+
+PS>Get-Command -Module dbatools -CommandType Function | measure-object
+
+
+Count    : 573
+Average  :
+Sum      :
+Maximum  :
+Minimum  :
+Property :
+
+
+
+11/19/2019 12:12:30 PM
+ ::
+[0.1718933 s]
+ ::
+C:\Users\administrator
+ [6] #
+
+PS>Get-Command -Module dbatools -Verb Test
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Function        Test-DbaAgentJobOwner                              1.0.71     dbatools
+Function        Test-DbaBackupInformation                          1.0.71     dbatools
+Function        Test-DbaBuild                                      1.0.71     dbatools
+Function        Test-DbaCmConnection                               1.0.71     dbatools
+Function        Test-DbaConnection                                 1.0.71     dbatools
+Function        Test-DbaConnectionAuthScheme                       1.0.71     dbatools
+Function        Test-DbaDbCollation                                1.0.71     dbatools
+Function        Test-DbaDbCompatibility                            1.0.71     dbatools
+Function        Test-DbaDbCompression                              1.0.71     dbatools
+Function        Test-DbaDbDataGeneratorConfig                      1.0.71     dbatools
+Function        Test-DbaDbDataMaskingConfig                        1.0.71     dbatools
+Function        Test-DbaDbLogShipStatus                            1.0.71     dbatools
+Function        Test-DbaDbOwner                                    1.0.71     dbatools
+Function        Test-DbaDbRecoveryModel                            1.0.71     dbatools
+Function        Test-DbaDeprecatedFeature                          1.0.71     dbatools
+Function        Test-DbaDiskAlignment                              1.0.71     dbatools
+Function        Test-DbaDiskAllocation                             1.0.71     dbatools
+Function        Test-DbaDiskSpeed                                  1.0.71     dbatools
+Function        Test-DbaEndpoint                                   1.0.71     dbatools
+Function        Test-DbaIdentityUsage                              1.0.71     dbatools
+Function        Test-DbaInstanceName                               1.0.71     dbatools
+Function        Test-DbaLastBackup                                 1.0.71     dbatools
+Function        Test-DbaLinkedServerConnection                     1.0.71     dbatools
+Function        Test-DbaLoginPassword                              1.0.71     dbatools
+Function        Test-DbaManagementObject                           1.0.71     dbatools
+Function        Test-DbaMaxDop                                     1.0.71     dbatools
+Function        Test-DbaMaxMemory                                  1.0.71     dbatools
+Function        Test-DbaMigrationConstraint                        1.0.71     dbatools
+Function        Test-DbaNetworkLatency                             1.0.71     dbatools
+Function        Test-DbaOptimizeForAdHoc                           1.0.71     dbatools
+Function        Test-DbaPath                                       1.0.71     dbatools
+Function        Test-DbaPowerPlan                                  1.0.71     dbatools
+Function        Test-DbaRepLatency                                 1.0.71     dbatools
+Function        Test-DbaSpn                                        1.0.71     dbatools
+Function        Test-DbaTempDbConfig                               1.0.71     dbatools
+Function        Test-DbaWindowsLogin                               1.0.71     dbatools
+
+
+11/19/2019 12:12:38 PM
+ ::
+[0.4160017 s]
+ ::
+C:\Users\administrator
+ [7] #
+
+PS>$server1 = Connect-DbaInstance -SqlInstance $ServerInstance  # -ApplicationIntent, -FailoverPartner
+11/19/2019 12:13:31 PM
+ ::
+[0.5848189 s]
+ ::
+C:\Users\administrator
+ [8] #
+
+PS>$server1.ConnectionContext.StatementTimeout
+600
+11/19/2019 12:13:31 PM
+ ::
+[0.058001 s]
+ ::
+C:\Users\administrator
+ [9] #
+
+PS>$smo = "Microsoft.SqlServer.Management.Smo"
+11/19/2019 12:13:58 PM
+ ::
+[0.0220006 s]
+ ::
+C:\Users\administrator
+ [10] #
+
+PS>$server2 = New-Object -TypeName "$smo.Server" -ArgumentList $ServerInstance
+11/19/2019 12:13:58 PM
+ ::
+[0.0119994 s]
+ ::
+C:\Users\administrator
+ [11] #
+
+PS>$server2.ConnectionContext.StatementTimeout
+600
+11/19/2019 12:14:00 PM
+ ::
+[0.0099998 s]
+ ::
+C:\Users\administrator
+ [12] #
+
+PS>$server3 = Connect-DbaInstance -SqlInstance $ServerInstance -StatementTimeout 0
+11/19/2019 12:14:13 PM
+ ::
+[0.0630004 s]
+ ::
+C:\Users\administrator
+ [13] #
+
+PS>$server3.ConnectionContext.StatementTimeout
+0
+11/19/2019 12:14:15 PM
+ ::
+[0.091002 s]
+ ::
+C:\Users\administrator
+ [14] #
+
+PS>$db = Get-DbaDatabase -SqlInstance $ServerInstance -Database $Database
+11/19/2019 12:15:07 PM
+ ::
+[0.5025927 s]
+ ::
+C:\Users\administrator
+ [15] #
+
+PS>$db.Gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    Database                                 Microsoft.SqlServer.Management.Smo.ScriptNameObjectBase
+
+
+11/19/2019 12:15:22 PM
+ ::
+[0.0479994 s]
+ ::
+C:\Users\administrator
+ [16] #
+
+PS>$db.PageVerify
+None
+11/19/2019 12:15:47 PM
+ ::
+[0.0500002 s]
+ ::
+C:\Users\administrator
+ [17] #
+
+PS>$db.RecoveryModel
+Simple
+11/19/2019 12:15:52 PM
+ ::
+[0.0230005 s]
+ ::
+C:\Users\administrator
+ [18] #
+
+PS>$db.PageVerify = "Checksum"
+11/19/2019 12:16:53 PM
+ ::
+[0.031001 s]
+ ::
+C:\Users\administrator
+ [19] #
+
+PS>$db.Alter()
+11/19/2019 12:16:57 PM
+ ::
+[0.1761092 s]
+ ::
+C:\Users\administrator
+ [20] #
+
+PS>$db.PageVerify
+Checksum
+11/19/2019 12:17:01 PM
+ ::
+[0.0020002 s]
+ ::
+C:\Users\administrator
+ [21] #
+
+PS>$server1.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    Server                                   Microsoft.SqlServer.Management.Smo.SqlSmoObject
+
+
+11/19/2019 12:19:41 PM
+ ::
+[0.0860013 s]
+ ::
+C:\Users\administrator
+ [22] #
+
+PS>$server2.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    Server                                   Microsoft.SqlServer.Management.Smo.SqlSmoObject
+
+
+11/19/2019 12:19:41 PM
+ ::
+[0.0320001 s]
+ ::
+C:\Users\administrator
+ [23] #
+
+PS>$server3.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    Server                                   Microsoft.SqlServer.Management.Smo.SqlSmoObject
+
+
+11/19/2019 12:19:42 PM
+ ::
+[0.1820481 s]
+ ::
+C:\Users\administrator
+ [24] #
+
+PS>Get-DbaDiskSpace -ComputerName $ServerInstance
+
+ComputerName Name Label  Capacity      Free PercentFree BlockSize IsSqlDisk
+------------ ---- -----  --------      ---- ----------- --------- ---------
+    WIN2019A C:\        126.45 GB 111.45 GB       88.14      4096
+
+
+11/19/2019 12:20:24 PM
+ ::
+[0.3394534 s]
+ ::
+C:\Users\administrator
+ [25] #
+
+PS>$disk = Get-DbaDiskSpace -ComputerName $ServerInstance
+11/19/2019 12:21:02 PM
+ ::
+[0.077998 s]
+ ::
+C:\Users\administrator
+ [26] #
+
+PS>$disk.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    DiskSpace                                System.Object
+
+
+11/19/2019 12:21:07 PM
+ ::
+[0.0160003 s]
+ ::
+C:\Users\administrator
+ [27] #
+
+PS>$disk | Format-List *
+
+
+ComputerName : WIN2019A
+Name         : C:\
+Label        :
+Capacity     : 126.45 GB
+Free         : 111.45 GB
+PercentFree  : 88.14
+BlockSize    : 4096
+FileSystem   : NTFS
+Type         : LocalDisk
+IsSqlDisk    :
+Server       : WIN2019A
+DriveType    : Local Disk
+SizeInBytes  : 135770664960
+FreeInBytes  : 119665111040
+SizeInKB     : 132588540
+FreeInKB     : 116860460
+SizeInMB     : 129481
+FreeInMB     : 114121.54
+SizeInGB     : 126.45
+FreeInGB     : 111.45
+SizeInTB     : 0.12
+FreeInTB     : 0.11
+SizeInPB     : 0
+FreeInPB     : 0
+
+
+
+11/19/2019 12:21:31 PM
+ ::
+[0.2540057 s]
+ ::
+C:\Users\administrator
+ [28] #
+
+PS>$disk | Format-List *
+
+
+ComputerName : WIN2019A
+Name         : C:\
+Label        :
+Capacity     : 126.45 GB
+Free         : 111.45 GB
+PercentFree  : 88.14
+BlockSize    : 4096
+FileSystem   : NTFS
+Type         : LocalDisk
+IsSqlDisk    :
+Server       : WIN2019A
+DriveType    : Local Disk
+SizeInBytes  : 135770664960
+FreeInBytes  : 119665111040
+SizeInKB     : 132588540
+FreeInKB     : 116860460
+SizeInMB     : 129481
+FreeInMB     : 114121.54
+SizeInGB     : 126.45
+FreeInGB     : 111.45
+SizeInTB     : 0.12
+FreeInTB     : 0.11
+SizeInPB     : 0
+FreeInPB     : 0
+
+
+
+11/19/2019 12:21:38 PM
+ ::
+[0.0239998 s]
+ ::
+C:\Users\administrator
+ [29] #
+
+PS>$var = Get-DbaDbFile -sqlinstance $ServerInstance -Database DEMODB
+11/19/2019 12:22:18 PM
+ ::
+[0.3110377 s]
+ ::
+C:\Users\administrator
+ [30] #
+
+PS>$var.GeTType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+11/19/2019 12:22:27 PM
+ ::
+[0.014 s]
+ ::
+C:\Users\administrator
+ [31] #
+
+PS>$var[0].GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    PSCustomObject                           System.Object
+
+
+11/19/2019 12:22:50 PM
+ ::
+[0.0120008 s]
+ ::
+C:\Users\administrator
+ [32] #
+
+PS>$var[0] | Get-Member
+
+
+   TypeName: System.Management.Automation.PSCustomObject
+
+Name                     MemberType   Definition
+----                     ----------   ----------
+Equals                   Method       bool Equals(System.Object obj)
+GetHashCode              Method       int GetHashCode()
+GetType                  Method       type GetType()
+ToString                 Method       string ToString()
+AvailableSpace           NoteProperty Size AvailableSpace=5.19 MB
+ComputerName             NoteProperty string ComputerName=WIN2019A
+Database                 NoteProperty string Database=DEMODB
+FileGroupDataSpaceId     NoteProperty int FileGroupDataSpaceId=1
+FileGroupDefault         NoteProperty string FileGroupDefault=True
+FileGroupName            NoteProperty string FileGroupName=PRIMARY
+FileGroupReadOnly        NoteProperty bool FileGroupReadOnly=False
+FileGroupType            NoteProperty string FileGroupType=FG
+FileGroupTypeDescription NoteProperty string FileGroupTypeDescription=ROWS_FILEGROUP
+Growth                   NoteProperty int Growth=65536
+GrowthType               NoteProperty string GrowthType=kb
+ID                       NoteProperty int ID=1
+InstanceName             NoteProperty string InstanceName=MSSQLSERVER
+IsOffline                NoteProperty string IsOffline=False
+IsReadOnly               NoteProperty string IsReadOnly=False
+IsReadOnlyMedia          NoteProperty string IsReadOnlyMedia=False
+IsSparse                 NoteProperty string IsSparse=False
+LogicalName              NoteProperty string LogicalName=DEMODB
+MaxSize                  NoteProperty Size MaxSize=Unlimited
+NextGrowthEventSize      NoteProperty Size NextGrowthEventSize=64.00 MB
+NumberOfDiskReads        NoteProperty long NumberOfDiskReads=90
+NumberOfDiskWrites       NoteProperty long NumberOfDiskWrites=12
+PhysicalName             NoteProperty string PhysicalName=C:\SQLDATA\DEMODB.mdf
+ReadFromDisk             NoteProperty Size ReadFromDisk=5.34 MB
+Size                     NoteProperty Size Size=8.00 MB
+SqlInstance              NoteProperty string SqlInstance=WIN2019A
+State                    NoteProperty string State=ONLINE
+Type                     NoteProperty byte Type=0
+TypeDescription          NoteProperty string TypeDescription=ROWS
+UsedSpace                NoteProperty Size UsedSpace=2.81 MB
+VolumeFreeSpace          NoteProperty Size VolumeFreeSpace=111.45 GB
+WrittenToDisk            NoteProperty Size WrittenToDisk=96.00 KB
+
+
+11/19/2019 12:23:15 PM
+ ::
+[0.8089995 s]
+ ::
+C:\Users\administrator
+ [33] #
+
+PS>Get-DbaDiskSpace -ComputerName $ServerInstance | Select SizeInGB
+
+SizeInGB
+--------
+  126.45
+
+
+11/19/2019 12:23:48 PM
+ ::
+[0.1588887 s]
+ ::
+C:\Users\administrator
+ [34] #
+
+PS>Get-DbaDiskSpace -ComputerName $ServerInstance | Select-Object -ExpandProperty  SizeInGB
+126.45
+11/19/2019 12:24:47 PM
+ ::
+[0.0729992 s]
+ ::
+C:\Users\administrator
+ [35] #
+
+PS>$value = Get-DbaDiskSpace -ComputerName $ServerInstance | Select-Object -ExpandProperty  SizeInGB
+11/19/2019 12:25:02 PM
+ ::
+[0.0579976 s]
+ ::
+C:\Users\administrator
+ [36] #
+
+PS>$value.Gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Double                                   System.ValueType
+
+
+11/19/2019 12:25:06 PM
+ ::
+[0.0409998 s]
+ ::
+C:\Users\administrator
+ [37] #
+
+PS>$value = Get-DbaDiskSpace -ComputerName $ServerInstance | Select-Object  SizeInGB
+11/19/2019 12:25:15 PM
+ ::
+[0.0980557 s]
+ ::
+C:\Users\administrator
+ [38] #
+
+PS>$value
+
+SizeInGB
+--------
+  126.45
+
+
+11/19/2019 12:25:17 PM
+ ::
+[0.0290005 s]
+ ::
+C:\Users\administrator
+ [39] #
+
+PS>$value.SizeinGB
+126.45
+11/19/2019 12:25:23 PM
+ ::
+[0.0240001 s]
+ ::
+C:\Users\administrator
+ [40] #
+
+PS>Get-DbaErrorLog -SqlInstance $ServerInstance -LogNumber 0 -Text "BACKUP"
+
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:08:00 AM
+Source       : Backup
+Text         : Database backed up. Database: A, creation date(time): 2019/11/01(11:23:10), pages dumped: 387, first LSN:
+               36:3232:1, last LSN: 36:3256:1, number of dump devices: 1, device information: (FILE=4, TYPE=DISK:
+               {'C:\SQLBACKUP\A.bak'}). This is an informational message only. No user action is required.
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:08:00 AM
+Source       : Backup
+Text         : BACKUP DATABASE successfully processed 378 pages in 0.026 seconds (113.431 MB/sec).
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:09:05 AM
+Source       : Backup
+Text         : Database backed up. Database: A, creation date(time): 2019/11/01(11:23:10), pages dumped: 387, first LSN:
+               36:3352:1, last LSN: 36:3376:1, number of dump devices: 1, device information: (FILE=5, TYPE=DISK:
+               {'C:\SQLBACKUP\A.bak'}). This is an informational message only. No user action is required.
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:09:05 AM
+Source       : Backup
+Text         : BACKUP DATABASE successfully processed 378 pages in 0.047 seconds (62.749 MB/sec).
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:09:05 AM
+Source       : Backup
+Text         : Database backed up. Database: B, creation date(time): 2019/11/01(14:18:14), pages dumped: 371, first LSN:
+               37:2368:1, last LSN: 37:2392:1, number of dump devices: 1, device information: (FILE=3, TYPE=DISK:
+               {'C:\SQLBACKUP\B.bak'}). This is an informational message only. No user action is required.
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:09:05 AM
+Source       : Backup
+Text         : BACKUP DATABASE successfully processed 362 pages in 0.030 seconds (94.140 MB/sec).
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:09:05 AM
+Source       : Backup
+Text         : Database backed up. Database: DEMODB, creation date(time): 2019/10/31(20:02:23), pages dumped: 387, first LSN:
+               37:1488:1, last LSN: 37:1512:1, number of dump devices: 1, device information: (FILE=3, TYPE=DISK:
+               {'C:\SQLBACKUP\DEMODB.bak'}). This is an informational message only. No user action is required.
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+LogDate      : 11/19/2019 11:09:05 AM
+Source       : Backup
+Text         : BACKUP DATABASE successfully processed 378 pages in 0.046 seconds (64.113 MB/sec).
+
+
+
+
+11/19/2019 12:26:41 PM
+ ::
+[0.7423978 s]
+ ::
+C:\Users\administrator
+ [41] #
+
+PS>Get-DbaLastGoodCheckDb -SqlInstance $ServerInstance -Database DEMODB, DEMODB2
+
+
+ComputerName             : WIN2019A
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019A
+Database                 : DEMODB
+DatabaseCreated          : 10/31/2019 8:02:23 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 18.6837789818657
+DaysSinceLastGoodCheckDb :
+Status                   : CheckDB should be performed
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+
+
+11/19/2019 12:27:02 PM
+ ::
+[0.1599877 s]
+ ::
+C:\Users\administrator
+ [42] #
+
+PS>Get-DbaLastGoodCheckDb -SqlInstance $ServerInstance -Database DEMODB, DEMODB2 -EnableException
+
+
+ComputerName             : WIN2019A
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019A
+Database                 : DEMODB
+DatabaseCreated          : 10/31/2019 8:02:23 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 18.6841347079433
+DaysSinceLastGoodCheckDb :
+Status                   : CheckDB should be performed
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+
+
+11/19/2019 12:27:32 PM
+ ::
+[0.1138124 s]
+ ::
+C:\Users\administrator
+ [43] #
+
+PS>Get-DbaLastGoodCheckDb -SqlInstance $ServerInstance, WIN2019B -Database DEMODB, DEMODB2
+
+
+ComputerName             : WIN2019A
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019A
+Database                 : DEMODB
+DatabaseCreated          : 10/31/2019 8:02:23 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 18.6843924377662
+DaysSinceLastGoodCheckDb :
+Status                   : CheckDB should be performed
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+ComputerName             : WIN2019B
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019B
+Database                 : DEMODB
+DatabaseCreated          : 11/17/2019 4:16:19 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 1.84138836495833
+DaysSinceLastGoodCheckDb :
+Status                   : New database, not checked yet
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+ComputerName             : WIN2019A
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019A
+Database                 : DEMODB
+DatabaseCreated          : 10/31/2019 8:02:23 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 18.6844012694433
+DaysSinceLastGoodCheckDb :
+Status                   : CheckDB should be performed
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+ComputerName             : WIN2019B
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019B
+Database                 : DEMODB
+DatabaseCreated          : 11/17/2019 4:16:19 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 1.84139135777894
+DaysSinceLastGoodCheckDb :
+Status                   : New database, not checked yet
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+
+
+11/19/2019 12:27:55 PM
+ ::
+[1.3292459 s]
+ ::
+C:\Users\administrator
+ [44] #
+
+PS>Get-DbaLastGoodCheckDb -SqlInstance $ServerInstance, WIN2019B -Database DEMODB, DEMODB2
+
+
+ComputerName             : WIN2019A
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019A
+Database                 : DEMODB
+DatabaseCreated          : 10/31/2019 8:02:23 PM
+LastGoodCheckDb          : 11/19/2019 12:28:44 PM
+DaysSinceDbCreated       : 18.6850335062836
+DaysSinceLastGoodCheckDb : 0
+Status                   : Ok
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+ComputerName             : WIN2019B
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019B
+Database                 : DEMODB
+DatabaseCreated          : 11/17/2019 4:16:19 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 1.84202805655671
+DaysSinceLastGoodCheckDb :
+Status                   : New database, not checked yet
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+ComputerName             : WIN2019A
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019A
+Database                 : DEMODB
+DatabaseCreated          : 10/31/2019 8:02:23 PM
+LastGoodCheckDb          : 11/19/2019 12:28:44 PM
+DaysSinceDbCreated       : 18.685042686184
+DaysSinceLastGoodCheckDb : 0
+Status                   : Ok
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+ComputerName             : WIN2019B
+InstanceName             : MSSQLSERVER
+SqlInstance              : WIN2019B
+Database                 : DEMODB
+DatabaseCreated          : 11/17/2019 4:16:19 PM
+LastGoodCheckDb          :
+DaysSinceDbCreated       : 1.84203540609838
+DaysSinceLastGoodCheckDb :
+Status                   : New database, not checked yet
+DataPurityEnabled        : True
+CreateVersion            : 904
+DbccFlags                : 2
+
+
+
+11/19/2019 12:28:51 PM
+ ::
+[1.3241539 s]
+ ::
+C:\Users\administrator
+ [45] #
+
+PS>Get-DbaLogin -SqlInstance $ServerInstance | where name -eq 'sa'
+
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+Name         : sa
+LoginType    : SqlLogin
+CreateDate   : 4/8/2003 9:10:35 AM
+LastLogin    : 11/19/2019 12:29:18 PM
+HasAccess    : True
+IsLocked     : False
+IsDisabled   : False
+
+
+
+11/19/2019 12:29:52 PM
+ ::
+[0.2848679 s]
+ ::
+C:\Users\administrator
+ [46] #
+
+PS>Get-DbaLogin -SqlInstance $ServerInstance | where name -eq 'sa' | Get-member
+
+
+   TypeName: Microsoft.SqlServer.Management.Smo.Login
+
+Name                      MemberType   Definition
+----                      ----------   ----------
+PropertyChanged           Event        System.ComponentModel.PropertyChangedEventHandler PropertyChanged(System.Object, System....
+PropertyMetadataChanged   Event        System.EventHandler`1[Microsoft.SqlServer.Management.Sdk.Sfc.SfcPropertyMetadataChangedE...
+PSStandardMembers         MemberSet    PSStandardMembers {DefaultDisplayPropertySet}
+AddCredential             Method       void AddCredential(string credentialName)
+AddToRole                 Method       void AddToRole(string role)
+Alter                     Method       void Alter(), void IAlterable.Alter()
+ChangePassword            Method       void ChangePassword(string newPassword), void ChangePassword(securestring newPassword), ...
+Create                    Method       void Create(), void Create(string password), void Create(securestring password), void Cr...
+Deny                      Method       void Deny(Microsoft.SqlServer.Management.Smo.ObjectPermissionSet permission, string[] gr...
+Disable                   Method       void Disable()
+Discover                  Method       System.Collections.Generic.List[System.Object] Discover(), System.Collections.Generic.Li...
+Drop                      Method       void Drop(), void IDroppable.Drop()
+DropCredential            Method       void DropCredential(string credentialName)
+DropIfExists              Method       void DropIfExists(), void IDropIfExists.DropIfExists()
+Enable                    Method       void Enable()
+EnumAgentProxyAccounts    Method       System.Data.DataTable EnumAgentProxyAccounts()
+EnumCredentials           Method       System.Collections.Specialized.StringCollection EnumCredentials()
+EnumDatabaseMappings      Method       Microsoft.SqlServer.Management.Smo.DatabaseMapping[] EnumDatabaseMappings()
+EnumObjectPermissions     Method       Microsoft.SqlServer.Management.Smo.ObjectPermissionInfo[] EnumObjectPermissions(), Micro...
+Equals                    Method       bool Equals(System.Object obj)
+ExecuteWithModes          Method       void ExecuteWithModes(Microsoft.SqlServer.Management.Common.SqlExecutionModes modes, Sys...
+GetDatabaseUser           Method       string GetDatabaseUser(string databaseName)
+GetDomainRoot             Method       Microsoft.SqlServer.Management.Sdk.Sfc.ISfcDomainLite IAlienObject.GetDomainRoot()
+GetHashCode               Method       int GetHashCode()
+GetParent                 Method       System.Object IAlienObject.GetParent()
+GetPropertySet            Method       Microsoft.SqlServer.Management.Sdk.Sfc.ISfcPropertySet ISfcPropertyProvider.GetPropertyS...
+GetPropertyType           Method       type IAlienObject.GetPropertyType(string propertyName)
+GetPropertyValue          Method       System.Object IAlienObject.GetPropertyValue(string propertyName, type propertyType)
+GetPropValueOptional      Method       T GetPropValueOptional[T](string propName, T defaultValue)
+GetSqlServerVersionName   Method       string GetSqlServerVersionName()
+GetStringComparer         Method       System.Collections.Generic.IComparer[string] GetStringComparer()
+GetType                   Method       type GetType()
+GetUrn                    Method       Microsoft.SqlServer.Management.Sdk.Sfc.Urn IAlienObject.GetUrn()
+Grant                     Method       void Grant(Microsoft.SqlServer.Management.Smo.ObjectPermissionSet permission, string[] g...
+InitChildCollection       Method       void InitChildCollection(Microsoft.SqlServer.Management.Sdk.Sfc.Urn childType, bool forS...
+Initialize                Method       bool Initialize(), bool Initialize(bool allProperties)
+IsExpressSku              Method       bool IsExpressSku()
+IsMember                  Method       bool IsMember(string role)
+IsSupportedProperty       Method       bool IsSupportedProperty(string propertyName)
+ListMembers               Method       System.Collections.Specialized.StringCollection ListMembers()
+Refresh                   Method       void Refresh(), void IRefreshable.Refresh()
+Rename                    Method       void Rename(string newname), void IRenamable.Rename(string newname)
+Resolve                   Method       System.Object IAlienObject.Resolve(string urnString)
+Revoke                    Method       void Revoke(Microsoft.SqlServer.Management.Smo.ObjectPermissionSet permission, string[] ...
+Script                    Method       System.Collections.Specialized.StringCollection Script(), System.Collections.Specialized...
+SetAccessToken            Method       void SetAccessToken(Microsoft.SqlServer.Management.Common.IRenewableToken token)
+SetObjectState            Method       void IAlienObject.SetObjectState(Microsoft.SqlServer.Management.Sdk.Sfc.SfcObjectState s...
+SetPropertyValue          Method       void IAlienObject.SetPropertyValue(string propertyName, type propertyType, System.Object...
+SetState                  Method       void SetState(Microsoft.SqlServer.Management.Smo.SqlSmoState state)
+ToString                  Method       string ToString()
+Touch                     Method       void Touch()
+Validate                  Method       Microsoft.SqlServer.Management.Sdk.Sfc.ValidationState Validate(string methodName, Param...
+ComputerName              NoteProperty string ComputerName=WIN2019A
+InstanceName              NoteProperty string InstanceName=MSSQLSERVER
+LastLogin                 NoteProperty datetime LastLogin=11/19/2019 12:29:18 PM
+SqlInstance               NoteProperty string SqlInstance=WIN2019A
+AsymmetricKey             Property     string AsymmetricKey {get;set;}
+Certificate               Property     string Certificate {get;set;}
+CreateDate                Property     datetime CreateDate {get;}
+Credential                Property     string Credential {get;set;}
+DatabaseEngineEdition     Property     Microsoft.SqlServer.Management.Common.DatabaseEngineEdition DatabaseEngineEdition {get;}
+DatabaseEngineType        Property     Microsoft.SqlServer.Management.Common.DatabaseEngineType DatabaseEngineType {get;}
+DateLastModified          Property     datetime DateLastModified {get;}
+DefaultDatabase           Property     string DefaultDatabase {get;set;}
+DenyWindowsLogin          Property     bool DenyWindowsLogin {get;set;}
+Events                    Property     Microsoft.SqlServer.Management.Smo.LoginEvents Events {get;}
+ExecutionManager          Property     Microsoft.SqlServer.Management.Smo.ExecutionManager ExecutionManager {get;}
+HasAccess                 Property     bool HasAccess {get;}
+ID                        Property     int ID {get;}
+IsDesignMode              Property     bool IsDesignMode {get;}
+IsDisabled                Property     bool IsDisabled {get;}
+IsLocked                  Property     bool IsLocked {get;}
+IsPasswordExpired         Property     bool IsPasswordExpired {get;}
+IsSystemObject            Property     bool IsSystemObject {get;}
+Language                  Property     string Language {get;set;}
+LanguageAlias             Property     string LanguageAlias {get;}
+LoginType                 Property     Microsoft.SqlServer.Management.Smo.LoginType LoginType {get;set;}
+MustChangePassword        Property     bool MustChangePassword {get;}
+Name                      Property     string Name {get;set;}
+Parent                    Property     Microsoft.SqlServer.Management.Smo.Server Parent {get;set;}
+ParentCollection          Property     Microsoft.SqlServer.Management.Smo.AbstractCollectionBase ParentCollection {get;}
+PasswordExpirationEnabled Property     bool PasswordExpirationEnabled {get;set;}
+PasswordHashAlgorithm     Property     Microsoft.SqlServer.Management.Smo.PasswordHashAlgorithm PasswordHashAlgorithm {get;}
+PasswordPolicyEnforced    Property     bool PasswordPolicyEnforced {get;set;}
+Properties                Property     Microsoft.SqlServer.Management.Smo.SqlPropertyCollection Properties {get;}
+ServerVersion             Property     Microsoft.SqlServer.Management.Common.ServerVersion ServerVersion {get;}
+Sid                       Property     byte[] Sid {get;set;}
+State                     Property     Microsoft.SqlServer.Management.Smo.SqlSmoState State {get;}
+Urn                       Property     Microsoft.SqlServer.Management.Sdk.Sfc.Urn Urn {get;}
+UserData                  Property     System.Object UserData {get;set;}
+WindowsLoginAccessType    Property     Microsoft.SqlServer.Management.Smo.WindowsLoginAccessType WindowsLoginAccessType {get;}
+
+
+11/19/2019 12:30:11 PM
+ ::
+[2.2272372 s]
+ ::
+C:\Users\administrator
+ [47] #
+
+PS>(Get-DbaLogin -SqlInstance $ServerInstance -Login 'sa').GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    Login                                    Microsoft.SqlServer.Management.Smo.ScriptNameObjectBase
+
+
+11/19/2019 12:30:44 PM
+ ::
+[0.0794246 s]
+ ::
+C:\Users\administrator
+ [48] #
+
+PS>Get-DbaMaxMemory -SqlInstance $ServerInstance
+
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+Total        : 8192
+MaxValue     : 5120
+
+
+
+11/19/2019 12:31:34 PM
+ ::
+[0.1043126 s]
+ ::
+C:\Users\administrator
+ [49] #
+
+PS>Test-DbaMaxMemory -SqlInstance $ServerInstance
+PS>TerminatingError(): "The WS-Management service cannot process the request. The CIM namespace root/microsoft/sqlserver/reportserver is invalid. "
+>> TerminatingError(): "The WS-Management service cannot process the request. The CIM namespace root/microsoft/sqlserver/reportserver is invalid. "
+
+
+ComputerName     : WIN2019A
+InstanceName     : MSSQLSERVER
+SqlInstance      : WIN2019A
+InstanceCount    : 1
+Total            : 8192
+MaxValue         : 5120
+RecommendedValue : 5120
+
+
+
+11/19/2019 12:33:01 PM
+ ::
+[2.2516367 s]
+ ::
+C:\Users\administrator
+ [50] #
+
+PS>Set-DbaMaxMemory -SqlInstance $ServerInstance -Max 4096
+PS>TerminatingError(): "The WS-Management service cannot process the request. The CIM namespace root/microsoft/sqlserver/reportserver is invalid. "
+>> TerminatingError(): "The WS-Management service cannot process the request. The CIM namespace root/microsoft/sqlserver/reportserver is invalid. "
+
+
+ComputerName     : WIN2019A
+InstanceName     : MSSQLSERVER
+SqlInstance      : WIN2019A
+Total            : 8192
+MaxValue         : 4096
+PreviousMaxValue : 5120
+
+
+
+11/19/2019 12:33:31 PM
+ ::
+[0.5947378 s]
+ ::
+C:\Users\administrator
+ [51] #
+
+PS>Set-DbaMaxMemory -SqlInstance $ServerInstance
+PS>TerminatingError(): "The WS-Management service cannot process the request. The CIM namespace root/microsoft/sqlserver/reportserver is invalid. "
+>> TerminatingError(): "The WS-Management service cannot process the request. The CIM namespace root/microsoft/sqlserver/reportserver is invalid. "
+
+
+ComputerName     : WIN2019A
+InstanceName     : MSSQLSERVER
+SqlInstance      : WIN2019A
+Total            : 8192
+MaxValue         : 5120
+PreviousMaxValue : 4096
+
+
+
+11/19/2019 12:34:58 PM
+ ::
+[0.8929712 s]
+ ::
+C:\Users\administrator
+ [52] #
+
+PS>Get-DbaInstanceProtocol -ComputerName $ServerInstance
+
+
+ComputerName : win2019a.dbaduck.local
+InstanceName : MSSQLSERVER
+DisplayName  : Shared Memory
+Name         : Sm
+MultiIP      : False
+IsEnabled    : True
+
+ComputerName : win2019a.dbaduck.local
+InstanceName : MSSQLSERVER
+DisplayName  : Named Pipes
+Name         : Np
+MultiIP      : False
+IsEnabled    : False
+
+ComputerName : win2019a.dbaduck.local
+InstanceName : MSSQLSERVER
+DisplayName  : TCP/IP
+Name         : Tcp
+MultiIP      : True
+IsEnabled    : True
+
+
+
+11/19/2019 12:37:39 PM
+ ::
+[0.485839 s]
+ ::
+C:\Users\administrator
+ [53] #
+
+PS>Get-DbaInstanceProtocol -ComputerName $ServerInstance
+
+
+ComputerName : win2019a.dbaduck.local
+InstanceName : MSSQLSERVER
+DisplayName  : Shared Memory
+Name         : Sm
+MultiIP      : False
+IsEnabled    : True
+
+ComputerName : win2019a.dbaduck.local
+InstanceName : MSSQLSERVER
+DisplayName  : Named Pipes
+Name         : Np
+MultiIP      : False
+IsEnabled    : False
+
+ComputerName : win2019a.dbaduck.local
+InstanceName : MSSQLSERVER
+DisplayName  : TCP/IP
+Name         : Tcp
+MultiIP      : True
+IsEnabled    : True
+
+
+
+11/19/2019 12:37:45 PM
+ ::
+[0.1222242 s]
+ ::
+C:\Users\administrator
+ [54] #
+
+PS>Get-DbaInstanceProtocol -ComputerName $ServerInstance | fl *
+
+
+ComputerName                : win2019a.dbaduck.local
+DisplayName                 : Shared Memory
+Name                        : Sm
+MultiIP                     : False
+IsEnabled                   : True
+Enabled                     : True
+InstanceName                : MSSQLSERVER
+MultiIpConfigurationSupport : False
+ProtocolDisplayName         : Shared Memory
+ProtocolName                : Sm
+PSComputerName              : win2019a.dbaduck.local
+CimClass                    : root/microsoft/sqlserver/computermanagement15:ServerNetworkProtocol
+CimInstanceProperties       : {Enabled, InstanceName, MultiIpConfigurationSupport, ProtocolDisplayName...}
+CimSystemProperties         : Microsoft.Management.Infrastructure.CimSystemProperties
+
+ComputerName                : win2019a.dbaduck.local
+DisplayName                 : Named Pipes
+Name                        : Np
+MultiIP                     : False
+IsEnabled                   : False
+Enabled                     : False
+InstanceName                : MSSQLSERVER
+MultiIpConfigurationSupport : False
+ProtocolDisplayName         : Named Pipes
+ProtocolName                : Np
+PSComputerName              : win2019a.dbaduck.local
+CimClass                    : root/microsoft/sqlserver/computermanagement15:ServerNetworkProtocol
+CimInstanceProperties       : {Enabled, InstanceName, MultiIpConfigurationSupport, ProtocolDisplayName...}
+CimSystemProperties         : Microsoft.Management.Infrastructure.CimSystemProperties
+
+ComputerName                : win2019a.dbaduck.local
+DisplayName                 : TCP/IP
+Name                        : Tcp
+MultiIP                     : True
+IsEnabled                   : True
+Enabled                     : True
+InstanceName                : MSSQLSERVER
+MultiIpConfigurationSupport : True
+ProtocolDisplayName         : TCP/IP
+ProtocolName                : Tcp
+PSComputerName              : win2019a.dbaduck.local
+CimClass                    : root/microsoft/sqlserver/computermanagement15:ServerNetworkProtocol
+CimInstanceProperties       : {Enabled, InstanceName, MultiIpConfigurationSupport, ProtocolDisplayName...}
+CimSystemProperties         : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+11/19/2019 12:38:08 PM
+ ::
+[1.0112928 s]
+ ::
+C:\Users\administrator
+ [55] #
+
+PS>Get-DbaTcpPort -SqlInstance $ServerInstance
+
+
+ComputerName : WIN2019A
+InstanceName : MSSQLSERVER
+SqlInstance  : WIN2019A
+IPAddress    : 10.0.1.11
+Port         : 1433
+
+
+
+11/19/2019 12:39:11 PM
+ ::
+[0.2306406 s]
+ ::
+C:\Users\administrator
+ [56] #
+
+PS>Get-DbaSpConfigure -SqlInstance $ServerInstance
+
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Maximum recovery interval in minutes
+DisplayName           : recovery interval (min)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : RecoveryInterval
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Allow updates to system tables
+DisplayName           : allow updates
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : AllowUpdates
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Number of user connections allowed
+DisplayName           : user connections
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : UserConnections
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Number of locks for all users
+DisplayName           : locks
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 5000
+Name                  : Locks
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Number of open database objects
+DisplayName           : open objects
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 0
+Name                  : OpenObjects
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Default fill factor percentage
+DisplayName           : fill factor (%)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 100
+MinValue              : 0
+Name                  : FillFactor
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Disallow returning results from triggers
+DisplayName           : disallow results from triggers
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : DisallowResultsFromTriggers
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Allow triggers to be invoked within triggers
+DisplayName           : nested triggers
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : NestedTriggers
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Allow recursion for server level triggers
+DisplayName           : server trigger recursion
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ServerTriggerRecursionEnabled
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Allow remote access
+DisplayName           : remote access
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : RemoteAccess
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : default language
+DisplayName           : default language
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 9999
+MinValue              : 0
+Name                  : DefaultLanguage
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Allow cross db ownership chaining
+DisplayName           : cross db ownership chaining
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : CrossDBOwnershipChaining
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Maximum worker threads
+DisplayName           : max worker threads
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 65535
+MinValue              : 128
+Name                  : MaxWorkerThreads
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 4096
+DefaultValue          :
+Description           : Network packet size
+DisplayName           : network packet size (B)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 512
+Name                  : NetworkPacketSize
+RunningValue          : 4096
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : show advanced options
+DisplayName           : show advanced options
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ShowAdvancedOptions
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Create DTC transaction for remote procedures
+DisplayName           : remote proc trans
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : RemoteProcTrans
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : c2 audit mode
+DisplayName           : c2 audit mode
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : C2AuditMode
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1033
+DefaultValue          :
+Description           : default full-text language
+DisplayName           : default full-text language
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 0
+Name                  : DefaultFullTextLanguage
+RunningValue          : 1033
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 2049
+DefaultValue          :
+Description           : two digit year cutoff
+DisplayName           : two digit year cutoff
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 9999
+MinValue              : 1753
+Name                  : TwoDigitYearCutoff
+RunningValue          : 2049
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Memory for index create sorts (kBytes)
+DisplayName           : index create memory (KB)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 704
+Name                  : IndexCreateMemory
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Priority boost
+DisplayName           : priority boost
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : PriorityBoost
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 10
+DefaultValue          :
+Description           : remote login timeout
+DisplayName           : remote login timeout (s)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 0
+Name                  : RemoteLoginTimeout
+RunningValue          : 10
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 600
+DefaultValue          :
+Description           : remote query timeout
+DisplayName           : remote query timeout (s)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 0
+Name                  : RemoteQueryTimeout
+RunningValue          : 600
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : -1
+DefaultValue          :
+Description           : cursor threshold
+DisplayName           : cursor threshold
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : -1
+Name                  : CursorThreshold
+RunningValue          : -1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : set working set size
+DisplayName           : set working set size
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : SetWorkingSetSize
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : user options
+DisplayName           : user options
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : UserOptions
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : affinity mask
+DisplayName           : affinity mask
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : -2147483648
+Name                  : AffinityMask
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 65536
+DefaultValue          :
+Description           : Maximum size of a text field in replication.
+DisplayName           : max text repl size (B)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : -1
+Name                  : ReplicationMaxTextSize
+RunningValue          : 65536
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Tape retention period in days
+DisplayName           : media retention
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 365
+MinValue              : 0
+Name                  : MediaRetention
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 5
+DefaultValue          :
+Description           : cost threshold for parallelism
+DisplayName           : cost threshold for parallelism
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : CostThresholdForParallelism
+RunningValue          : 5
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : maximum degree of parallelism
+DisplayName           : max degree of parallelism
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : MaxDegreeOfParallelism
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1024
+DefaultValue          :
+Description           : minimum memory per query (kBytes)
+DisplayName           : min memory per query (KB)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 512
+Name                  : MinMemoryPerQuery
+RunningValue          : 1024
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : -1
+DefaultValue          :
+Description           : maximum time to wait for query memory (s)
+DisplayName           : query wait (s)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : -1
+Name                  : QueryWait
+RunningValue          : -1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Minimum size of server memory (MB)
+DisplayName           : min server memory (MB)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 0
+Name                  : MinServerMemory
+RunningValue          : 16
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 5120
+DefaultValue          :
+Description           : Maximum size of server memory (MB)
+DisplayName           : max server memory (MB)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 128
+Name                  : MaxServerMemory
+RunningValue          : 5120
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Maximum estimated cost allowed by query governor
+DisplayName           : query governor cost limit
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 0
+Name                  : QueryGovernorCostLimit
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : User mode scheduler uses lightweight pooling
+DisplayName           : lightweight pooling
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : LightweightPooling
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : scan for startup stored procedures
+DisplayName           : scan for startup procs
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ScanForStartupProcedures
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : affinity64 mask
+DisplayName           : affinity64 mask
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : -2147483648
+Name                  : Affinity64Mask
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : affinity I/O mask
+DisplayName           : affinity I/O mask
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : -2147483648
+Name                  : AffinityIOMask
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : affinity64 I/O mask
+DisplayName           : affinity64 I/O mask
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : -2147483648
+Name                  : Affinity64IOMask
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Transform noise words for full-text query
+DisplayName           : transform noise words
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : TransformNoiseWords
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Use precomputed rank for full-text query
+DisplayName           : precompute rank
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : PrecomputeRank
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 60
+DefaultValue          :
+Description           : DB connection timeout for full-text protocol handler (s)
+DisplayName           : PH timeout (s)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 3600
+MinValue              : 1
+Name                  : ProtocolHandlerTimeout
+RunningValue          : 60
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : CLR user code execution enabled in the server
+DisplayName           : clr enabled
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : IsSqlClrEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 4
+DefaultValue          :
+Description           : Maximum  crawl ranges allowed in full-text indexing
+DisplayName           : max full-text crawl range
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 256
+MinValue              : 0
+Name                  : FullTextCrawlRangeMax
+RunningValue          : 4
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Number of reserved full-text notifications buffers
+DisplayName           : ft notify bandwidth (min)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : FullTextNotifyBandwidthMin
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 100
+DefaultValue          :
+Description           : Max number of full-text notifications buffers
+DisplayName           : ft notify bandwidth (max)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : FullTextNotifyBandwidthMax
+RunningValue          : 100
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Number of reserved full-text crawl buffers
+DisplayName           : ft crawl bandwidth (min)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : FullTextCrawlBandwidthMin
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 100
+DefaultValue          :
+Description           : Max number of full-text crawl buffers
+DisplayName           : ft crawl bandwidth (max)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  : FullTextCrawlBandwidthMax
+RunningValue          : 100
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Enable or disable the default trace
+DisplayName           : default trace enabled
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : DefaultTraceEnabled
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Blocked process reporting threshold
+DisplayName           : blocked process threshold (s)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 86400
+MinValue              : 0
+Name                  : BlockedProcessThreshold
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Recovery policy for DTC transactions with unknown outcome
+DisplayName           : in-doubt xact resolution
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2
+MinValue              : 0
+Name                  : InDoubtTransactionResolution
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Dedicated Admin Connections are allowed from remote clients
+DisplayName           : remote admin connections
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : RemoteDacConnectionsEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Common Criteria compliance mode enabled
+DisplayName           : common criteria compliance enabled
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : CommonCriteriaComplianceEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable or disable EKM provider
+DisplayName           : EKM provider enabled
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ExtensibleKeyManagementEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable compression of backups by default
+DisplayName           : backup compression default
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : DefaultBackupCompression
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 2
+DefaultValue          :
+Description           : Sets the FILESTREAM access level
+DisplayName           : filestream access level
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2
+MinValue              : 0
+Name                  : FilestreamAccessLevel
+RunningValue          : 2
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : When this option is set, plan cache size is further reduced for single-use adhoc OLTP workload.
+DisplayName           : optimize for ad hoc workloads
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : OptimizeAdhocWorkloads
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Default hash bucket count for the access check result security cache
+DisplayName           : access check cache bucket count
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 65536
+MinValue              : 0
+Name                  : AccessCheckCacheBucketCount
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Default quota for the access check result security cache
+DisplayName           : access check cache quota
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 2147483647
+MinValue              : 0
+Name                  : AccessCheckCacheQuota
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable checksum of backups by default
+DisplayName           : backup checksum default
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : BackupChecksumDefault
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Automatic soft-NUMA is enabled by default
+DisplayName           : automatic soft-NUMA disabled
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : AutomaticSoftnumaDisabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Allows execution of external scripts
+DisplayName           : external scripts enabled
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ExternalScriptsEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : CLR strict security enabled in the server
+DisplayName           : clr strict security
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ClrStrictSecurity
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Type of enclave used for computations on encrypted columns
+DisplayName           : column encryption enclave type
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 2
+MinValue              : 0
+Name                  :
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Tempdb metadata memory-optimized is disabled by default.
+DisplayName           : tempdb metadata memory-optimized
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  :
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : ADR cleaner retry timeout.
+DisplayName           : ADR cleaner retry timeout (min)
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  :
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : ADR Preallocation Factor.
+DisplayName           : ADR Preallocation Factor
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 32767
+MinValue              : 0
+Name                  :
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Enable or disable Agent XPs
+DisplayName           : Agent XPs
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : AgentXPsEnabled
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable or disable Database Mail XPs
+DisplayName           : Database Mail XPs
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : DatabaseMailEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Enable or disable SMO and DMO XPs
+DisplayName           : SMO and DMO XPs
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : SmoAndDmoXPsEnabled
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable or disable Ole Automation Procedures
+DisplayName           : Ole Automation Procedures
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : OleAutomationProceduresEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable or disable command shell
+DisplayName           : xp_cmdshell
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : XPCmdShellEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable or disable Ad Hoc Distributed Queries
+DisplayName           : Ad Hoc Distributed Queries
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : AdHocDistributedQueriesEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enable or disable Replication XPs
+DisplayName           : Replication XPs
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ReplicationXPsEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Enables contained databases and contained authentication
+DisplayName           : contained database authentication
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : ContainmentEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Configure SQL Server to connect to external Hadoop or Microsoft Azure storage blob data sources through
+                        PolyBase
+DisplayName           : hadoop connectivity
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : False
+IsRunningDefaultValue : False
+MaxValue              : 7
+MinValue              : 0
+Name                  : HadoopConnectivity
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Configure SQL Server to encrypt control and data channels when using PolyBase
+DisplayName           : polybase network encryption
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : PolybaseNetworkEncryption
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Allow the use of the REMOTE_DATA_ARCHIVE data access for databases
+DisplayName           : remote data archive
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : RemoteDataArchiveEnabled
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Allow INSERT into a Hadoop external table
+DisplayName           : allow polybase export
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  : AllowPolybaseExport
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 1
+DefaultValue          :
+Description           : Allow enumeration of filesystem
+DisplayName           : allow filesystem enumeration
+InstanceName          : MSSQLSERVER
+IsAdvanced            : True
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  :
+RunningValue          : 1
+SqlInstance           : WIN2019A
+
+ComputerName          : WIN2019A
+ConfiguredValue       : 0
+DefaultValue          :
+Description           : Configure SQL Server to connect to external data sources through PolyBase
+DisplayName           : polybase enabled
+InstanceName          : MSSQLSERVER
+IsAdvanced            : False
+IsDynamic             : True
+IsRunningDefaultValue : False
+MaxValue              : 1
+MinValue              : 0
+Name                  :
+RunningValue          : 0
+SqlInstance           : WIN2019A
+
+
+
+11/19/2019 12:42:51 PM
+ ::
+[7.6617129 s]
+ ::
+C:\Users\administrator
+ [57] #
+
+PS>(Get-DbaSpConfigure -SqlInstance $ServerInstance).GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+11/19/2019 12:44:20 PM
+ ::
+[0.4645572 s]
+ ::
+C:\Users\administrator
+ [58] #
+
+PS>(Get-DbaSpConfigure -SqlInstance $ServerInstance)[0].GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    PSCustomObject                           System.Object
+
+
+11/19/2019 12:44:29 PM
+ ::
+[0.3852126 s]
+ ::
+C:\Users\administrator
+ [59] #
+
+PS>Backup-DbaDatabase -SqlInstance $ServerInstance -Database DEMODB
+
+SqlInstance Database Type TotalSize DeviceType Start                   Duration End
+----------- -------- ---- --------- ---------- -----                   -------- ---
+WIN2019A    DEMODB   Full 3.02 MB   Disk       2019-11-19 12:45:37.000 00:00:00 2019-11-19 12:45:37.000
+
+
+11/19/2019 12:45:39 PM
+ ::
+[2.6961928 s]
+ ::
+C:\Users\administrator
+ [60] #
+
+PS>Backup-DbaDatabase -SqlInstance $ServerInstance -Database DEMODB
+
+SqlInstance Database Type TotalSize DeviceType Start                   Duration End
+----------- -------- ---- --------- ---------- -----                   -------- ---
+WIN2019A    DEMODB   Full 3.02 MB   Disk       2019-11-19 12:46:04.000 00:00:00 2019-11-19 12:46:04.000
+
+
+11/19/2019 12:46:05 PM
+ ::
+[1.5369487 s]
+ ::
+C:\Users\administrator
+ [61] #
+
+PS>Backup-DbaDatabase -SqlInstance $ServerInstance -Database DEMODB
+
+SqlInstance Database Type TotalSize DeviceType Start                   Duration End
+----------- -------- ---- --------- ---------- -----                   -------- ---
+WIN2019A    DEMODB   Full 3.02 MB   Disk       2019-11-19 12:46:13.000 00:00:00 2019-11-19 12:46:13.000
+
+
+11/19/2019 12:46:15 PM
+ ::
+[1.5295123 s]
+ ::
+C:\Users\administrator
+ [62] #
+
+PS>Get-DbaDbBackupHistory -SqlInstance $ServerInstance -LastFull -database DEMODB
+
+SqlInstance Database Type TotalSize DeviceType Start                   Duration End
+----------- -------- ---- --------- ---------- -----                   -------- ---
+WIN2019A    DEMODB   Full 3.02 MB   Disk       2019-11-19 12:46:13.000 00:00:00 2019-11-19 12:46:13.000
+
+
+11/19/2019 12:49:18 PM
+ ::
+[0.5290477 s]
+ ::
+C:\Users\administrator
+ [63] #
+
+PS>Backup-DbaDatabase -SqlInstance $ServerInstance -Database DEMODB
+
+SqlInstance Database Type TotalSize DeviceType Start                   Duration End
+----------- -------- ---- --------- ---------- -----                   -------- ---
+WIN2019A    DEMODB   Full 3.02 MB   Disk       2019-11-19 12:49:33.000 00:00:00 2019-11-19 12:49:33.000
+
+
+11/19/2019 12:49:34 PM
+ ::
+[1.3580277 s]
+ ::
+C:\Users\administrator
+ [64] #
+
+PS>Get-DbaDbBackupHistory -SqlInstance $ServerInstance -LastFull -database DEMODB | Format-List *
+
+
+ComputerName         : WIN2019A
+InstanceName         : MSSQLSERVER
+SqlInstance          : WIN2019A
+Database             : DEMODB
+UserName             : DBADUCK\administrator
+Start                : 11/19/2019 12:49:33 PM
+End                  : 11/19/2019 12:49:33 PM
+Duration             : 00:00:00
+Path                 : {C:\SQLBACKUP\DEMODB_201911191249.bak}
+TotalSize            : 3.02 MB
+CompressedBackupSize : 3.02 MB
+CompressionRatio     : 1
+Type                 : Full
+BackupSetId          : 1032
+DeviceType           : Disk
+Software             : Microsoft SQL Server
+FullName             : {C:\SQLBACKUP\DEMODB_201911191249.bak}
+FileList             : {@{FileType=D; LogicalName=DEMODB; PhysicalName=C:\SQLDATA\DEMODB.mdf}, @{FileType=L;
+                       LogicalName=DEMODB_log; PhysicalName=C:\SQLDATA\DEMODB_log.ldf}}
+Position             : 1
+FirstLsn             : 37000000210400001
+DatabaseBackupLsn    : 37000000197600001
+CheckpointLsn        : 37000000210400001
+LastLsn              : 37000000212800001
+SoftwareVersionMajor : 15
+IsCopyOnly           : False
+LastRecoveryForkGUID : 2136bdf7-f0f9-4b21-bce9-3d0d2e156a2d
+RecoveryModel        : SIMPLE
+KeyAlgorithm         :
+EncryptorThumbprint  :
+EncryptorType        :
+
+
+
+11/19/2019 12:49:38 PM
+ ::
+[0.5999658 s]
+ ::
+C:\Users\administrator
+ [65] #
+
+PS>Get-DbaDbBackupHistory -SqlInstance $ServerInstance -LastFull -database DEMODB | Format-List *
+
+
+ComputerName         : WIN2019A
+InstanceName         : MSSQLSERVER
+SqlInstance          : WIN2019A
+Database             : DEMODB
+UserName             : DBADUCK\administrator
+Start                : 11/19/2019 12:49:33 PM
+End                  : 11/19/2019 12:49:33 PM
+Duration             : 00:00:00
+Path                 : {C:\SQLBACKUP\DEMODB_201911191249.bak}
+TotalSize            : 3.02 MB
+CompressedBackupSize : 3.02 MB
+CompressionRatio     : 1
+Type                 : Full
+BackupSetId          : 1032
+DeviceType           : Disk
+Software             : Microsoft SQL Server
+FullName             : {C:\SQLBACKUP\DEMODB_201911191249.bak}
+FileList             : {@{FileType=D; LogicalName=DEMODB; PhysicalName=C:\SQLDATA\DEMODB.mdf}, @{FileType=L;
+                       LogicalName=DEMODB_log; PhysicalName=C:\SQLDATA\DEMODB_log.ldf}}
+Position             : 1
+FirstLsn             : 37000000210400001
+DatabaseBackupLsn    : 37000000197600001
+CheckpointLsn        : 37000000210400001
+LastLsn              : 37000000212800001
+SoftwareVersionMajor : 15
+IsCopyOnly           : False
+LastRecoveryForkGUID : 2136bdf7-f0f9-4b21-bce9-3d0d2e156a2d
+RecoveryModel        : SIMPLE
+KeyAlgorithm         :
+EncryptorThumbprint  :
+EncryptorType        :
+
+
+
+11/19/2019 12:49:45 PM
+ ::
+[1.4121439 s]
+ ::
+C:\Users\administrator
+ [66] #
+
+PS>GeLat-DbaDbBackupHistory -SqlInstance $ServerInstance -stFull -database DEMODB |
+Restore-DbaDatabase -SqlInstance $ServerInstance -DatabaseName DEMODB3 -DestinationFilePrefix bbb `
+-TrustDbBackupHistory
+GeLat-DbaDbBackupHistory : The term 'GeLat-DbaDbBackupHistory' is not recognized as the name of a cmdlet, function, 
+script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is 
+correct and try again.
+At line:1 char:1
++ GeLat-DbaDbBackupHistory -SqlInstance $ServerInstance -stFull -databa ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (GeLat-DbaDbBackupHistory:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+GeLat-DbaDbBackupHistory : The term 'GeLat-DbaDbBackupHistory' is not recognized as the name of a cmdlet, function, script file,
+or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ GeLat-DbaDbBackupHistory -SqlInstance $ServerInstance -stFull -databa ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (GeLat-DbaDbBackupHistory:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+11/19/2019 12:50:34 PM
+ ::
+[0.2518725 s]
+ ::
+C:\Users\administrator
+ [67] #
+
+PS>Get-DbaDbBackupHistory -SqlInstance $ServerInstance -stFull -database DEMODB |
+Restore-DbaDatabase -SqlInstance $ServerInstance -DatabaseName DEMODB3 -DestinationFilePrefix bbb `
+-TrustDbBackupHistory
+>> TerminatingError(Get-DbaDbBackupHistory): "A parameter cannot be found that matches parameter name 'stFull'."
+Get-DbaDbBackupHistory : A parameter cannot be found that matches parameter name 'stFull'.
+At line:1 char:53
++ Get-DbaDbBackupHistory -SqlInstance $ServerInstance -stFull -database ...
++                                                     ~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDbBackupHistory], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Get-DbaDbBackupHistory
+Get-DbaDbBackupHistory : A parameter cannot be found that matches parameter name 'stFull'.
+At line:1 char:53
++ Get-DbaDbBackupHistory -SqlInstance $ServerInstance -stFull -database ...
++                                                     ~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDbBackupHistory], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Get-DbaDbBackupHistory
+
+11/19/2019 12:50:44 PM
+ ::
+[0.1627643 s]
+ ::
+C:\Users\administrator
+ [68] #
+
+PS># use dba backup history to restore the database.
+11/19/2019 12:50:52 PM
+ ::
+[0.0230025 s]
+ ::
+C:\Users\administrator
+ [69] #
+
+PS>Get-DbaDbBackupHistory -SqlInstance $ServerInstance -LastFull -database DEMODB |
+Restore-DbaDatabase -SqlInstance $ServerInstance -DatabaseName DEMODB3 -DestinationFilePrefix bbb `
+-TrustDbBackupHistory
+
+
+ComputerName         : WIN2019A
+InstanceName         : MSSQLSERVER
+SqlInstance          : WIN2019A
+BackupFile           : C:\SQLBACKUP\DEMODB_201911191249.bak
+BackupFilesCount     : 1
+BackupSize           : 3.02 MB
+CompressedBackupSize : 3.02 MB
+Database             : DEMODB3
+Owner                : DBADUCK\administrator
+DatabaseRestoreTime  : 00:00:02
+FileRestoreTime      : 00:00:02
+NoRecovery           : False
+RestoreComplete      : True
+RestoredFile         : bbbDEMODB.mdf,bbbDEMODB_log.ldf
+RestoredFilesCount   : 2
+Script               : {RESTORE DATABASE [DEMODB3] FROM  DISK = N'C:\SQLBACKUP\DEMODB_201911191249.bak' WITH  FILE = 1,  MOVE
+                       N'DEMODB' TO N'C:\SQLDATA\bbbDEMODB.mdf',  MOVE N'DEMODB_log' TO N'C:\SQLDATA\bbbDEMODB_log.ldf',
+                       NOUNLOAD,  STATS = 10}
+RestoreDirectory     : C:\SQLDATA
+WithReplace          : False
+
+
+
+11/19/2019 12:50:55 PM
+ ::
+[3.1031619 s]
+ ::
+C:\Users\administrator
+ [70] #
+
+PS>Get-DbaDbBackupHistory -SqlInstance $ServerInstance -LastFull -database DEMODB |
+Restore-DbaDatabase -SqlInstance $ServerInstance -DatabaseName DEMODB4 -DestinationFilePrefix bbb `
+-MaxTransferSize 1048576 -TrustDbBackupHistory -OutputScriptOnly
+WARNING: [12:51:28][Test-DbaBackupInformation] File C:\SQLDATA\bbbDEMODB.mdf already exists on WIN2019A and owned by another database, cannot restore
+WARNING: [12:51:29][Test-DbaBackupInformation] File C:\SQLDATA\bbbDEMODB_log.ldf already exists on WIN2019A and owned by another database, cannot restore
+11/19/2019 12:51:29 PM
+ ::
+[1.4548602 s]
+ ::
+C:\Users\administrator
+ [71] #
+
+PS># use dba backup history to restore the database, but only get the script
+11/19/2019 12:51:52 PM
+ ::
+[0.0170016 s]
+ ::
+C:\Users\administrator
+ [72] #
+
+PS>Get-DbaDbBackupHistory -SqlInstance $ServerInstance -LastFull -database DEMODB |
+Restore-DbaDatabase -SqlInstance $ServerInstance -DatabaseName DEMODB4 -DestinationFilePrefix bbc `
+-MaxTransferSize 1048576 -TrustDbBackupHistory -OutputScriptOnly
+RESTORE DATABASE [DEMODB4] FROM  DISK = N'C:\SQLBACKUP\DEMODB_201911191249.bak' WITH  FILE = 1,  MOVE N'DEMODB' TO N'C:\SQLDATA\bbcDEMODB.mdf',  MOVE N'DEMODB_log' TO N'C:\SQLDATA\bbcDEMODB_log.ldf',  NOUNLOAD,  STATS = 10,  MAXTRANSFERSIZE = 1048576
+11/19/2019 12:51:53 PM
+ ::
+[0.8241118 s]
+ ::
+C:\Users\administrator
+ [73] #
+
+PS>$dt = Invoke-DbaQuery -SqlInstance $ServerInstance -Database master `
+-Query "SELECT * FROM sys.master_files" -As DataTable
+11/19/2019 12:55:04 PM
+ ::
+[0.1865484 s]
+ ::
+C:\Users\administrator
+ [74] #
+
+PS>Write-DbaDbTableData -SqlInstance $ServerInstance -Database "B" -Table master_files1 `
+-Schema dbo -InputObject $dt 
+WARNING: [12:56:22][Write-DbaDbTableData] Table does not exist and automatic creation of the table has not been selected. Specify the '-AutoCreateTable'-parameter to generate a suitable table.
+11/19/2019 12:56:23 PM
+ ::
+[0.5546355 s]
+ ::
+C:\Users\administrator
+ [75] #
+
+11/19/2019 12:56:37 PM
+ ::
+[0.5546355 s]
+ ::
+C:\Users\administrator
+ [75] #
+
+PS>Write-DbaDbTableData -SqlInstance $ServerInstance -Database "B" -Table master_files1 `
+-Schema dbo -InputObject $dt -AutoCreateTable
+11/19/2019 12:56:38 PM
+ ::
+[0.4606847 s]
+ ::
+C:\Users\administrator
+ [76] #
+
+PS>Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20191119130155
+**********************
