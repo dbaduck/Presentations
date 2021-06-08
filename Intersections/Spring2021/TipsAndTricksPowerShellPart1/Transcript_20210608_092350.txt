@@ -1,0 +1,1017 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20210608092350
+Username: DBADUCK\dbaduck
+RunAs User: DBADUCK\dbaduck
+Configuration Name: 
+Machine: DUCKNUC (Microsoft Windows NT 10.0.19042.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 22932
+PSVersion: 5.1.19041.906
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.906
+BuildVersion: 10.0.19041.906
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\dbaduck\Documents\WindowsPowerShell\Transcript_20210608_092350.txt
+6/8/2021 9:23:51 AM
+ ::
+[ s]
+ ::
+C:\Presentations\TipsDemos
+ [1] >
+
+PS>Split-Path $profile
+C:\Users\dbaduck\Documents\WindowsPowerShell
+6/8/2021 10:32:04 AM
+ ::
+[0.0449971 s]
+ ::
+C:\Presentations\TipsDemos
+ [2] >
+
+PS>Split-Path $profile -Leaf
+Microsoft.PowerShell_profile.ps1
+6/8/2021 10:32:14 AM
+ ::
+[0.0140023 s]
+ ::
+C:\Presentations\TipsDemos
+ [3] >
+
+PS>Split-Path $profile
+C:\Users\dbaduck\Documents\WindowsPowerShell
+6/8/2021 10:32:50 AM
+ ::
+[0.0029895 s]
+ ::
+C:\Presentations\TipsDemos
+ [4] >
+
+PS>Split-Path $profile -Leaf
+Microsoft.PowerShell_profile.ps1
+6/8/2021 10:32:50 AM
+ ::
+[0.0110021 s]
+ ::
+C:\Presentations\TipsDemos
+ [5] >
+
+PS>Split-Path $profile -Qualifier
+C:
+6/8/2021 10:32:50 AM
+ ::
+[0.0149955 s]
+ ::
+C:\Presentations\TipsDemos
+ [6] >
+
+PS>Split-Path $profile -NoQualifier
+\Users\dbaduck\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+6/8/2021 10:32:50 AM
+ ::
+[0.015004 s]
+ ::
+C:\Presentations\TipsDemos
+ [7] >
+
+PS>notepad $PROFILE
+6/8/2021 10:35:02 AM
+ ::
+[0.0160002 s]
+ ::
+C:\Presentations\TipsDemos
+ [8] >
+
+PS>Start-Transcript -Path c:\bin\folder1\folder2\folder3\transcript.txt
+Transcript started, output file is c:\bin\folder1\folder2\folder3\transcript.txt
+6/8/2021 10:38:17 AM
+ ::
+[0.0110011 s]
+ ::
+C:\Presentations\TipsDemos
+ [9] >
+
+ [9] >function Get-Transcript
+{
+# From Tobias Weltner for attribution
+  $ui = $host.UI
+  $t = [System.Management.Automation.Host.PSHostUserInterface]
+  $flags = [System.Reflection.BindingFlags]'Instance,NonPublic' #::NonPublic + [System.Reflection.BindingFlags]::Instance
+  $pi = $t.GetProperty('TranscriptionData', $flags)
+  $transcripts = $pi.GetValue($ui)
+  $pi = $transcripts.GetType().GetProperty('Transcripts', $flags)
+  $pi.GetValue($transcripts) | ForEach-Object {
+    $pi = $_.GetType().GetField("path", $flags)
+    $pi.GetValue($_)
+  }
+}
+6/8/2021 10:39:10 AM
+ ::
+[0.0019717 s]
+ ::
+C:\Presentations\TipsDemos
+ [10] >
+
+ [9] >Get-Transcript
+C:\Users\dbaduck\Documents\WindowsPowerShell\Transcript_20210608_092350.txt
+C:\bin\folder1\folder2\folder3\transcript.txt
+6/8/2021 10:39:14 AM
+ ::
+[0.0459998 s]
+ ::
+C:\Presentations\TipsDemos
+ [11] >
+
+ [9] >stop-transcript
+Transcript stopped, output file is C:\bin\folder1\folder2\folder3\transcript.txt
+6/8/2021 10:39:59 AM
+ ::
+[0.1159273 s]
+ ::
+C:\Presentations\TipsDemos
+ [12] >
+
+ [9] >get-transcript
+C:\Users\dbaduck\Documents\WindowsPowerShell\Transcript_20210608_092350.txt
+6/8/2021 10:40:04 AM
+ ::
+[0.003 s]
+ ::
+C:\Presentations\TipsDemos
+ [13] >
+
+ [9] >$ary = @()
+6/8/2021 10:41:30 AM
+ ::
+[0.0020034 s]
+ ::
+C:\Presentations\TipsDemos
+ [14] >
+
+ [9] >$ary = @('1', '2', '3')
+6/8/2021 10:41:30 AM
+ ::
+[0.0109994 s]
+ ::
+C:\Presentations\TipsDemos
+ [15] >
+
+ [9] >$ary = "1", "2", "3"
+6/8/2021 10:41:30 AM
+ ::
+[0.0030206 s]
+ ::
+C:\Presentations\TipsDemos
+ [16] >
+
+ [9] >$ary2 = New-Object -TypeName System.Collections.ArrayList
+6/8/2021 10:42:53 AM
+ ::
+[0.0130024 s]
+ ::
+C:\Presentations\TipsDemos
+ [17] >
+
+ [9] >$ary = @()
+6/8/2021 10:43:26 AM
+ ::
+[0.0020013 s]
+ ::
+C:\Presentations\TipsDemos
+ [18] >
+
+ [9] >Measure-Command -Expression { 1 .. 10000 | ForEach-Object { $ary += $_  } }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 2
+Milliseconds      : 982
+Ticks             : 29824842
+TotalDays         : 3.45194930555556E-05
+TotalHours        : 0.000828467833333333
+TotalMinutes      : 0.04970807
+TotalSeconds      : 2.9824842
+TotalMilliseconds : 2982.4842
+
+
+
+6/8/2021 10:44:50 AM
+ ::
+[3.0147186 s]
+ ::
+C:\Presentations\TipsDemos
+ [19] >
+
+ [9] >$ary.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+6/8/2021 10:44:59 AM
+ ::
+[0.0250006 s]
+ ::
+C:\Presentations\TipsDemos
+ [20] >
+
+ [9] >$ary.length
+10000
+6/8/2021 10:45:05 AM
+ ::
+[0.0189956 s]
+ ::
+C:\Presentations\TipsDemos
+ [21] >
+
+ [9] >Measure-Command -Expression { 1 .. 10000 | ForEach-Object { $null = $ary2.Add($_) } }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 138
+Ticks             : 1389385
+TotalDays         : 1.60808449074074E-06
+TotalHours        : 3.85940277777778E-05
+TotalMinutes      : 0.00231564166666667
+TotalSeconds      : 0.1389385
+TotalMilliseconds : 138.9385
+
+
+
+6/8/2021 10:45:41 AM
+ ::
+[0.1605324 s]
+ ::
+C:\Presentations\TipsDemos
+ [22] >
+
+ [9] >$ary2.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     ArrayList                                System.Object
+
+
+6/8/2021 10:45:54 AM
+ ::
+[0.025 s]
+ ::
+C:\Presentations\TipsDemos
+ [23] >
+
+ [9] >$ary2.Count
+10000
+6/8/2021 10:46:10 AM
+ ::
+[0.005005 s]
+ ::
+C:\Presentations\TipsDemos
+ [24] >
+
+ [9] >$ary2.Add(3903939)
+10000
+6/8/2021 10:46:50 AM
+ ::
+[0.0109862 s]
+ ::
+C:\Presentations\TipsDemos
+ [25] >
+
+ [9] >$str1 = "This is a string"
+6/8/2021 10:47:55 AM
+ ::
+[0.001 s]
+ ::
+C:\Presentations\TipsDemos
+ [26] >
+
+ [9] >$str2 = " and I added it to another"
+6/8/2021 10:47:55 AM
+ ::
+[0.0089977 s]
+ ::
+C:\Presentations\TipsDemos
+ [27] >
+
+ [9] >$str3 = $str1 + " " + $str2
+6/8/2021 10:48:06 AM
+ ::
+[0.0129987 s]
+ ::
+C:\Presentations\TipsDemos
+ [28] >
+
+ [9] >$str3
+This is a string  and I added it to another
+6/8/2021 10:48:06 AM
+ ::
+[0.0079979 s]
+ ::
+C:\Presentations\TipsDemos
+ [29] >
+
+ [9] >$str3 = "$str1 $str2"
+6/8/2021 10:48:21 AM
+ ::
+[0.0109997 s]
+ ::
+C:\Presentations\TipsDemos
+ [30] >
+
+ [9] >$str3
+This is a string  and I added it to another
+6/8/2021 10:48:21 AM
+ ::
+[0.0099995 s]
+ ::
+C:\Presentations\TipsDemos
+ [31] >
+
+ [9] >$str3 = '$str1 $str2'
+6/8/2021 10:48:34 AM
+ ::
+[0.0029975 s]
+ ::
+C:\Presentations\TipsDemos
+ [32] >
+
+ [9] >$str3
+$str1 $str2
+6/8/2021 10:48:34 AM
+ ::
+[0.004003 s]
+ ::
+C:\Presentations\TipsDemos
+ [33] >
+
+ [9] >8KB
+8192
+6/8/2021 10:49:16 AM
+ ::
+[0.0060021 s]
+ ::
+C:\Presentations\TipsDemos
+ [34] >
+
+ [9] >$str3 = New-Object -TypeName System.Text.StringBuilder -Args 8192 # 8KB
+6/8/2021 10:49:31 AM
+ ::
+[0.0140008 s]
+ ::
+C:\Presentations\TipsDemos
+ [35] >
+
+ [9] >$null = $str3.Append($str1)
+6/8/2021 10:49:58 AM
+ ::
+[0.0109999 s]
+ ::
+C:\Presentations\TipsDemos
+ [36] >
+
+ [9] >$null = $str3.Append(" ")
+6/8/2021 10:49:58 AM
+ ::
+[0.0110208 s]
+ ::
+C:\Presentations\TipsDemos
+ [37] >
+
+ [9] >$null = $str3.Append($str2)
+6/8/2021 10:49:58 AM
+ ::
+[0.0080081 s]
+ ::
+C:\Presentations\TipsDemos
+ [38] >
+
+ [9] >$null = $str3.AppendLine()
+6/8/2021 10:49:58 AM
+ ::
+[0.0110298 s]
+ ::
+C:\Presentations\TipsDemos
+ [39] >
+
+ [9] >$null = $str3.AppendFormat("{0} {1}", $str1, $str2)
+6/8/2021 10:49:58 AM
+ ::
+[0.0120343 s]
+ ::
+C:\Presentations\TipsDemos
+ [40] >
+
+6/8/2021 10:49:58 AM
+ ::
+[0.0120343 s]
+ ::
+C:\Presentations\TipsDemos
+ [40] >
+
+ [9] >$str3.ToString()
+This is a string  and I added it to another
+This is a string  and I added it to another
+6/8/2021 10:49:58 AM
+ ::
+[0.0150007 s]
+ ::
+C:\Presentations\TipsDemos
+ [41] >
+
+ [9] >$str3.Clear()
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+    8192  2147483647      0
+
+
+6/8/2021 10:49:58 AM
+ ::
+[0.0150012 s]
+ ::
+C:\Presentations\TipsDemos
+ [42] >
+
+ [9] >$bigstring = ""
+6/8/2021 10:50:43 AM
+ ::
+[0.0080004 s]
+ ::
+C:\Presentations\TipsDemos
+ [43] >
+
+ [9] >Measure-Command -Expression { 1 .. 10000 | ForEach-Object { $bigstring += $_ } }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 228
+Ticks             : 2285537
+TotalDays         : 2.6452974537037E-06
+TotalHours        : 6.34871388888889E-05
+TotalMinutes      : 0.00380922833333333
+TotalSeconds      : 0.2285537
+TotalMilliseconds : 228.5537
+
+
+
+6/8/2021 10:50:43 AM
+ ::
+[0.256769 s]
+ ::
+C:\Presentations\TipsDemos
+ [44] >
+
+ [9] >$bigstring.length
+38894
+6/8/2021 10:50:43 AM
+ ::
+[0.0040034 s]
+ ::
+C:\Presentations\TipsDemos
+ [45] >
+
+ [9] >$bigstring = ""
+6/8/2021 10:51:30 AM
+ ::
+[0.0020028 s]
+ ::
+C:\Presentations\TipsDemos
+ [46] >
+
+ [9] >Measure-Command -Expression { 1 .. 10000 | ForEach-Object { $bigstring += "This is a string $_" } }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 2
+Milliseconds      : 823
+Ticks             : 28236709
+TotalDays         : 3.26813761574074E-05
+TotalHours        : 0.000784353027777778
+TotalMinutes      : 0.0470611816666667
+TotalSeconds      : 2.8236709
+TotalMilliseconds : 2823.6709
+
+
+
+6/8/2021 10:51:33 AM
+ ::
+[2.847986 s]
+ ::
+C:\Presentations\TipsDemos
+ [47] >
+
+ [9] >$bigstring.length
+208894
+6/8/2021 10:51:33 AM
+ ::
+[0.0030002 s]
+ ::
+C:\Presentations\TipsDemos
+ [48] >
+
+ [9] >$str3.Clear()
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+    8192  2147483647      0
+
+
+6/8/2021 10:52:06 AM
+ ::
+[0.0104577 s]
+ ::
+C:\Presentations\TipsDemos
+ [49] >
+
+ [9] >Measure-Command -Expression { 1..10000 | ForEach-Object { $null = $str3.Append($_) } }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 140
+Ticks             : 1408555
+TotalDays         : 1.63027199074074E-06
+TotalHours        : 3.91265277777778E-05
+TotalMinutes      : 0.00234759166666667
+TotalSeconds      : 0.1408555
+TotalMilliseconds : 140.8555
+
+
+
+6/8/2021 10:52:14 AM
+ ::
+[0.1715141 s]
+ ::
+C:\Presentations\TipsDemos
+ [50] >
+
+ [9] >$str3.Length
+38894
+6/8/2021 10:52:14 AM
+ ::
+[0.0039957 s]
+ ::
+C:\Presentations\TipsDemos
+ [51] >
+
+ [9] >$str3.Clear()
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+   40192  2147483647      0
+
+
+6/8/2021 10:52:35 AM
+ ::
+[0.0150016 s]
+ ::
+C:\Presentations\TipsDemos
+ [52] >
+
+ [9] >$str3.Clear()
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+   40192  2147483647      0
+
+
+6/8/2021 10:52:54 AM
+ ::
+[0.0119969 s]
+ ::
+C:\Presentations\TipsDemos
+ [53] >
+
+ [9] >$str3.Clear()
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+   40192  2147483647      0
+
+
+6/8/2021 10:53:05 AM
+ ::
+[0.0060518 s]
+ ::
+C:\Presentations\TipsDemos
+ [54] >
+
+ [9] >Measure-Command -Expression { 1..10000 | ForEach-Object { $null = $str3.Append("This is a string $_") } }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 159
+Ticks             : 1590570
+TotalDays         : 1.8409375E-06
+TotalHours        : 4.41825E-05
+TotalMinutes      : 0.00265095
+TotalSeconds      : 0.159057
+TotalMilliseconds : 159.057
+
+
+
+6/8/2021 10:53:05 AM
+ ::
+[0.1800081 s]
+ ::
+C:\Presentations\TipsDemos
+ [55] >
+
+ [9] >$str3.Length
+208894
+6/8/2021 10:53:05 AM
+ ::
+[0.0020009 s]
+ ::
+C:\Presentations\TipsDemos
+ [56] >
+
+ [9] >$str3.Clear()
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+  216192  2147483647      0
+
+
+6/8/2021 10:53:16 AM
+ ::
+[0.0140696 s]
+ ::
+C:\Presentations\TipsDemos
+ [57] >
+
+ [9] >$str3 = New-Object -TypeName System.Text.Stringbuilder -Args 256KB
+6/8/2021 10:53:36 AM
+ ::
+[0.0020005 s]
+ ::
+C:\Presentations\TipsDemos
+ [58] >
+
+ [9] >$str3
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+  262144  2147483647      0
+
+
+6/8/2021 10:53:39 AM
+ ::
+[0.0089937 s]
+ ::
+C:\Presentations\TipsDemos
+ [59] >
+
+ [9] >Measure-Command -Expression { 1..10000 | ForEach-Object { $null = $str3.Append("This is a string $_") } }
+
+
+Days              : 0
+Hours             : 0
+Minutes           : 0
+Seconds           : 0
+Milliseconds      : 132
+Ticks             : 1326517
+TotalDays         : 1.53532060185185E-06
+TotalHours        : 3.68476944444444E-05
+TotalMinutes      : 0.00221086166666667
+TotalSeconds      : 0.1326517
+TotalMilliseconds : 132.6517
+
+
+
+6/8/2021 10:53:45 AM
+ ::
+[0.1519985 s]
+ ::
+C:\Presentations\TipsDemos
+ [60] >
+
+ [9] >$str3.Length
+208894
+6/8/2021 10:53:45 AM
+ ::
+[0.0100044 s]
+ ::
+C:\Presentations\TipsDemos
+ [61] >
+
+ [9] >$str3.Clear()
+
+Capacity MaxCapacity Length
+-------- ----------- ------
+  262144  2147483647      0
+
+
+6/8/2021 10:54:04 AM
+ ::
+[0.0099961 s]
+ ::
+C:\Presentations\TipsDemos
+ [62] >
+
+ [9] >1 .. 10
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+6/8/2021 10:54:15 AM
+ ::
+[0.0220007 s]
+ ::
+C:\Presentations\TipsDemos
+ [63] >
+
+ [9] >1 .. 10 | foreach { $_ }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+6/8/2021 10:54:25 AM
+ ::
+[0.0300013 s]
+ ::
+C:\Presentations\TipsDemos
+ [64] >
+
+ [9] >1 .. 10 | foreach { $_ += $_; $_ }
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+6/8/2021 10:54:33 AM
+ ::
+[0.0329997 s]
+ ::
+C:\Presentations\TipsDemos
+ [65] >
+
+ [9] >Import-Module dbatools
+6/8/2021 10:56:16 AM
+ ::
+[3.2055308 s]
+ ::
+C:\Presentations\TipsDemos
+ [66] >
+
+ [9] >$server = Connect-DbaInstance -SqlInstance "SQL01" -Database master
+6/8/2021 10:56:25 AM
+ ::
+[0.5905061 s]
+ ::
+C:\Presentations\TipsDemos
+ [67] >
+
+ [9] >$server.Query("select name from sys.databases")
+
+name
+----
+master
+tempdb
+model
+msdb
+DEMODB
+DEMO1
+DROPME
+SMO_DB2
+SMO_DB3
+
+
+6/8/2021 10:56:37 AM
+ ::
+[0.1219987 s]
+ ::
+C:\Presentations\TipsDemos
+ [68] >
+
+ [68] >function get-mytestfunction
+{
+param (
+$FirstName,
+$LastName,
+$FavoritePet
+)
+
+Write-Host "$FirstName $LastName $FavoritePet"
+
+}
+6/8/2021 10:57:19 AM
+ ::
+[0.0019999 s]
+ ::
+C:\Presentations\TipsDemos
+ [69] >
+
+ [68] >$splat = @{
+FirstName = "Ben"
+LastName  = "Miller"
+}
+6/8/2021 10:57:59 AM
+ ::
+[0.0109988 s]
+ ::
+C:\Presentations\TipsDemos
+ [70] >
+
+ [68] >$splat2 = @{
+    FavoritePet = "Lily"
+}
+6/8/2021 10:57:59 AM
+ ::
+[0.0089999 s]
+ ::
+C:\Presentations\TipsDemos
+ [71] >
+
+ [68] >get-mytestfunction @splat
+Ben Miller
+6/8/2021 10:58:06 AM
+ ::
+[0.0019999 s]
+ ::
+C:\Presentations\TipsDemos
+ [72] >
+
+ [68] >get-mytestfunction @splat @splat2
+Ben Miller Lily
+6/8/2021 10:58:15 AM
+ ::
+[0.0130131 s]
+ ::
+C:\Presentations\TipsDemos
+ [73] >
+
+ [68] >get-mytestfunction @splat -FavoritePet "Lily"
+Ben Miller Lily
+6/8/2021 10:58:39 AM
+ ::
+[0.010999 s]
+ ::
+C:\Presentations\TipsDemos
+ [74] >
+
+ [68] >$splat2.MyFullName = "Ben Miller"
+6/8/2021 10:59:04 AM
+ ::
+[0.0019966 s]
+ ::
+C:\Presentations\TipsDemos
+ [75] >
+
+ [68] >get-mytestfunction @splat @splat2
+Ben Miller Lily
+6/8/2021 10:59:10 AM
+ ::
+[0.0038214 s]
+ ::
+C:\Presentations\TipsDemos
+ [76] >
+
+ [68] >$splat.MyFullName = "Ben Miller"
+6/8/2021 10:59:26 AM
+ ::
+[0.0019918 s]
+ ::
+C:\Presentations\TipsDemos
+ [77] >
+
+ [68] >get-mytestfunction @splat @splat2
+Ben Miller Lily
+6/8/2021 10:59:28 AM
+ ::
+[0.0019998 s]
+ ::
+C:\Presentations\TipsDemos
+ [78] >
+
+ [68] >$dbasplat = @{ SqlInstance="SQL01"; Database="DEMODB"; BobOBob="This is a test"}
+6/8/2021 10:59:54 AM
+ ::
+[0.0020012 s]
+ ::
+C:\Presentations\TipsDemos
+ [79] >
+
+ [68] >Get-DbaDatabase @dbasplat
+>> TerminatingError(Get-DbaDatabase): "A parameter cannot be found that matches parameter name 'BobOBob'."
+Get-DbaDatabase : A parameter cannot be found that matches parameter name 'BobOBob'.
+At line:1 char:17
++ Get-DbaDatabase @dbasplat
++                 ~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Get-DbaDatabase
+Get-DbaDatabase : A parameter cannot be found that matches parameter name 'BobOBob'.
+At line:1 char:17
++ Get-DbaDatabase @dbasplat
++                 ~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : NamedParameterNotFound,Get-DbaDatabase
+
+6/8/2021 11:00:07 AM
+ ::
+[0.1849989 s]
+ ::
+C:\Presentations\TipsDemos
+ [80] >
+
+ [68] >$dbasplat2 = @{ SqlInstance="SQL02" }
+6/8/2021 11:00:42 AM
+ ::
+[0.008998 s]
+ ::
+C:\Presentations\TipsDemos
+ [81] >
+
+ [68] >Get-DbaDatabase @dbasplat @dbasplat2
+>> TerminatingError(Get-DbaDatabase): "Cannot bind parameter because parameter 'SqlInstance' is specified more than once. To provide multiple values to parameters that can accept multiple values, use the array syntax. For example, "-parameter value1,value2,value3"."
+Get-DbaDatabase : Cannot bind parameter because parameter 'SqlInstance' is specified more than once. To provide 
+multiple values to parameters that can accept multiple values, use the array syntax. For example, "-parameter 
+value1,value2,value3".
+At line:1 char:27
++ Get-DbaDatabase @dbasplat @dbasplat2
++                           ~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : ParameterAlreadyBound,Get-DbaDatabase
+Get-DbaDatabase : Cannot bind parameter because parameter 'SqlInstance' is specified more than once. To provide
+multiple values to parameters that can accept multiple values, use the array syntax. For example, "-parameter
+value1,value2,value3".
+At line:1 char:27
++ Get-DbaDatabase @dbasplat @dbasplat2
++                           ~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : ParameterAlreadyBound,Get-DbaDatabase
+
+6/8/2021 11:00:50 AM
+ ::
+[0.1209973 s]
+ ::
+C:\Presentations\TipsDemos
+ [82] >
+
+ [68] ># Get-Help -ShowWindow
+6/8/2021 11:01:36 AM
+ ::
+[0.0080029 s]
+ ::
+C:\Presentations\TipsDemos
+ [83] >
+
+ [68] >Get-Help about_Comparison_Operators -ShowWindow
+6/8/2021 11:02:00 AM
+ ::
+[4.6221006 s]
+ ::
+C:\Presentations\TipsDemos
+ [84] >
+
+ [68] >get-transcript
+C:\Users\dbaduck\Documents\WindowsPowerShell\Transcript_20210608_092350.txt
+6/8/2021 11:04:02 AM
+ ::
+[0.0076879 s]
+ ::
+C:\Presentations\TipsDemos
+ [85] >
+
+ [68] >stop-transcript
+**********************
+Windows PowerShell transcript end
+End time: 20210608110405
+**********************
