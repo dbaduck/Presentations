@@ -551,6 +551,15 @@ $server.Databases | Select Name, @{Label="My Special Name";Expression={ "My DB: 
 Get-MyOsAssemblies
 
 ####################################################
+# Loading Assemblies
+####################################################
+Add-Type -Path "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Microsoft.SqlServer.Smo.dll"
+Add-Type -Path "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Microsoft.SqlServer.SmoExtended.dll"
+Add-Type -Path "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Microsoft.SqlServer.SqlEnum.dll"
+
+Get-MyOsAssemblies
+
+####################################################
 # SMO
 ####################################################
 <#
@@ -571,7 +580,7 @@ import-module sqlserver
 $smo = "Microsoft.SqlServer.Management.Smo"
 $server = New-Object -TypeName "$smo.Server" -Args "SQL01"
 
-# tip for demos, set the statement timeout to 5 seconds
+# tip for demos, set the statement timeout to 5 seconds default 600 (10 minutes)
 $server.ConnectionContext.StatementTimeout = 5
 $server.ConnectionContext.Connect()
 
@@ -587,6 +596,13 @@ $database.Alter()
 # Or you can just drop it
 $database.Drop()
 
+$error[0].Exception
+$error[0].Exception.InnerException
+$error[0].Exception.InnerException.InnerException
+$error[0].Exception.InnerException.InnerException.InnerException
+$error[0].Exception.InnerException.InnerException.InnerException.InnerException
+$error[0].Exception.InnerException.InnerException.InnerException.InnerException.InnerException
+	
 # Oops there are connections to the database
 $server.KillAllProcesses($databaseName)
 $database.Drop()
@@ -613,7 +629,7 @@ $server | get-member
 	$server.SetDefaultInitFields([Microsoft.SqlServer.Management.Smo.Database, $coll)
 #>
 
-$coll = new-object –typename System.Collections.StringCollection
+$coll = new-object –typename System.Collections.Specialized.StringCollection
 $coll.Add("ID")
 
 $server.SetDefaultInitFields([Microsoft.SqlServer.Management.Smo.Database], $coll)
@@ -679,6 +695,7 @@ $db = $server.Databases["DEMODB"]
 if($db) { "true" } else { "false" }
 $servername = "SQL01"
 
+$servername = "SQL01"
 Test-Path "SQLSERVER:\SQL\$servername\default\databases\DEMODB\Tables\dbo.Table1\Columns\Ben"
 
 
@@ -701,10 +718,13 @@ Test-Path "SQLSERVER:\SQL\$servername\default\databases\DEMODB\Tables\dbo.Table1
 #>
 Get-PSDrive
 
-$credential = Get-Credential -UserName sa
+$credential = Get-Credential
 
+$credential.UserName
+$credential.Password
 New-PSDrive -Name BEN -PSProvider SqlServer -Root SQLSERVER:\SQL\SQL01\DEFAULT -Credential $credential
 
+cd BEN:
 Set-Location BEN:
 
 # Cheat like Microsoft
@@ -736,11 +756,13 @@ Get-PSDrive
 	Use QueryTimeout 0 if you intend it to take longer than 10 minutes
 
 #>
-$rows = Invoke-Sqlcmd -ServerInstance localhost -Database master -Query "select name from sys.databases order by name ASC" -QueryTimeout 0
+$rows = Invoke-Sqlcmd -ServerInstance SQL01 -Database master -Query "select name from sys.databases order by name ASC" -QueryTimeout 0
 $tables = Invoke-Sqlcmd -ServerInstance localhost -Database master -Query "select name from sys.databases order by name ASC" -OutputAs DataTables
 
 $rows.GetType()
 $tables.GetType()
+
+$rows[0].GetType()
 
 
 ####################################################
@@ -757,12 +779,11 @@ $tables.GetType()
 	Super fast, uses SqlBulkCopy to get the data in
 	Automaps by position of the column, not by column name
 #>
-$databases = Invoke-Sqlcmd -ServerInstance localhost -Database master -Query "SELECT name, database_id from sys.databases order by name asc"
-Write-SqlTableData -ServerInstance localhost -DatabaseName DEMODB -SchemaName dbo -TableName DatabaseNames -InputData $databases -Force
+$databases = Invoke-Sqlcmd -ServerInstance SQL01 -Database master -Query "SELECT name, database_id from sys.databases order by name asc"
+Write-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -SchemaName dbo -TableName DatabaseNames -InputData $databases -Force
 
-Read-SqlTableData -ServerInstance localhost -DatabaseName DBA -TableName DatabaseNames -SchemaName dbo -OutputAs DataTable |
-Read-SqlViewData
-	Write-SqlTableData -ServerInstance localhost -DatabaseName DBA -TableName DBNames -SchemaName dbo -Force
+Read-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -TableName DatabaseNames -SchemaName dbo -OutputAs DataTable |
+Write-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -TableName DBNames -SchemaName dbo -Force
 
 ####################################################
 # Using SQL Provider Context
@@ -776,7 +797,7 @@ Read-SqlViewData
 	Backup-SqlDatabase will also use context and will also use settings in the instance
 #>
 SQLSERVER:
-cd \sql\localhost\default\databases
+cd \sql\SQL01\default\databases
 
 Backup-SqlDatabase -Database DEMODB
 

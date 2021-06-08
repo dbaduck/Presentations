@@ -1,0 +1,1010 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20210608133153
+Username: DBADUCK\dbaduck
+RunAs User: DBADUCK\dbaduck
+Configuration Name: 
+Machine: DUCKNUC (Microsoft Windows NT 10.0.19042.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 20908
+PSVersion: 5.1.19041.906
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.906
+BuildVersion: 10.0.19041.906
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\dbaduck\Documents\WindowsPowerShell\Transcript_20210608_133153.txt
+6/8/2021 1:31:53 PM
+ ::
+[ s]
+ ::
+C:\Presentations\TipsDemos
+ [1] >
+
+PS>Get-MyOsAssemblies
+
+FullName
+--------
+Anonymously Hosted DynamicMethods Assembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.Management.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Management, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Utility, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.ConsoleHost, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.Powershell.PSReadline, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Security, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+PSEventHandler, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Configuration.Install, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.DirectoryServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+System.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Transactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+
+
+6/8/2021 2:00:10 PM
+ ::
+[0.0556458 s]
+ ::
+C:\Presentations\TipsDemos
+ [2] >
+
+PS>Add-Type -Path "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Microsoft.SqlServer.Smo.dll"
+6/8/2021 2:01:50 PM
+ ::
+[0.1129954 s]
+ ::
+C:\Presentations\TipsDemos
+ [3] >
+
+PS>Add-Type -Path "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Microsoft.SqlServer.SmoExtended.dll"
+6/8/2021 2:01:50 PM
+ ::
+[0.0070011 s]
+ ::
+C:\Presentations\TipsDemos
+ [4] >
+
+PS>Add-Type -Path "C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Microsoft.SqlServer.SqlEnum.dll"
+6/8/2021 2:01:50 PM
+ ::
+[0.0159976 s]
+ ::
+C:\Presentations\TipsDemos
+ [5] >
+
+PS>Get-MyOsAssemblies
+
+FullName
+--------
+Anonymously Hosted DynamicMethods Assembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.Management.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Management, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Utility, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.ConsoleHost, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.Powershell.PSReadline, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Security, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.SqlServer.ConnectionInfo, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Dmf.Common, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.Sdk.Sfc, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Smo, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SmoExtended, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlEnum, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+PSEventHandler, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Configuration.Install, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.DirectoryServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+System.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Transactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+
+
+6/8/2021 2:01:57 PM
+ ::
+[0.060988 s]
+ ::
+C:\Presentations\TipsDemos
+ [6] >
+
+PS>import-module dbatools
+6/8/2021 2:03:23 PM
+ ::
+[3.2017727 s]
+ ::
+C:\Presentations\TipsDemos
+ [7] >
+
+PS>Get-MyOsAssemblies
+
+FullName
+--------
+Anonymously Hosted DynamicMethods Assembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+Bogus, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+dbatools, Version=0.10.0.71, Culture=neutral, PublicKeyToken=null
+Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.Data.Tools.Sql.BatchParser, Version=15.2.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.Data.Tools.Utilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.Management.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Diagnostics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Management, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Utility, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.ConsoleHost, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.Powershell.PSReadline, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Security, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.SqlServer.BatchParser, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.BatchParserClient, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.ConnectionInfo, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.ConnectionInfo, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.ConnectionInfoExtended, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Dac, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.SqlServer.Dmf, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Dmf.Common, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Dmf.Common, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.Collector, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.IntegrationServices, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080...
+Microsoft.SqlServer.Management.RegisteredServers, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.Sdk.Sfc, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.Sdk.Sfc, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.XEvent, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.XEventDbScoped, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Smo, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Smo, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SmoExtended, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SmoExtended, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlClrProvider, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlEnum, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlEnum, Version=16.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlTDiagM, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlWmiManagement, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SString, Version=15.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Types, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.XE.Core, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.XEvent.Linq, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.WSMan.Management, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+PSEventHandler, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+PSEventHandler, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Configuration.Install, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.DirectoryServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+System.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Transactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+Windows.UI, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null, ContentType=WindowsRuntime
+
+
+6/8/2021 2:03:36 PM
+ ::
+[0.2539887 s]
+ ::
+C:\Presentations\TipsDemos
+ [8] >
+
+PS>import-module sqlserver
+6/8/2021 2:06:04 PM
+ ::
+[1.1574459 s]
+ ::
+C:\Presentations\TipsDemos
+ [9] >
+
+PS>$smo = "Microsoft.SqlServer.Management.Smo"
+6/8/2021 2:06:12 PM
+ ::
+[0.0099828 s]
+ ::
+C:\Presentations\TipsDemos
+ [10] >
+
+PS>$server = New-Object -TypeName "$smo.Server" -Args "SQL01"
+6/8/2021 2:06:12 PM
+ ::
+[0.0520113 s]
+ ::
+C:\Presentations\TipsDemos
+ [11] >
+
+6/8/2021 2:06:12 PM
+ ::
+[0.0520113 s]
+ ::
+C:\Presentations\TipsDemos
+ [11] >
+
+PS># tip for demos, set the statement timeout to 5 seconds default 600 (10 minutes)
+6/8/2021 2:06:13 PM
+ ::
+[0.0110006 s]
+ ::
+C:\Presentations\TipsDemos
+ [12] >
+
+PS>$server.ConnectionContext.StatementTimeout = 5
+6/8/2021 2:06:13 PM
+ ::
+[0.0150005 s]
+ ::
+C:\Presentations\TipsDemos
+ [13] >
+
+PS>$server.ConnectionContext.Connect()
+6/8/2021 2:06:13 PM
+ ::
+[0.0549993 s]
+ ::
+C:\Presentations\TipsDemos
+ [14] >
+
+PS>$databaseName = "DROPME"
+6/8/2021 2:06:37 PM
+ ::
+[0.0070023 s]
+ ::
+C:\Presentations\TipsDemos
+ [15] >
+
+PS>$database = $server.Databases["master"]
+6/8/2021 2:06:37 PM
+ ::
+[0.2210008 s]
+ ::
+C:\Presentations\TipsDemos
+ [16] >
+
+PS>$database = $server.Databases[$databaseName]
+6/8/2021 2:06:37 PM
+ ::
+[0.014001 s]
+ ::
+C:\Presentations\TipsDemos
+ [17] >
+
+PS>$database.PageVerify
+TornPageDetection
+6/8/2021 2:06:43 PM
+ ::
+[0.2023476 s]
+ ::
+C:\Presentations\TipsDemos
+ [18] >
+
+PS>$database.PageVerify
+TornPageDetection
+6/8/2021 2:06:58 PM
+ ::
+[0.0020013 s]
+ ::
+C:\Presentations\TipsDemos
+ [19] >
+
+PS>$database.PageVerify
+TornPageDetection
+6/8/2021 2:07:20 PM
+ ::
+[0.0040022 s]
+ ::
+C:\Presentations\TipsDemos
+ [20] >
+
+PS>$database.Refresh()
+6/8/2021 2:07:34 PM
+ ::
+[0.0179952 s]
+ ::
+C:\Presentations\TipsDemos
+ [21] >
+
+PS>$database.PageVerify
+TornPageDetection
+6/8/2021 2:08:15 PM
+ ::
+[0.0155848 s]
+ ::
+C:\Presentations\TipsDemos
+ [22] >
+
+PS>$database.PageVerify
+TornPageDetection
+6/8/2021 2:09:19 PM
+ ::
+[0.0030012 s]
+ ::
+C:\Presentations\TipsDemos
+ [23] >
+
+PS>$database.Refresh()
+6/8/2021 2:09:28 PM
+ ::
+[0.0029891 s]
+ ::
+C:\Presentations\TipsDemos
+ [24] >
+
+PS>$database.PageVerify
+None
+6/8/2021 2:09:30 PM
+ ::
+[0.0255254 s]
+ ::
+C:\Presentations\TipsDemos
+ [25] >
+
+PS>$database.PageVerify = "CHECKSUM"
+6/8/2021 2:09:40 PM
+ ::
+[0.0139999 s]
+ ::
+C:\Presentations\TipsDemos
+ [26] >
+
+PS>$database.Alter()
+6/8/2021 2:10:01 PM
+ ::
+[0.2246789 s]
+ ::
+C:\Presentations\TipsDemos
+ [27] >
+
+PS>$database.Drop()
+Exception calling "Drop" with "0" argument(s): "Drop failed for Database 'DROPME'. "
+At line:1 char:1
++ $database.Drop()
++ ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : FailedOperationException
+Exception calling "Drop" with "0" argument(s): "Drop failed for Database 'DROPME'. "
+At line:1 char:1
++ $database.Drop()
++ ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : FailedOperationException
+
+6/8/2021 2:10:48 PM
+ ::
+[5.1948471 s]
+ ::
+C:\Presentations\TipsDemos
+ [28] >
+
+PS>$error[0].Exception
+Exception calling "Drop" with "0" argument(s): "Drop failed for Database 'DROPME'. "
+6/8/2021 2:11:41 PM
+ ::
+[0.0290024 s]
+ ::
+C:\Presentations\TipsDemos
+ [29] >
+
+PS>$error[0].Exception.InnerException
+Drop failed for Database 'DROPME'.
+6/8/2021 2:11:53 PM
+ ::
+[0.0149987 s]
+ ::
+C:\Presentations\TipsDemos
+ [30] >
+
+PS>$error[0].Exception.InnerException.InnerException
+An exception occurred while executing a Transact-SQL statement or batch.
+6/8/2021 2:12:06 PM
+ ::
+[0.0170013 s]
+ ::
+C:\Presentations\TipsDemos
+ [31] >
+
+PS>$error[0].Exception.InnerException.InnerException.InnerException
+Execution Timeout Expired.  The timeout period elapsed prior to completion of the operation or the server is not
+responding.
+6/8/2021 2:12:28 PM
+ ::
+[0.0210307 s]
+ ::
+C:\Presentations\TipsDemos
+ [32] >
+
+PS>$error[0].Exception.InnerException.InnerException.InnerException.InnerException
+The wait operation timed out
+6/8/2021 2:12:57 PM
+ ::
+[0.019 s]
+ ::
+C:\Presentations\TipsDemos
+ [33] >
+
+PS>$error[0].Exception.InnerException.InnerException.InnerException.InnerException.InnerException
+6/8/2021 2:13:13 PM
+ ::
+[0.0109948 s]
+ ::
+C:\Presentations\TipsDemos
+ [34] >
+
+PS>$server.KillAllProcesses($databaseName)
+6/8/2021 2:14:07 PM
+ ::
+[0.0424641 s]
+ ::
+C:\Presentations\TipsDemos
+ [35] >
+
+PS>$database.Drop()
+6/8/2021 2:14:07 PM
+ ::
+[0.022999 s]
+ ::
+C:\Presentations\TipsDemos
+ [36] >
+
+PS>$coll = new-object –typename System.Collections.StringCollection
+>> TerminatingError(New-Object): "Cannot find type [System.Collections.StringCollection]: verify that the assembly containing this type is loaded."
+new-object : Cannot find type [System.Collections.StringCollection]: verify that the assembly containing this type is 
+loaded.
+At line:1 char:9
++ $coll = new-object –typename System.Collections.StringCollection
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidType: (:) [New-Object], PSArgumentException
+    + FullyQualifiedErrorId : TypeNotFound,Microsoft.PowerShell.Commands.NewObjectCommand
+new-object : Cannot find type [System.Collections.StringCollection]: verify that the assembly containing this type is
+loaded.
+At line:1 char:9
++ $coll = new-object –typename System.Collections.StringCollection
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidType: (:) [New-Object], PSArgumentException
+    + FullyQualifiedErrorId : TypeNotFound,Microsoft.PowerShell.Commands.NewObjectCommand
+
+6/8/2021 2:15:24 PM
+ ::
+[0.1219971 s]
+ ::
+C:\Presentations\TipsDemos
+ [37] >
+
+PS>$coll.Add("ID")
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $coll.Add("ID")
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $coll.Add("ID")
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+
+6/8/2021 2:15:25 PM
+ ::
+[0.1709987 s]
+ ::
+C:\Presentations\TipsDemos
+ [38] >
+
+PS>$coll = new-object –typename System.Collections.Specialized.StringCollection
+6/8/2021 2:15:48 PM
+ ::
+[0.0099629 s]
+ ::
+C:\Presentations\TipsDemos
+ [39] >
+
+PS>$coll.Add("ID")
+0
+6/8/2021 2:15:53 PM
+ ::
+[0.0049983 s]
+ ::
+C:\Presentations\TipsDemos
+ [40] >
+
+PS>$server.SetDefaultInitFields([Microsoft.SqlServer.Management.Smo.Database], $coll)
+6/8/2021 2:16:00 PM
+ ::
+[0.0145281 s]
+ ::
+C:\Presentations\TipsDemos
+ [41] >
+
+PS>$server.Databases | Select Name, ID
+
+Name    ID
+----    --
+DEMO1    6
+DEMODB   5
+master   1
+model    3
+msdb     4
+SMO_DB2  8
+SMO_DB3  9
+tempdb   2
+
+
+6/8/2021 2:16:08 PM
+ ::
+[0.0480003 s]
+ ::
+C:\Presentations\TipsDemos
+ [42] >
+
+PS>$server.Databases.Name
+DEMO1
+DEMODB
+master
+model
+msdb
+SMO_DB2
+SMO_DB3
+tempdb
+6/8/2021 2:17:46 PM
+ ::
+[0.0179948 s]
+ ::
+C:\Presentations\TipsDemos
+ [43] >
+
+PS>$server.Databases.Name
+DEMO1
+DEMODB
+master
+model
+msdb
+SMO_DB2
+SMO_DB3
+tempdb
+6/8/2021 2:19:07 PM
+ ::
+[0.007997 s]
+ ::
+C:\Presentations\TipsDemos
+ [44] >
+
+PS>Test-Path SQLSERVER:\SQL\SQL01\default\databases\DEMODB
+True
+6/8/2021 2:19:55 PM
+ ::
+[0.1069956 s]
+ ::
+C:\Presentations\TipsDemos
+ [45] >
+
+PS>$db = $server.Databases["DEMODB"]
+6/8/2021 2:20:21 PM
+ ::
+[0.0089725 s]
+ ::
+C:\Presentations\TipsDemos
+ [46] >
+
+PS>if($db) { "true" } else { "false" }
+true
+6/8/2021 2:20:21 PM
+ ::
+[0.0130309 s]
+ ::
+C:\Presentations\TipsDemos
+ [47] >
+
+PS>Test-Path "SQLSERVER:\SQL\$servername\default\databases\DEMODB\Tables\dbo.Table1\Columns\Ben"
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+6/8/2021 2:21:24 PM
+ ::
+[29.4346482 s]
+ ::
+C:\Presentations\TipsDemos
+ [48] >
+
+6/8/2021 2:21:24 PM
+ ::
+[29.4346482 s]
+ ::
+C:\Presentations\TipsDemos
+ [48] >
+
+PS>$servername = "SQL01"
+6/8/2021 2:21:28 PM
+ ::
+[0.0090231 s]
+ ::
+C:\Presentations\TipsDemos
+ [49] >
+
+PS>Test-Path "SQLSERVER:\SQL\$servername\default\databases\DEMODB\Tables\dbo.Table1\Columns\Ben"
+False
+6/8/2021 2:21:30 PM
+ ::
+[0.3463427 s]
+ ::
+C:\Presentations\TipsDemos
+ [50] >
+
+PS>Test-Path "SQLSERVER:\SQL\$servername\default\databases\DEMODB\Tables\dbo.Table1\Columns\id"
+True
+6/8/2021 2:21:50 PM
+ ::
+[0.2621941 s]
+ ::
+C:\Presentations\TipsDemos
+ [51] >
+
+PS>$credential = Get-Credential -UserName sa
+PS>TerminatingError(Get-Credential): "Cannot bind argument to parameter 'Message' because it is an empty string."
+Get-Credential : Cannot bind argument to parameter 'Message' because it is an empty string.
+At line:1 char:15
++ $credential = Get-Credential -UserName sa
++               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Get-Credential], ParameterBindingValidationException
+    + FullyQualifiedErrorId : 
+ParameterArgumentValidationErrorEmptyStringNotAllowed,Microsoft.PowerShell.Commands.GetCredentialCommand
+Get-Credential : Cannot bind argument to parameter 'Message' because it is an empty string.
+At line:1 char:15
++ $credential = Get-Credential -UserName sa
++               ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Get-Credential], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationErrorEmptyStringNotAllowed,Microsoft.PowerShell.Commands.GetC
+   redentialCommand
+
+6/8/2021 2:22:49 PM
+ ::
+[5.8502003 s]
+ ::
+C:\Presentations\TipsDemos
+ [52] >
+
+PS>$credential = Get-Credential
+6/8/2021 2:23:00 PM
+ ::
+[3.758373 s]
+ ::
+C:\Presentations\TipsDemos
+ [53] >
+
+PS>$credential.UserName
+sa
+6/8/2021 2:23:14 PM
+ ::
+[0.0159997 s]
+ ::
+C:\Presentations\TipsDemos
+ [54] >
+
+PS>$credential.Password
+System.Security.SecureString
+6/8/2021 2:23:22 PM
+ ::
+[0.0129985 s]
+ ::
+C:\Presentations\TipsDemos
+ [55] >
+
+PS>New-PSDrive -Name BEN -PSProvider SqlServer -Root SQLSERVER:\SQL\SQL01\DEFAULT -Credential $credential
+
+Name           Used (GB)     Free (GB) Provider      Root                                               CurrentLocation
+----           ---------     --------- --------      ----                                               ---------------
+BEN                                    SqlServer     SQLSERVER:\SQL\SQL01\DEFAULT+sa
+
+
+6/8/2021 2:24:07 PM
+ ::
+[0.096999 s]
+ ::
+C:\Presentations\TipsDemos
+ [56] >
+
+PS>cd BEN:
+6/8/2021 2:24:58 PM
+ ::
+[0.0200132 s]
+ ::
+BEN:\
+ [57] >
+
+PS>get-psdrive
+
+Name           Used (GB)     Free (GB) Provider      Root                                               CurrentLocation
+----           ---------     --------- --------      ----                                               ---------------
+Alias                                  Alias
+BEN                                    SqlServer     SQLSERVER:\SQL\SQL01\DEFAULT+sa
+C                 338.81        614.32 FileSystem    C:\                                        Presentations\TipsDemos
+Cert                                   Certificate   \
+D                  72.55       1835.16 FileSystem    D:\
+Env                                    Environment
+Function                               Function
+HKCU                                   Registry      HKEY_CURRENT_USER
+HKLM                                   Registry      HKEY_LOCAL_MACHINE
+SQLSERVER                              SqlServer     SQLSERVER:\
+Variable                               Variable
+WSMan                                  WSMan
+
+
+6/8/2021 2:25:25 PM
+ ::
+[0.4389667 s]
+ ::
+BEN:\
+ [58] >
+
+PS>c:
+6/8/2021 2:25:30 PM
+ ::
+[0.0179995 s]
+ ::
+C:\Presentations\TipsDemos
+ [59] >
+
+PS>d:
+6/8/2021 2:25:32 PM
+ ::
+[0.0060188 s]
+ ::
+D:\
+ [60] >
+
+PS>cert:
+cert: : The term 'cert:' is not recognized as the name of a cmdlet, function, script file, or operable program. Check 
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ cert:
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (cert::String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+cert: : The term 'cert:' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ cert:
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (cert::String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+6/8/2021 2:25:39 PM
+ ::
+[0.1869891 s]
+ ::
+D:\
+ [61] >
+
+PS>sqlserver:
+6/8/2021 2:25:59 PM
+ ::
+[0.0109824 s]
+ ::
+SQLSERVER:\
+ [62] >
+
+PS>function BEN:
+{
+Set-Location BEN:
+}
+6/8/2021 2:26:24 PM
+ ::
+[0.0109991 s]
+ ::
+SQLSERVER:\
+ [63] >
+
+PS>BEN:
+6/8/2021 2:26:27 PM
+ ::
+[0.0109975 s]
+ ::
+BEN:\
+ [64] >
+
+PS>Get-PSDrive
+
+Name           Used (GB)     Free (GB) Provider      Root                                               CurrentLocation
+----           ---------     --------- --------      ----                                               ---------------
+Alias                                  Alias
+BEN                                    SqlServer     SQLSERVER:\SQL\SQL01\DEFAULT+sa
+C                 338.81        614.32 FileSystem    C:\                                        Presentations\TipsDemos
+Cert                                   Certificate   \
+D                  72.55       1835.16 FileSystem    D:\
+Env                                    Environment
+Function                               Function
+HKCU                                   Registry      HKEY_CURRENT_USER
+HKLM                                   Registry      HKEY_LOCAL_MACHINE
+SQLSERVER                              SqlServer     SQLSERVER:\
+Variable                               Variable
+WSMan                                  WSMan
+
+
+6/8/2021 2:26:38 PM
+ ::
+[0.1509992 s]
+ ::
+BEN:\
+ [65] >
+
+PS>$rows = Invoke-Sqlcmd -ServerInstance SQL01 -Database master -Query "select name from sys.databases order by name ASC" -QueryTimeout 0
+WARNING: Using provider context. Server = SQL01.
+6/8/2021 2:28:44 PM
+ ::
+[0.1375132 s]
+ ::
+BEN:\
+ [66] >
+
+PS>$tables = Invoke-Sqlcmd -ServerInstance localhost -Database master -Query "select name from sys.databases order by name ASC" -OutputAs DataTables
+WARNING: Using provider context. Server = SQL01.
+6/8/2021 2:28:59 PM
+ ::
+[0.0649999 s]
+ ::
+BEN:\
+ [67] >
+
+PS>$rows.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+6/8/2021 2:29:02 PM
+ ::
+[0.0193881 s]
+ ::
+BEN:\
+ [68] >
+
+PS>$tables.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     DataTable                                System.ComponentModel.MarshalByValueComponent
+
+
+6/8/2021 2:29:02 PM
+ ::
+[0.0200003 s]
+ ::
+BEN:\
+ [69] >
+
+PS>$rows[0].GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    DataRow                                  System.Object
+
+
+6/8/2021 2:29:31 PM
+ ::
+[0.0269999 s]
+ ::
+BEN:\
+ [70] >
+
+PS>$databases = Invoke-Sqlcmd -ServerInstance SQL01 -Database master -Query "SELECT name, database_id from sys.databases order by name asc"
+WARNING: Using provider context. Server = SQL01.
+6/8/2021 2:30:29 PM
+ ::
+[0.0300001 s]
+ ::
+BEN:\
+ [71] >
+
+PS>Write-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -SchemaName dbo -TableName DatabaseNames -InputData $databases -Force
+6/8/2021 2:30:29 PM
+ ::
+[0.4755098 s]
+ ::
+BEN:\
+ [72] >
+
+PS>Read-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -TableName DatabaseNames -SchemaName dbo -OutputAs DataTable |
+Read-SqlViewData
+Read-SqlViewData : Failed to connect to server System.Data.DataRow System.Data.DataRow System.Data.DataRow 
+System.Data.DataRow System.Data.DataRow System.Data.DataRow System.Data.DataRow System.Data.DataRow.
+At line:2 char:1
++ Read-SqlViewData
++ ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (System.Data.Dat...em.Data.DataRow:String) [Read-SqlViewData], 
+ConnectionFailureException
+    + FullyQualifiedErrorId : ConnectionToServerFailed,Microsoft.SqlServer.Management.PowerShell.ReadSqlViewData
+Read-SqlViewData : Failed to connect to server System.Data.DataRow System.Data.DataRow System.Data.DataRow
+System.Data.DataRow System.Data.DataRow System.Data.DataRow System.Data.DataRow System.Data.DataRow.
+At line:2 char:1
++ Read-SqlViewData
++ ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (System.Data.Dat...em.Data.DataRow:String) [Read-SqlViewData], Connectio
+   nFailureException
+    + FullyQualifiedErrorId : ConnectionToServerFailed,Microsoft.SqlServer.Management.PowerShell.ReadSqlViewData
+
+6/8/2021 2:32:40 PM
+ ::
+[0.1539971 s]
+ ::
+BEN:\
+ [73] >
+
+PS>TerminatingError(TabExpansion2): "Cannot bind argument to parameter 'inputScript' because it is an empty string."
+PS>Write-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -TableName DBNames -SchemaName dbo -Force
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+6/8/2021 2:32:46 PM
+ ::
+[5.4187461 s]
+ ::
+BEN:\
+ [74] >
+
+PS>Read-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -TableName DatabaseNames -SchemaName dbo -OutputAs DataTable |
+Write-SqlTableData -ServerInstance SQL01 -DatabaseName DEMODB -TableName DBNames -SchemaName dbo -Force
+6/8/2021 2:32:59 PM
+ ::
+[0.0749967 s]
+ ::
+BEN:\
+ [75] >
+
+PS>SQLSERVER:
+6/8/2021 2:33:53 PM
+ ::
+[0.010002 s]
+ ::
+SQLSERVER:\
+ [76] >
+
+PS>SQLSERVER:
+6/8/2021 2:34:06 PM
+ ::
+[0.0020012 s]
+ ::
+SQLSERVER:\
+ [77] >
+
+PS>cd \sql\SQL01\default\databases
+6/8/2021 2:34:06 PM
+ ::
+[0.0150253 s]
+ ::
+SQLSERVER:\sql\SQL01\default\databases
+ [78] >
+
+PS>Backup-SqlDatabase -Database DEMODB
+6/8/2021 2:34:19 PM
+ ::
+[0.3155373 s]
+ ::
+SQLSERVER:\sql\SQL01\default\databases
+ [79] >
+
+PS>Backup-SqlDatabase -Database DEMODB
+6/8/2021 2:35:12 PM
+ ::
+[0.2309639 s]
+ ::
+SQLSERVER:\sql\SQL01\default\databases
+ [80] >
+
+PS>stop-transcript
+**********************
+Windows PowerShell transcript end
+End time: 20210608145045
+**********************
