@@ -1,0 +1,28 @@
+**********************
+PowerShell transcript start
+Start time: 20211209103041
+Username: DBADUCKS\Ben Miller
+RunAs User: DBADUCKS\Ben Miller
+Configuration Name: 
+Machine: DBADUCKS (Microsoft Windows NT 10.0.19043.0)
+Host Application: C:\Program Files\PowerShell\7\pwsh.dll -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command Import-Module 'c:\Users\Ben Miller\.vscode\extensions\ms-vscode.powershell-2021.10.2\modules\PowerShellEditorServices\PowerShellEditorServices.psd1'; Start-EditorServices -HostName 'Visual Studio Code Host' -HostProfileId 'Microsoft.VSCode' -HostVersion '2021.10.2' -AdditionalModules @('PowerShellEditorServices.VSCode') -BundledModulesPath 'c:\Users\Ben Miller\.vscode\extensions\ms-vscode.powershell-2021.10.2\modules' -EnableConsoleRepl -StartupBanner '=====> PowerShell Integrated Console v2021.10.2 <=====
+' -LogLevel 'Normal' -LogPath 'c:\Users\Ben Miller\.vscode\extensions\ms-vscode.powershell-2021.10.2\logs\1639071067-a94cee7d-427b-4c52-9391-f74e48a657ca1639071058823\EditorServices.log' -SessionDetailsPath 'c:\Users\Ben Miller\.vscode\extensions\ms-vscode.powershell-2021.10.2\sessions\PSES-VSCode-4868-977311' -FeatureFlags @() 
+Process ID: 26012
+PSVersion: 7.2.0
+PSEdition: Core
+GitCommitId: 7.2.0
+OS: Microsoft Windows 10.0.19043
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.10032.0, 6.0.0, 6.1.0, 6.2.0, 7.0.0, 7.1.0, 7.2.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is C:\Demos\OPs\logs\Transcript_Gather_20211209_103041.txt
+localhost
+Get-BmaIndexUsage
+Get-BmaTableStatistics
+**********************
+PowerShell transcript end
+End time: 20211209103048
+**********************

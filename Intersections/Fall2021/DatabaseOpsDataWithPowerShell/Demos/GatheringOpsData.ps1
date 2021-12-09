@@ -18,7 +18,7 @@ $server01.ReportSqlDb = $ReportDatabase
 # $server02 = @{}
 # $server02.ServerInstance = "SERVER2"
 # $server02.ReportSqlInstance = $ReportServer
-# $server02.ReportSqlDb = "DEMO1"
+# $server02.ReportSqlDb = $ReportDatabase
 
 
 $servers = @($server01)

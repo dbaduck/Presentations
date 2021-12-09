@@ -1,10 +1,14 @@
 ﻿Import-Module dbatools
 
 $ary = @()
-Measure-Command { 1..10000 | % { $ary += $_ }}
+$ary += 1
+
+
+$ary = @()
+Measure-Command { 1..10000 | Foreach-Object { $ary += $_ }}
 
 $ary2 = [System.Collections.ArrayList]@()
-Measure-Command { 1..10000 | % { $null = $ary2.Add($_) }}
+Measure-Command { 1..10000 | Foreach-Object { $null = $ary2.Add($_) }}
 
 
 # This is a method of objects
@@ -13,7 +17,7 @@ $ary = [Collections.ArrayList]@()
 $ary = New-Object -TypeName System.Collections.ArrayList
 
 $server = Connect-DbaInstance -SqlInstance localhost
-$server.SetDefaultInitFields([Microsoft.SqlServer.Management.Smo.Database], "ID, CompatibilityLevel")
+$server.SetDefaultInitFields([Microsoft.SqlServer.Management.Smo.Database])
 
 foreach($db in ($server.Databases)) {
     $dbobj = "" | Select-Object ID, Name, CompatibilityLevel, IterationId
@@ -44,7 +48,7 @@ foreach($db in ($server.Databases)) {
 }
 $dt = ConvertTo-DbaDataTable -InputObject $ary
 Write-DbaDbTableData -SqlInstance localhost -Database DEMO1 -Table stats_Database -Schema dbo -InputObject $dt 
-$dt
+
 <#
     Now let's use a datatable manually created
 #>
@@ -78,3 +82,4 @@ foreach($db in $server.Databases) {
 Write-DbaDbTableDAta -SqlInstance localhost -Database DEMO1 -Table stats_Database -Schema dbo -InputObject $dt
 
 
+Write-DbaDbTableDAta -SqlInstance localhost -Database DEMO1 -Table stats_Database1 -Schema dbo -InputObject $dt -AutoCreateTable
