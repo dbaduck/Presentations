@@ -1,0 +1,1000 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20221118145505
+Username: DBADUCK\dbaduck
+RunAs User: DBADUCK\dbaduck
+Configuration Name: 
+Machine: DC01 (Microsoft Windows NT 10.0.20348.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 10112
+PSVersion: 5.1.20348.859
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.20348.859
+BuildVersion: 10.0.20348.859
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is C:\Users\dbaduck\Documents\WindowsPowerShell\Transcript_20221118_145505.txt
+PS C:\Demos> Register-EngineEvent PowerShell.Exiting -Action { Stop-Transcript } -SupportEvent
+PS C:\Demos> if (Test-Path -path "$(Split-Path $profile)\History.clixml")
+{
+$history = Import-Clixml -Path "$(Split-Path $profile)\History.clixml"
+$history | Add-History
+}
+PS C:\Demos> function Exit-Me
+{
+Stop-Transcript
+Get-History | Where-Object ExecutionStatus -eq "Completed" | Export-Clixml -Path "$(split-path $profile)\History.clixml"
+Exit
+}
+PS C:\Demos> function Get-MyOsAssemblies
+{
+[Appdomain]::CurrentDomain.GetAssemblies() | select-Object FullName | Sort-Object FullName
+}
+PS C:\Demos> Invoke-Expression "function $([char]4) { Exit-Me }"
+PS C:\Demos> ########################################################
+PS C:\Demos> # Prompt
+PS C:\Demos> ########################################################
+PS C:\Demos> function prompt
+{
+
+# Set Window Title
+$host.UI.RawUI.WindowTitle = "$ENV:USERNAME@$ENV:COMPUTERNAME - $(Get-Location)"
+
+$lastCommand = Get-History -Count 1
+$nextId = $lastCommand.Id + 1;
+$ElapsedTime = ($LastCommand.EndExecutionTime - $LastCommand.StartExecutionTime).TotalSeconds
+
+# Set Prompt
+Write-Host (Get-Date -Format G) -NoNewline -ForegroundColor Red
+Write-Host " :: " -NoNewline -ForegroundColor DarkGray
+#Write-Host "$ENV:USERNAME@$ENV:COMPUTERNAME" -NoNewline -ForegroundColor Yellow
+Write-Host "[$($ElapsedTime) s]" -NoNewLine -ForegroundColor Yellow
+
+Write-Host " :: " -NoNewline -ForegroundColor DarkGray
+Write-Host $(get-location) -ForegroundColor Green
+
+# Check for Administrator elevation
+$wid = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+$prp = new-object System.Security.Principal.WindowsPrincipal($wid)
+$adm = [System.Security.Principal.WindowsBuiltInRole]::Administrator
+$IsAdmin = $prp.IsInRole($adm)
+if ($IsAdmin)
+{
+$host.UI.RawUI.WindowTitle += " - Administrator"
+Write-Host " [$nextId] #" -NoNewline -ForegroundColor Gray
+return " "
+}
+else
+{
+Write-Host " [$nextId] >" -NoNewline -ForegroundColor Gray
+return " "
+}
+}
+11/18/2022 2:55:06 PM
+ ::
+[0.0069948 s]
+ ::
+C:\Demos
+ [12] >
+
+PS C:\Demos> ########################################################
+11/18/2022 2:55:06 PM
+ ::
+[0.001 s]
+ ::
+C:\Demos
+ [13] >
+
+PS C:\Demos> # End Profile
+11/18/2022 2:55:06 PM
+ ::
+[0.0099998 s]
+ ::
+C:\Demos
+ [14] >
+
+PS C:\Demos> ########################################################
+11/18/2022 2:55:06 PM
+ ::
+[0.0080009 s]
+ ::
+C:\Demos
+ [15] >
+
+PS C:\Demos> cls
+11/18/2022 2:55:09 PM
+ ::
+[0.051 s]
+ ::
+C:\Demos
+ [16] >
+
+PS C:\Demos> Import-Module dbatools
+11/18/2022 2:56:22 PM
+ ::
+[3.3312867 s]
+ ::
+C:\Demos
+ [17] >
+
+PS C:\Demos> $prod = "SQLAG01", "SQLAG02"
+11/18/2022 2:56:55 PM
+ ::
+[0.0050003 s]
+ ::
+C:\Demos
+ [18] >
+
+PS C:\Demos> $servers = Connect-DbaInstance -SqlInstance $prod
+11/18/2022 2:57:21 PM
+ ::
+[0.5790329 s]
+ ::
+C:\Demos
+ [19] >
+
+PS C:\Demos> $servers
+
+ComputerName Name    Product              Version   HostPlatform IsAzure IsClustered ConnectedAs
+------------ ----    -------              -------   ------------ ------- ----------- -----------
+SQLAG01      SQLAG01 Microsoft SQL Server 16.0.1000 Windows      False   False       DBADUCK\dbaduck
+SQLAG02      SQLAG02 Microsoft SQL Server 16.0.1000 Windows      False   False       DBADUCK\dbaduck
+
+
+11/18/2022 2:57:24 PM
+ ::
+[0.0440007 s]
+ ::
+C:\Demos
+ [20] >
+
+PS C:\Demos> $servers[0].gettype()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    Server                                   Microsoft.SqlServer.Management.Smo.SqlSmoObject
+
+
+11/18/2022 2:57:53 PM
+ ::
+[0.0150003 s]
+ ::
+C:\Demos
+ [21] >
+
+PS C:\Demos> $servers[0] | Get-Member
+
+
+   TypeName: Microsoft.SqlServer.Management.Smo.Server
+
+Name                                            MemberType   Definition
+----                                            ----------   ----------
+PropertyChanged                                 Event        System.ComponentModel.PropertyChangedEventHandler PropertyChanged(Syste...
+PropertyMetadataChanged                         Event        System.EventHandler`1[Microsoft.SqlServer.Management.Sdk.Sfc.SfcPropert...
+Alter                                           Method       void Alter(), void Alter(bool overrideValueChecking), void IAlterable.A...
+AttachDatabase                                  Method       void AttachDatabase(string name, System.Collections.Specialized.StringC...
+CompareUrn                                      Method       int CompareUrn(Microsoft.SqlServer.Management.Sdk.Sfc.Urn urn1, Microso...
+DeleteBackupHistory                             Method       void DeleteBackupHistory(datetime oldestDate), void DeleteBackupHistory...
+Deny                                            Method       void Deny(Microsoft.SqlServer.Management.Smo.ServerPermissionSet permis...
+DesignModeInitialize                            Method       void IAlienRoot.DesignModeInitialize()
+DetachDatabase                                  Method       void DetachDatabase(string databaseName, bool updateStatistics), void D...
+DetachedDatabaseInfo                            Method       System.Data.DataTable DetachedDatabaseInfo(string mdfName)
+Discover                                        Method       System.Collections.Generic.List[System.Object] Discover(), System.Colle...
+EnumActiveCurrentSessionTraceFlags              Method       System.Data.DataTable EnumActiveCurrentSessionTraceFlags()
+EnumActiveGlobalTraceFlags                      Method       System.Data.DataTable EnumActiveGlobalTraceFlags()
+EnumAvailableMedia                              Method       System.Data.DataTable EnumAvailableMedia(), System.Data.DataTable EnumA...
+EnumClusterMembersState                         Method       System.Data.DataTable EnumClusterMembersState()
+EnumClusterSubnets                              Method       System.Data.DataTable EnumClusterSubnets()
+EnumCollations                                  Method       System.Data.DataTable EnumCollations()
+EnumDatabaseMirrorWitnessRoles                  Method       System.Data.DataTable EnumDatabaseMirrorWitnessRoles(), System.Data.Dat...
+EnumDetachedDatabaseFiles                       Method       System.Collections.Specialized.StringCollection EnumDetachedDatabaseFil...
+EnumDetachedLogFiles                            Method       System.Collections.Specialized.StringCollection EnumDetachedLogFiles(st...
+EnumDirectories                                 Method       System.Data.DataTable EnumDirectories(string path)
+EnumErrorLogs                                   Method       System.Data.DataTable EnumErrorLogs()
+EnumLocks                                       Method       System.Data.DataTable EnumLocks(), System.Data.DataTable EnumLocks(int ...
+EnumMembers                                     Method       System.Collections.Specialized.StringCollection EnumMembers(Microsoft.S...
+EnumObjectPermissions                           Method       Microsoft.SqlServer.Management.Smo.ObjectPermissionInfo[] EnumObjectPer...
+EnumPerformanceCounters                         Method       System.Data.DataTable EnumPerformanceCounters(), System.Data.DataTable ...
+EnumProcesses                                   Method       System.Data.DataTable EnumProcesses(), System.Data.DataTable EnumProces...
+EnumServerAttributes                            Method       System.Data.DataTable EnumServerAttributes()
+EnumServerPermissions                           Method       Microsoft.SqlServer.Management.Smo.ServerPermissionInfo[] EnumServerPer...
+EnumStartupProcedures                           Method       System.Data.DataTable EnumStartupProcedures()
+EnumWindowsDomainGroups                         Method       System.Data.DataTable EnumWindowsDomainGroups(), System.Data.DataTable ...
+EnumWindowsGroupInfo                            Method       System.Data.DataTable EnumWindowsGroupInfo(), System.Data.DataTable Enu...
+EnumWindowsUserInfo                             Method       System.Data.DataTable EnumWindowsUserInfo(), System.Data.DataTable Enum...
+Equals                                          Method       bool Equals(System.Object obj)
+ExecuteWithModes                                Method       void ExecuteWithModes(Microsoft.SqlServer.Management.Common.SqlExecutio...
+FileExists                                      Method       bool FileExists(string filePath)
+GetActiveDBConnectionCount                      Method       int GetActiveDBConnectionCount(string dbName)
+GetConnection                                   Method       Microsoft.SqlServer.Management.Common.ISfcConnection ISfcHasConnection....
+GetDefaultInitFields                            Method       System.Collections.Specialized.StringCollection GetDefaultInitFields(ty...
+GetDisabledProperties                           Method       System.Collections.Generic.IEnumerable[string] GetDisabledProperties(Mi...
+GetDomainRoot                                   Method       Microsoft.SqlServer.Management.Sdk.Sfc.ISfcDomainLite IAlienObject.GetD...
+GetHashCode                                     Method       int GetHashCode()
+GetLogicalVersion                               Method       int ISfcDomainLite.GetLogicalVersion()
+GetParent                                       Method       System.Object IAlienObject.GetParent()
+GetPropertyNames                                Method       System.Collections.Specialized.StringCollection GetPropertyNames(type t...
+GetPropertySet                                  Method       Microsoft.SqlServer.Management.Sdk.Sfc.ISfcPropertySet ISfcPropertyProv...
+GetPropertyType                                 Method       type IAlienObject.GetPropertyType(string propertyName)
+GetPropertyValue                                Method       System.Object IAlienObject.GetPropertyValue(string propertyName, type p...
+GetPropValueOptional                            Method       T GetPropValueOptional[T](string propName, T defaultValue)
+GetSmoObject                                    Method       Microsoft.SqlServer.Management.Smo.SqlSmoObject GetSmoObject(Microsoft....
+GetSqlServerVersionName                         Method       string GetSqlServerVersionName()
+GetStringComparer                               Method       System.Collections.IComparer GetStringComparer(string collationName), S...
+GetType                                         Method       type GetType()
+GetUrn                                          Method       Microsoft.SqlServer.Management.Sdk.Sfc.Urn IAlienObject.GetUrn()
+Grant                                           Method       void Grant(Microsoft.SqlServer.Management.Smo.ServerPermissionSet permi...
+GrantAvailabilityGroupCreateDatabasePrivilege   Method       void GrantAvailabilityGroupCreateDatabasePrivilege(string availabilityG...
+InitChildCollection                             Method       void InitChildCollection(Microsoft.SqlServer.Management.Sdk.Sfc.Urn chi...
+Initialize                                      Method       bool Initialize(), bool Initialize(bool allProperties)
+IsDetachedPrimaryFile                           Method       bool IsDetachedPrimaryFile(string mdfName)
+IsExpressSku                                    Method       bool IsExpressSku()
+IsSupportedProperty                             Method       bool IsSupportedProperty(string propertyName)
+IsTraceFlagOn                                   Method       bool IsTraceFlagOn(int traceFlag, bool isGlobalTraceFlag)
+IsWindowsGroupMember                            Method       bool IsWindowsGroupMember(string windowsGroup, string windowsUser)
+JoinAvailabilityGroup                           Method       void JoinAvailabilityGroup(string availabilityGroupName), void JoinAvai...
+KillAllProcesses                                Method       void KillAllProcesses(string databaseName)
+KillDatabase                                    Method       void KillDatabase(string database)
+KillProcess                                     Method       void KillProcess(int processId)
+ParentDirectoryExists                           Method       bool ParentDirectoryExists(string filePath)
+PingSqlServerVersion                            Method       Microsoft.SqlServer.Management.Common.ServerVersion PingSqlServerVersio...
+ReadErrorLog                                    Method       System.Data.DataTable ReadErrorLog(), System.Data.DataTable ReadErrorLo...
+Refresh                                         Method       void Refresh(), void IRefreshable.Refresh()
+Resolve                                         Method       System.Object IAlienObject.Resolve(string urnString)
+Revoke                                          Method       void Revoke(Microsoft.SqlServer.Management.Smo.ServerPermissionSet perm...
+RevokeAvailabilityGroupCreateDatabasePrivilege  Method       void RevokeAvailabilityGroupCreateDatabasePrivilege(string availability...
+Script                                          Method       System.Collections.Specialized.StringCollection Script(), System.Collec...
+SetAccessToken                                  Method       void SetAccessToken(Microsoft.SqlServer.Management.Common.IRenewableTok...
+SetConnection                                   Method       void ISfcHasConnection.SetConnection(Microsoft.SqlServer.Management.Com...
+SetDefaultInitFields                            Method       void SetDefaultInitFields(type typeObject, System.Collections.Specializ...
+SetObjectState                                  Method       void IAlienObject.SetObjectState(Microsoft.SqlServer.Management.Sdk.Sfc...
+SetPropertyValue                                Method       void IAlienObject.SetPropertyValue(string propertyName, type propertyTy...
+SetState                                        Method       void SetState(Microsoft.SqlServer.Management.Smo.SqlSmoState state)
+SetTraceFlag                                    Method       void SetTraceFlag(int number, bool isOn)
+SfcHelper_GetDataTable                          Method       System.Data.DataTable IAlienRoot.SfcHelper_GetDataTable(System.Object c...
+SfcHelper_GetSmoObject                          Method       System.Object IAlienRoot.SfcHelper_GetSmoObject(string urn)
+SfcHelper_GetSmoObjectQuery                     Method       System.Collections.Generic.List[string] IAlienRoot.SfcHelper_GetSmoObje...
+ToString                                        Method       string ToString()
+Touch                                           Method       void Touch()
+Validate                                        Method       Microsoft.SqlServer.Management.Sdk.Sfc.ValidationState Validate(string ...
+ComputerName                                    NoteProperty string ComputerName=SQLAG01
+ConnectedAs                                     NoteProperty string ConnectedAs=DBADUCK\dbaduck
+DbaInstanceName                                 NoteProperty string DbaInstanceName=MSSQLSERVER
+IsAzure                                         NoteProperty bool IsAzure=False
+NetPort                                         NoteProperty int NetPort=1433
+AffinityInfo                                    Property     Microsoft.SqlServer.Management.Smo.AffinityInfo AffinityInfo {get;}
+AuditLevel                                      Property     Microsoft.SqlServer.Management.Smo.AuditLevel AuditLevel {get;set;}
+Audits                                          Property     Microsoft.SqlServer.Management.Smo.AuditCollection Audits {get;}
+AvailabilityGroups                              Property     Microsoft.SqlServer.Management.Smo.AvailabilityGroupCollection Availabi...
+BackupDevices                                   Property     Microsoft.SqlServer.Management.Smo.BackupDeviceCollection BackupDevices...
+BackupDirectory                                 Property     string BackupDirectory {get;set;}
+BrowserServiceAccount                           Property     string BrowserServiceAccount {get;}
+BrowserStartMode                                Property     Microsoft.SqlServer.Management.Smo.ServiceStartMode BrowserStartMode {g...
+BuildClrVersion                                 Property     version BuildClrVersion {get;}
+BuildClrVersionString                           Property     string BuildClrVersionString {get;}
+BuildNumber                                     Property     int BuildNumber {get;}
+ClusterName                                     Property     string ClusterName {get;}
+ClusterQuorumState                              Property     Microsoft.SqlServer.Management.Smo.ClusterQuorumState ClusterQuorumStat...
+ClusterQuorumType                               Property     Microsoft.SqlServer.Management.Smo.ClusterQuorumType ClusterQuorumType ...
+Collation                                       Property     string Collation {get;}
+CollationID                                     Property     int CollationID {get;}
+ComparisonStyle                                 Property     int ComparisonStyle {get;}
+ComputerNamePhysicalNetBIOS                     Property     string ComputerNamePhysicalNetBIOS {get;}
+Configuration                                   Property     Microsoft.SqlServer.Management.Smo.Configuration Configuration {get;}
+ConnectionContext                               Property     Microsoft.SqlServer.Management.Common.ServerConnection ConnectionContex...
+Credentials                                     Property     Microsoft.SqlServer.Management.Smo.CredentialCollection Credentials {get;}
+CryptographicProviders                          Property     Microsoft.SqlServer.Management.Smo.CryptographicProviderCollection Cryp...
+DatabaseEngineEdition                           Property     Microsoft.SqlServer.Management.Common.DatabaseEngineEdition DatabaseEng...
+DatabaseEngineType                              Property     Microsoft.SqlServer.Management.Common.DatabaseEngineType DatabaseEngine...
+Databases                                       Property     Microsoft.SqlServer.Management.Smo.DatabaseCollection Databases {get;}
+DefaultAvailabilityGroupClusterType             Property     Microsoft.SqlServer.Management.Smo.AvailabilityGroupClusterType Default...
+DefaultFile                                     Property     string DefaultFile {get;set;}
+DefaultLog                                      Property     string DefaultLog {get;set;}
+DefaultTextMode                                 Property     bool DefaultTextMode {get;set;}
+DomainInstanceName                              Property     string DomainInstanceName {get;}
+DomainName                                      Property     string DomainName {get;}
+Edition                                         Property     string Edition {get;}
+Endpoints                                       Property     Microsoft.SqlServer.Management.Smo.EndpointCollection Endpoints {get;}
+EngineEdition                                   Property     Microsoft.SqlServer.Management.Smo.Edition EngineEdition {get;}
+ErrorLogPath                                    Property     string ErrorLogPath {get;}
+ErrorLogSizeKb                                  Property     int ErrorLogSizeKb {get;set;}
+Events                                          Property     Microsoft.SqlServer.Management.Smo.ServerEvents Events {get;}
+ExecutionManager                                Property     Microsoft.SqlServer.Management.Smo.ExecutionManager ExecutionManager {g...
+FilestreamLevel                                 Property     Microsoft.SqlServer.Management.Smo.FileStreamEffectiveLevel FilestreamL...
+FilestreamShareName                             Property     string FilestreamShareName {get;}
+FullTextService                                 Property     Microsoft.SqlServer.Management.Smo.FullTextService FullTextService {get;}
+HadrManagerStatus                               Property     Microsoft.SqlServer.Management.Smo.HadrManagerStatus HadrManagerStatus ...
+HardwareGeneration                              Property     string HardwareGeneration {get;}
+HostDistribution                                Property     string HostDistribution {get;}
+HostPlatform                                    Property     string HostPlatform {get;}
+HostRelease                                     Property     string HostRelease {get;}
+HostServicePackLevel                            Property     string HostServicePackLevel {get;}
+HostSku                                         Property     int HostSku {get;}
+Information                                     Property     Microsoft.SqlServer.Management.Smo.Information Information {get;}
+InstallDataDirectory                            Property     string InstallDataDirectory {get;}
+InstallSharedDirectory                          Property     string InstallSharedDirectory {get;}
+InstanceName                                    Property     string InstanceName {get;}
+IsAvailabilityReplicaSeedingModeSupported       Property     bool IsAvailabilityReplicaSeedingModeSupported {get;}
+IsCaseSensitive                                 Property     bool IsCaseSensitive {get;}
+IsClustered                                     Property     bool IsClustered {get;}
+IsConfigurationOnlyAvailabilityReplicaSupported Property     bool IsConfigurationOnlyAvailabilityReplicaSupported {get;}
+IsCrossPlatformAvailabilityGroupSupported       Property     bool IsCrossPlatformAvailabilityGroupSupported {get;}
+IsDesignMode                                    Property     bool IsDesignMode {get;}
+IsFullTextInstalled                             Property     bool IsFullTextInstalled {get;}
+IsHadrEnabled                                   Property     bool IsHadrEnabled {get;}
+IsMemberOfWsfcCluster                           Property     bool IsMemberOfWsfcCluster {get;}
+IsPolyBaseInstalled                             Property     bool IsPolyBaseInstalled {get;}
+IsReadOnlyListWithLoadBalancingSupported        Property     bool IsReadOnlyListWithLoadBalancingSupported {get;}
+IsSingleUser                                    Property     bool IsSingleUser {get;}
+IsXTPSupported                                  Property     bool IsXTPSupported {get;}
+JobServer                                       Property     Microsoft.SqlServer.Management.Smo.Agent.JobServer JobServer {get;}
+Language                                        Property     string Language {get;}
+Languages                                       Property     Microsoft.SqlServer.Management.Smo.LanguageCollection Languages {get;}
+LinkedServers                                   Property     Microsoft.SqlServer.Management.Smo.LinkedServerCollection LinkedServers...
+LoginMode                                       Property     Microsoft.SqlServer.Management.Smo.ServerLoginMode LoginMode {get;set;}
+Logins                                          Property     Microsoft.SqlServer.Management.Smo.LoginCollection Logins {get;}
+Mail                                            Property     Microsoft.SqlServer.Management.Smo.Mail.SqlMail Mail {get;}
+MailProfile                                     Property     string MailProfile {get;set;}
+MasterDBLogPath                                 Property     string MasterDBLogPath {get;}
+MasterDBPath                                    Property     string MasterDBPath {get;}
+MaxPrecision                                    Property     byte MaxPrecision {get;}
+Name                                            Property     string Name {get;}
+NamedPipesEnabled                               Property     bool NamedPipesEnabled {get;}
+NetName                                         Property     string NetName {get;}
+NumberOfLogFiles                                Property     int NumberOfLogFiles {get;set;}
+OleDbProviderSettings                           Property     Microsoft.SqlServer.Management.Smo.OleDbProviderSettingsCollection OleD...
+OSVersion                                       Property     string OSVersion {get;}
+ParentCollection                                Property     Microsoft.SqlServer.Management.Smo.AbstractCollectionBase ParentCollect...
+PathSeparator                                   Property     string PathSeparator {get;}
+PerfMonMode                                     Property     Microsoft.SqlServer.Management.Smo.PerfMonMode PerfMonMode {get;set;}
+PhysicalMemory                                  Property     int PhysicalMemory {get;}
+PhysicalMemoryUsageInKB                         Property     long PhysicalMemoryUsageInKB {get;}
+Platform                                        Property     string Platform {get;}
+Processors                                      Property     int Processors {get;}
+ProcessorUsage                                  Property     int ProcessorUsage {get;}
+Product                                         Property     string Product {get;}
+ProductLevel                                    Property     string ProductLevel {get;}
+ProductUpdateLevel                              Property     string ProductUpdateLevel {get;}
+Properties                                      Property     Microsoft.SqlServer.Management.Smo.SqlPropertyCollection Properties {get;}
+ProxyAccount                                    Property     Microsoft.SqlServer.Management.Smo.ServerProxyAccount ProxyAccount {get;}
+ReservedStorageSizeMB                           Property     int ReservedStorageSizeMB {get;}
+ResourceGovernor                                Property     Microsoft.SqlServer.Management.Smo.ResourceGovernor ResourceGovernor {g...
+ResourceLastUpdateDateTime                      Property     datetime ResourceLastUpdateDateTime {get;}
+ResourceVersion                                 Property     version ResourceVersion {get;}
+ResourceVersionString                           Property     string ResourceVersionString {get;}
+Roles                                           Property     Microsoft.SqlServer.Management.Smo.ServerRoleCollection Roles {get;}
+RootDirectory                                   Property     string RootDirectory {get;}
+ServerAuditSpecifications                       Property     Microsoft.SqlServer.Management.Smo.ServerAuditSpecificationCollection S...
+ServerType                                      Property     Microsoft.SqlServer.Management.Common.DatabaseEngineType ServerType {get;}
+ServerVersion                                   Property     Microsoft.SqlServer.Management.Common.ServerVersion ServerVersion {get;}
+ServiceAccount                                  Property     string ServiceAccount {get;}
+ServiceInstanceId                               Property     string ServiceInstanceId {get;}
+ServiceMasterKey                                Property     Microsoft.SqlServer.Management.Smo.ServiceMasterKey ServiceMasterKey {g...
+ServiceName                                     Property     string ServiceName {get;}
+ServiceStartMode                                Property     Microsoft.SqlServer.Management.Smo.ServiceStartMode ServiceStartMode {g...
+ServiceTier                                     Property     string ServiceTier {get;}
+Settings                                        Property     Microsoft.SqlServer.Management.Smo.Settings Settings {get;}
+SmartAdmin                                      Property     Microsoft.SqlServer.Management.Smo.SmartAdmin SmartAdmin {get;}
+SqlCharSet                                      Property     int16 SqlCharSet {get;}
+SqlCharSetName                                  Property     string SqlCharSetName {get;}
+SqlDomainGroup                                  Property     string SqlDomainGroup {get;}
+SqlSortOrder                                    Property     int16 SqlSortOrder {get;}
+SqlSortOrderName                                Property     string SqlSortOrderName {get;}
+State                                           Property     Microsoft.SqlServer.Management.Smo.SqlSmoState State {get;}
+Status                                          Property     Microsoft.SqlServer.Management.Smo.ServerStatus Status {get;}
+SupportedAvailabilityGroupClusterTypes          Property     Microsoft.SqlServer.Management.Smo.AvailabilityGroupClusterType[] Suppo...
+SystemDataTypes                                 Property     Microsoft.SqlServer.Management.Smo.SystemDataTypeCollection SystemDataT...
+SystemMessages                                  Property     Microsoft.SqlServer.Management.Smo.SystemMessageCollection SystemMessag...
+TapeLoadWaitTime                                Property     int TapeLoadWaitTime {get;set;}
+TcpEnabled                                      Property     bool TcpEnabled {get;}
+Triggers                                        Property     Microsoft.SqlServer.Management.Smo.ServerDdlTriggerCollection Triggers ...
+Urn                                             Property     Microsoft.SqlServer.Management.Sdk.Sfc.Urn Urn {get;}
+UsedStorageSizeMB                               Property     int UsedStorageSizeMB {get;}
+UserData                                        Property     System.Object UserData {get;set;}
+UserDefinedMessages                             Property     Microsoft.SqlServer.Management.Smo.UserDefinedMessageCollection UserDef...
+UserOptions                                     Property     Microsoft.SqlServer.Management.Smo.UserOptions UserOptions {get;}
+Version                                         Property     version Version {get;}
+VersionMajor                                    Property     int VersionMajor {get;}
+VersionMinor                                    Property     int VersionMinor {get;}
+VersionString                                   Property     string VersionString {get;}
+Invoke                                          ScriptMethod System.Object Invoke();
+Query                                           ScriptMethod System.Object Query();
+
+
+11/18/2022 2:58:59 PM
+ ::
+[1.5309998 s]
+ ::
+C:\Demos
+ [22] >
+
+PS C:\Demos> $servers.Query("SELECT @@servername, name FROM sys.databases", "master")
+
+Column1 name
+------- ----
+SQLAG01 master
+SQLAG01 tempdb
+SQLAG01 model
+SQLAG01 msdb
+SQLAG01 FromProd1
+SQLAG02 master
+SQLAG02 tempdb
+SQLAG02 model
+SQLAG02 msdb
+
+
+11/18/2022 3:02:25 PM
+ ::
+[0.1330002 s]
+ ::
+C:\Demos
+ [23] >
+
+PS C:\Demos> $servers.Invoke("SELECT @@servername, name FROM sys.databases", "master")
+11/18/2022 3:02:54 PM
+ ::
+[0.0429995 s]
+ ::
+C:\Demos
+ [24] >
+
+PS C:\Demos> Get-DbaWsfcCluster -ComputerName $prod[0] # | Format-List *
+
+
+Name                 : AGCLUSTER
+Fqdn                 : AGCLUSTER.dbaduck.local
+State                :
+DrainOnShutdown      : 1
+DynamicQuorumEnabled : 1
+EnableSharedVolumes  : 1
+SharedVolumesRoot    : C:\ClusterStorage
+QuorumPath           :
+QuorumType           : Node and File Share Majority
+QuorumTypeValue      : 2
+RequestReplyTimeout  : 60
+
+
+
+11/18/2022 3:04:50 PM
+ ::
+[0.1919999 s]
+ ::
+C:\Demos
+ [25] >
+
+PS C:\Demos> Get-DbaWsfcNetwork -ComputerName $prod[0]
+
+
+ClusterName         : AGCLUSTER
+ClusterFqdn         : AGCLUSTER.dbaduck.local
+Name                : Cluster Network 1
+Address             : 192.168.85.0
+AddressMask         : 255.255.255.0
+IPv4Addresses       : {192.168.85.0}
+IPv4PrefixLengths   : {24}
+IPv6Addresses       : {}
+IPv6PrefixLengths   : {}
+QuorumType          :
+QuorumTypeValue     :
+RequestReplyTimeout :
+Role                : 3
+
+
+
+11/18/2022 3:05:05 PM
+ ::
+[0.0770498 s]
+ ::
+C:\Demos
+ [26] >
+
+PS C:\Demos> New-DbaDatabase -SqlInstance $prod[0] -Name "AGDatabase"
+
+
+ComputerName       : SQLAG01
+InstanceName       : MSSQLSERVER
+SqlInstance        : SQLAG01
+Name               : AGDatabase
+Status             : Normal
+IsAccessible       : True
+RecoveryModel      : Full
+LogReuseWaitStatus : Nothing
+SizeMB             : 16
+Compatibility      : 160
+Collation          : SQL_Latin1_General_CP1_CI_AS
+Owner              : DBADUCK\dbaduck
+Encrypted          : False
+LastFullBackup     : 11/17/2022 4:24:12 PM
+LastDiffBackup     : 1/1/0001 12:00:00 AM
+LastLogBackup      : 11/17/2022 4:24:12 PM
+
+
+
+11/18/2022 3:06:18 PM
+ ::
+[0.5157215 s]
+ ::
+C:\Demos
+ [27] >
+
+PS C:\Demos> New-DbaAvailabilityGroup -Primary $prod[0] -Name DBATOOLSAG -ClusterType Wsfc -AutomatedBackupPreference Secondary -Confirm:$false
+
+
+ComputerName               : SQLAG01
+InstanceName               : MSSQLSERVER
+SqlInstance                : SQLAG01
+LocalReplicaRole           : Primary
+AvailabilityGroup          : DBATOOLSAG
+PrimaryReplica             : SQLAG01
+ClusterType                : Wsfc
+DtcSupportEnabled          : False
+AutomatedBackupPreference  : Secondary
+AvailabilityReplicas       : {SQLAG01}
+AvailabilityDatabases      : {}
+AvailabilityGroupListeners : {}
+
+
+
+11/18/2022 3:07:00 PM
+ ::
+[5.5888111 s]
+ ::
+C:\Demos
+ [28] >
+
+PS C:\Demos> Get-DbaAvailabilityGroup -SqlInstance $prod[0] -AvailabilityGroup DBATOOLSAG | 
+        Add-DbaAgReplica -SqlInstance $prod[1] -FailoverMode Manual -SeedingMode Manual
+
+
+ComputerName               : SQLAG01
+InstanceName               : MSSQLSERVER
+SqlInstance                : SQLAG01
+AvailabilityGroup          : DBATOOLSAG
+Name                       : SQLAG02
+Role                       : Secondary
+RollupSynchronizationState : NotSynchronizing
+AvailabilityMode           : SynchronousCommit
+BackupPriority             : 50
+EndpointUrl                : TCP://SQLAG02.dbaduck.local:5022
+SessionTimeout             : 10
+FailoverMode               : Manual
+ReadonlyRoutingList        : {}
+
+
+
+11/18/2022 3:08:21 PM
+ ::
+[4.5574986 s]
+ ::
+C:\Demos
+ [29] >
+
+PS C:\Demos> Add-DbaAgDatabase -SqlInstance $prod[0] -AvailabilityGroup DBATOOLSAG -Database AGDatabase `
+        -Secondary $prod[1] -SeedingMode Manual -SharedPath "\\DC01\SQLBACKUP"  -EnableException
+
+
+ComputerName         : SQLAG01
+InstanceName         : MSSQLSERVER
+SqlInstance          : SQLAG01
+AvailabilityGroup    : DBATOOLSAG
+LocalReplicaRole     : Primary
+Name                 : AGDatabase
+SynchronizationState : Synchronized
+IsFailoverReady      : True
+IsJoined             : True
+IsSuspended          : False
+
+ComputerName         : SQLAG02
+InstanceName         : MSSQLSERVER
+SqlInstance          : SQLAG02
+AvailabilityGroup    : DBATOOLSAG
+LocalReplicaRole     : Secondary
+Name                 : AGDatabase
+SynchronizationState : Synchronized
+IsFailoverReady      : True
+IsJoined             : True
+IsSuspended          : False
+
+
+
+11/18/2022 3:09:53 PM
+ ::
+[5.7567554 s]
+ ::
+C:\Demos
+ [30] >
+
+PS C:\Demos> Add-DbaAgListener -SqlInstance $prod[0] -AvailabilityGroup DBATOOLSAG -Name AGLISTEN -Port 1433 -IPAddress 192.168.85.233
+
+
+ComputerName           : SQLAG01
+InstanceName           : MSSQLSERVER
+SqlInstance            : SQLAG01
+AvailabilityGroup      : DBATOOLSAG
+Name                   : AGLISTEN
+PortNumber             : 1433
+ClusterIPConfiguration : ('IP Address: 192.168.85.233')
+
+
+
+11/18/2022 3:11:01 PM
+ ::
+[7.8762794 s]
+ ::
+C:\Demos
+ [31] >
+
+PS C:\Demos> Invoke-DbaAgFailover -SqlInstance $prod[1] -AvailabilityGroup DBATOOLSAG -Confirm:$false
+
+
+ComputerName               : SQLAG02
+InstanceName               : MSSQLSERVER
+SqlInstance                : SQLAG02
+LocalReplicaRole           : Primary
+AvailabilityGroup          : DBATOOLSAG
+PrimaryReplica             : SQLAG02
+ClusterType                : Wsfc
+DtcSupportEnabled          : False
+AutomatedBackupPreference  : Secondary
+AvailabilityReplicas       : {SQLAG01, SQLAG02}
+AvailabilityDatabases      : {AGDatabase}
+AvailabilityGroupListeners : {AGLISTEN}
+
+
+
+11/18/2022 3:12:16 PM
+ ::
+[5.1863234 s]
+ ::
+C:\Demos
+ [32] >
+
+PS C:\Demos> Invoke-DbaAgFailover -SqlInstance $prod[0]-AvailabilityGroup DBATOOLSAG -Confirm:$false
+
+
+ComputerName               : SQLAG01
+InstanceName               : MSSQLSERVER
+SqlInstance                : SQLAG01
+LocalReplicaRole           : Primary
+AvailabilityGroup          : DBATOOLSAG
+PrimaryReplica             : SQLAG01
+ClusterType                : Wsfc
+DtcSupportEnabled          : False
+AutomatedBackupPreference  : Secondary
+AvailabilityReplicas       : {SQLAG01, SQLAG02}
+AvailabilityDatabases      : {AGDatabase}
+AvailabilityGroupListeners : {AGLISTEN}
+
+
+
+11/18/2022 3:13:13 PM
+ ::
+[5.1462794 s]
+ ::
+C:\Demos
+ [33] >
+
+PS C:\Demos> Remove-DbaAvailabilityGroup -SqlInstance $prod[0] -AvailabilityGroup DBATOOLSAG -Confirm:$false
+
+
+ComputerName      : SQLAG01
+InstanceName      : MSSQLSERVER
+SqlInstance       : SQLAG01
+AvailabilityGroup : DBATOOLSAG
+Status            : Removed
+
+
+
+11/18/2022 3:13:29 PM
+ ::
+[1.4422925 s]
+ ::
+C:\Demos
+ [34] >
+
+PS C:\Demos> Get-DbaEndpoint -SqlInstance $prod -Type DatabaseMirroring | Remove-DbaEndpoint -Confirm:$false
+
+
+ComputerName : SQLAG01
+InstanceName : MSSQLSERVER
+SqlInstance  : SQLAG01
+Endpoint     : hadr_endpoint
+Status       : Removed
+
+ComputerName : SQLAG02
+InstanceName : MSSQLSERVER
+SqlInstance  : SQLAG02
+Endpoint     : hadr_endpoint
+Status       : Removed
+
+
+
+11/18/2022 3:13:53 PM
+ ::
+[4.1773121 s]
+ ::
+C:\Demos
+ [35] >
+
+PS C:\Demos> Remove-DbaDatabase -SqlInstance $prod -Database "AGDatabase" -Confirm:$false
+
+
+ComputerName : SQLAG01
+InstanceName : MSSQLSERVER
+SqlInstance  : SQLAG01
+Database     : AGDatabase
+Status       : Dropped
+
+ComputerName : SQLAG02
+InstanceName : MSSQLSERVER
+SqlInstance  : SQLAG02
+Database     : AGDatabase
+Status       : Dropped
+
+
+
+11/18/2022 3:14:21 PM
+ ::
+[0.2361176 s]
+ ::
+C:\Demos
+ [36] >
+
+PS C:\Demos> Invoke-DbaWhoisActive -SqlInstance $prod
+11/18/2022 3:20:06 PM
+ ::
+[0.5609023 s]
+ ::
+C:\Demos
+ [37] >
+
+PS C:\Demos> Invoke-DbaDiagnosticQuery -SqlInstance $prod[0] -UseSelectionHelper
+PS C:\Demos> TerminatingError(Invoke-DiagnosticQuerySelectionHelper): "Cannot bind argument to parameter 'ParsedScript' because it is null."
+Invoke-DiagnosticQuerySelectionHelper : Cannot bind argument to parameter 'ParsedScript' because it is null.
+At C:\Program Files\WindowsPowerShell\Modules\dbatools\1.1.142\allcommands.ps1:78177 char:68
++ ...      $QueryName = Invoke-DiagnosticQuerySelectionHelper $parsedscript
++                                                             ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Invoke-DiagnosticQuerySelectionHelper], 
+ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Invoke-DiagnosticQuerySelectionHelper
+Invoke-DiagnosticQuerySelectionHelper : Cannot bind argument to parameter 'ParsedScript' because it is null.
+At C:\Program Files\WindowsPowerShell\Modules\dbatools\1.1.142\allcommands.ps1:78177 char:68
++ ...      $QueryName = Invoke-DiagnosticQuerySelectionHelper $parsedscript
++                                                             ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Invoke-DiagnosticQuerySelectionHelper], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Invoke-DiagnosticQuerySelectionHelper
+
+[
+PS C:\Demos> TerminatingError(Write-Host): "Cannot bind parameter 'ForegroundColor'. Cannot convert value "sub" to type "System.ConsoleColor". Error: "Unable to match the identifier name sub to a valid enumerator name. Specify one of the following enumerator names and try again:
+Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray, DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White""
+15:20:52
+][
+PS C:\Demos> TerminatingError(Write-Host): "Cannot bind parameter 'ForegroundColor'. Cannot convert value "sub" to type "System.ConsoleColor". Error: "Unable to match the identifier name sub to a valid enumerator name. Specify one of the following enumerator names and try again:
+Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray, DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White""
+Invoke-DbaDiagnosticQuery
+] No query selected through SelectionHelper, halting script execution
+11/18/2022 3:20:52 PM
+ ::
+[0.6949991 s]
+ ::
+C:\Demos
+ [38] >
+
+PS C:\Demos> Invoke-DbaDiagnosticQuery -SqlInstance $prod[0] -UseSelectionHelper
+PS C:\Demos> TerminatingError(Invoke-DiagnosticQuerySelectionHelper): "Cannot bind argument to parameter 'ParsedScript' because it is null."
+Invoke-DiagnosticQuerySelectionHelper : Cannot bind argument to parameter 'ParsedScript' because it is null.
+At C:\Program Files\WindowsPowerShell\Modules\dbatools\1.1.142\allcommands.ps1:78177 char:68
++ ...      $QueryName = Invoke-DiagnosticQuerySelectionHelper $parsedscript
++                                                             ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Invoke-DiagnosticQuerySelectionHelper], 
+ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Invoke-DiagnosticQuerySelectionHelper
+Invoke-DiagnosticQuerySelectionHelper : Cannot bind argument to parameter 'ParsedScript' because it is null.
+At C:\Program Files\WindowsPowerShell\Modules\dbatools\1.1.142\allcommands.ps1:78177 char:68
++ ...      $QueryName = Invoke-DiagnosticQuerySelectionHelper $parsedscript
++                                                             ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Invoke-DiagnosticQuerySelectionHelper], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Invoke-DiagnosticQuerySelectionHelper
+
+[
+PS C:\Demos> TerminatingError(Write-Host): "Cannot bind parameter 'ForegroundColor'. Cannot convert value "sub" to type "System.ConsoleColor". Error: "Unable to match the identifier name sub to a valid enumerator name. Specify one of the following enumerator names and try again:
+Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray, DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White""
+15:21:08
+][
+PS C:\Demos> TerminatingError(Write-Host): "Cannot bind parameter 'ForegroundColor'. Cannot convert value "sub" to type "System.ConsoleColor". Error: "Unable to match the identifier name sub to a valid enumerator name. Specify one of the following enumerator names and try again:
+Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray, DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White""
+Invoke-DbaDiagnosticQuery
+] No query selected through SelectionHelper, halting script execution
+11/18/2022 3:21:08 PM
+ ::
+[0.7029989 s]
+ ::
+C:\Demos
+ [39] >
+
+PS C:\Demos> Copy-DbaAgentJob -Source $prod[0] -Destination $prod[1]
+
+Type      Name                    Status     Notes
+----      ----                    ------     -----
+Agent Job PowerShell NOSQLPS      Skipped    Job is dependent on login JobOwner
+Agent Job syspolicy_purge_history Skipped    Already exists on destination
+Agent Job TestPowerShell SQLPS    Successful
+
+
+11/18/2022 3:28:17 PM
+ ::
+[0.4670003 s]
+ ::
+C:\Demos
+ [40] >
+
+PS C:\Demos> Copy-dbalogin -source $prod[0] -Destination $prod[1]
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+PS C:\Demos> TerminatingError(): "System error."
+Type                Name                      Status     Notes
+----                ----                      ------     -----
+Login - WindowsUser DBADUCK\dbaduck           Skipped    Already exists on destination
+Login - WindowsUser dbaduck\svc-mssql         Skipped    Already exists on destination
+Login - SqlLogin    JobOwner                  Successful
+Login - SqlLogin    NewLogin                  Skipped    Already exists on destination
+Login - WindowsUser NT AUTHORITY\SYSTEM       Skipped    Local machine name
+Login - WindowsUser NT SERVICE\MSSQLSERVER    Skipped    Local machine name
+Login - WindowsUser NT SERVICE\SQLSERVERAGENT Skipped    Local machine name
+Login - WindowsUser NT SERVICE\SQLTELEMETRY   Skipped    Local machine name
+Login - WindowsUser NT SERVICE\SQLWriter      Skipped    Local machine name
+Login - WindowsUser NT SERVICE\Winmgmt        Skipped    Local machine name
+
+
+11/18/2022 3:28:53 PM
+ ::
+[1.1136999 s]
+ ::
+C:\Demos
+ [41] >
+
+PS C:\Demos> Copy-DbaAgentJob -Source $prod[0] -Destination $prod[1]
+
+Type      Name                    Status     Notes
+----      ----                    ------     -----
+Agent Job PowerShell NOSQLPS      Successful
+Agent Job syspolicy_purge_history Skipped    Already exists on destination
+Agent Job TestPowerShell SQLPS    Skipped    Already exists on destination
+
+
+11/18/2022 3:29:14 PM
+ ::
+[0.2949998 s]
+ ::
+C:\Demos
+ [42] >
+
+PS C:\Demos> Copy-dbalogin -source $prod[0] -Destination $prod[1] -Login NewLogin -force
+
+Type             Name     Status     Notes
+----             ----     ------     -----
+Login - SqlLogin NewLogin Successful
+
+
+11/18/2022 3:30:17 PM
+ ::
+[0.3520003 s]
+ ::
+C:\Demos
+ [43] >
+
+PS C:\Demos> Get-DbaDbOrphanUser -SqlInstance $prod -Database FromProd1
+11/18/2022 3:37:26 PM
+ ::
+[0.1990419 s]
+ ::
+C:\Demos
+ [44] >
+
+PS C:\Demos> Get-DbaDbOrphanUser -SqlInstance $prod -Database FromProd1
+
+
+ComputerName : SQLAG01
+InstanceName : MSSQLSERVER
+SqlInstance  : SQLAG01
+DatabaseName : FromProd1
+User         : NewLogin
+
+
+
+11/18/2022 3:38:04 PM
+ ::
+[0.178698 s]
+ ::
+C:\Demos
+ [45] >
+
+PS C:\Demos> $cred = Get-Credential
+11/18/2022 3:38:44 PM
+ ::
+[6.1043712 s]
+ ::
+C:\Demos
+ [46] >
+
+PS C:\Demos> New-DbaLogin -SqlInstance $prod -Login "NewLogin" -SecurePassword $cred.Password
+
+
+ComputerName       : SQLAG01
+InstanceName       : MSSQLSERVER
+SqlInstance        : SQLAG01
+Name               : NewLogin
+LoginType          : SqlLogin
+CreateDate         : 11/18/2022 3:38:49 PM
+LastLogin          :
+HasAccess          : True
+IsLocked           : False
+IsDisabled         : False
+MustChangePassword : False
+
+WARNING: [15:38:49][New-DbaLogin] Login NewLogin already exists on SQLAG02 and -Force was not specified
+PS C:\Demos> TerminatingError(): "System error."
+
+
+11/18/2022 3:38:49 PM
+ ::
+[0.226001 s]
+ ::
+C:\Demos
+ [47] >
+
+PS C:\Demos> Get-DbaDbOrphanUser -SqlInstance $prod -Database FromProd1
+
+
+ComputerName : SQLAG01
+InstanceName : MSSQLSERVER
+SqlInstance  : SQLAG01
+DatabaseName : FromProd1
+User         : NewLogin
+
+
+
+11/18/2022 3:39:12 PM
+ ::
+[0.1469996 s]
+ ::
+C:\Demos
+ [48] >
+
+PS C:\Demos> Repair-DbaDbOrphanUser -sqlinstance $prod[0] -database FromProd1
+
+
+ComputerName : SQLAG01
+InstanceName : MSSQLSERVER
+SqlInstance  : SQLAG01
+DatabaseName : FromProd1
+User         : NewLogin
+Status       : Success
+
+
+
+11/18/2022 3:39:22 PM
+ ::
+[0.2100008 s]
+ ::
+C:\Demos
+ [49] >
+
+PS C:\Demos> stop-transcript
+**********************
+Windows PowerShell transcript end
+End time: 20221122203615
+**********************
