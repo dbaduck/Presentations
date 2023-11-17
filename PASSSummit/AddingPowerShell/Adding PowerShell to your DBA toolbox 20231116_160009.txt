@@ -1,0 +1,615 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20231116160104
+Username: AzureAD\BenMiller-DBAduck
+RunAs User: AzureAD\BenMiller-DBAduck
+Configuration Name: 
+Machine: DBADUCKPC (Microsoft Windows NT 10.0.22621.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Program Files\Microsoft VS Code\resources\app\out\vs\workbench\contrib\terminal\browser\media\shellIntegration.ps1" } catch {}
+Process ID: 33884
+PSVersion: 5.1.22621.2506
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.22621.2506
+BuildVersion: 10.0.22621.2506
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is c:\demos\Adding PowerShell to your DBA toolbox 20231116_160009.txt
+]633;E;Start-Transcript -Path "c:\x5cdemos\x5cAdding PowerShell to your DBA toolbox $tDate.txt";4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Get-WmiObject -Class Win32_OperatingSystem | Select-Object Caption
+
+Caption
+-------
+Microsoft Windows 11 Pro
+
+
+]633;E;Get-WmiObject -Class Win32_OperatingSystem | Select-Object Caption;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$Psversiontable
+
+Name                           Value
+----                           -----
+PSVersion                      5.1.22621.2506
+PSEdition                      Desktop
+PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0...}
+BuildVersion                   10.0.22621.2506
+CLRVersion                     4.0.30319.42000
+WSManStackVersion              3.0
+PSRemotingProtocolVersion      2.3
+SerializationVersion           1.1.0.1
+
+
+]633;E;$Psversiontable;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Import-Module dbatools
+]633;E;Import-Module dbatools;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Import-Module sqlserver
+]633;E;Import-Module sqlserver;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>[appdomain]::currentdomain.getassemblies() | Sort-Object FullName | Select FullName
+
+FullName
+--------
+Anonymously Hosted DynamicMethods Assembly, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+Azure.Core, Version=1.25.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8
+Azure.Identity, Version=1.7.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8
+Bogus, Version=34.0.2.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a
+DataSec.PAL.Interfaces, Version=1.19.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+dbatools, Version=0.10.0.75, Culture=neutral, PublicKeyToken=null
+LumenWorks.Framework.IO, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344
+Microsoft.AnalysisServices, Version=19.57.2.4, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.AnalysisServices.Core, Version=19.57.2.4, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.AnalysisServices.PowerShell.Cmdlets, Version=22.0.0.0, Culture=neutral, PublicKeyToken=89845d...
+Microsoft.AnalysisServices.PowerShell.Provider, Version=22.0.0.0, Culture=neutral, PublicKeyToken=89845...
+Microsoft.AnalysisServices.Tabular, Version=19.57.2.4, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Microsoft.Data.SqlClient, Version=5.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5
+Microsoft.Data.Tools.Schema.Sql, Version=16.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.IdentityModel.Abstractions, Version=6.24.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.Management.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PolyKit, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Commands.Diagnostics, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad3...
+Microsoft.PowerShell.Commands.Management, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad36...
+Microsoft.PowerShell.Commands.Utility, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.ConsoleHost, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.PSReadLine, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.PowerShell.Security, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.SqlServer.Assessment, Version=1.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Assessment.Cmdlets, Version=1.1.26.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.ConnectionInfo, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.ConnectionInfo, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Dac, Version=16.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Microsoft.SqlServer.DC.Engine, Version=1.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.SqlServer.Dmf, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Dmf.Common, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.AlwaysEncrypted.Management, Version=17.0.0.0, Culture=neutral, PublicKey...
+Microsoft.SqlServer.Management.Collector, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8...
+Microsoft.SqlServer.Management.CollectorEnum, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845...
+Microsoft.SqlServer.Management.HadrDMF, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd808...
+Microsoft.SqlServer.Management.IntegrationServices, Version=16.100.0.0, Culture=neutral, PublicKeyToken...
+Microsoft.SqlServer.Management.PSProvider, Version=22.0.0.0, Culture=neutral, PublicKeyToken=89845dcd80...
+Microsoft.SqlServer.Management.PSProvider.Ext, Version=22.0.0.0, Culture=neutral, PublicKeyToken=89845d...
+Microsoft.SqlServer.Management.PSSnapins, Version=22.0.0.0, Culture=neutral, PublicKeyToken=89845dcd808...
+Microsoft.SqlServer.Management.RegisteredServers, Version=17.100.0.0, Culture=neutral, PublicKeyToken=8...
+Microsoft.SqlServer.Management.Sdk.Sfc, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.Management.Sdk.Sfc, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd808...
+Microsoft.SqlServer.Management.XEvent, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080...
+Microsoft.SqlServer.Management.XEventDbScoped, Version=17.100.0.0, Culture=neutral, PublicKeyToken=8984...
+Microsoft.SqlServer.RegSvrEnum, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.ServiceBrokerEnum, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080...
+Microsoft.SqlServer.Smo, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SmoExtended, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlEnum, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.SqlWmiManagement, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.VA.Model, Version=1.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+Microsoft.SqlServer.WmiEnum, Version=17.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlServer.XEvent.XELite, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.SqlTools.ManagedBatchParser, Version=3.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91
+Microsoft.WSMan.Management, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+PSEventHandler, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+PSEventHandler, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Configuration.Install, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.DirectoryServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+System.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+System.Transactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+tkrpfvdz, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+
+
+]633;E;[appdomain]::currentdomain.getassemblies() | Sort-Object FullName | Select FullName;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Start-Process "C:\Program Files (x86)\Microsoft SQL Server Management Studio 19\Common7\IDE\Ssms.exe"
+]633;E;Start-Process "C:\x5cProgram Files (x86)\x5cMicrosoft SQL Server Management Studio 19\x5cCommon7\x5cIDE\x5cSsms.exe";4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Get-DbatoolsConfig
+
+
+    Module: assets
+
+
+FullName                 Value                Description
+--------                 -----                -----------
+assets.sqlbuildreference https://dataplat.... The url where dbatools fetches the up to date buildrefere...
+
+
+    Module: availabilitygroups
+
+
+FullName                                                 Value                Description
+--------                                                 -----                -----------
+availabilitygroups.default.clustertype                   Wsfc                 Used to identify if the a...
+availabilitygroups.default.connectionmodeinsecondaryrole AllowNoConnections   Specifies whether the dat...
+availabilitygroups.default.failureconditionlevel         OnCriticalServerE... Specifies what failure co...
+
+
+    Module: azure
+
+
+FullName                     Value Description
+--------                     ----- -----------
+azure.appid                        Default Azure AppID for MFA
+azure.certificate.store            Store where certificate resides
+azure.certificate.thumbprint       Certificate thumbprint
+azure.clientsecret                 Client secret as secureString
+azure.tenantid                     Default Azure tenantid - can be guid or name
+azure.vm                           Is this machine in Azure?
+
+
+    Module: commands
+
+
+FullName                                   Value             Description
+--------                                   -----             -----------
+commands.get-dbaregserver.defaultcms                         Use a default Central Management Server
+commands.get-dbaregserver.includelocal     False             Include local servers by default
+commands.initialize-credssp.bypass         False             Do not attempt to configure CredSSP authen...
+commands.resolve-dbanetworkname.bypass     False             Use input exactly as stated instead of att...
+commands.test-elevationrequirement.disable False             Disable elevation (run as admin) requirement
+commands.write-dbadbtabledata.ignorenull   False             When passing random objects at Write-DbaDb...
+commands.write-dbadbtabledata.raw          False             When passing random objects at Write-DbaDb...
+commands.write-dbadbtabledata.sizetype     Int64             When passing random objects at Write-DbaDb...
+commands.write-dbadbtabledata.timespantype TotalMilliseconds When passing random objects at Write-DbaDb...
+
+
+    Module: computermanagement
+
+
+FullName                                                  Value    Description
+--------                                                  -----    -----------
+computermanagement.badconnectiontimeout                   00:15:00 The timeout used on bad computer man...
+computermanagement.cache.disable.all                      False    Globally disables all caching done b...
+computermanagement.cache.disable.badcredentiallist        False    Disables the caching of bad credenti...
+computermanagement.cache.disable.cimpersistence           False    Disables the reuse of Cim Sessions. ...
+computermanagement.cache.disable.credentialautoregister   False    Disables the automatic registration ...
+computermanagement.cache.enable.credentialfailover        False    Enables automatically failing over t...
+computermanagement.cache.force.overrideexplicitcredential False    Enabling this will force the use of ...
+computermanagement.type.disable.cimdcom                   False    Globally disables all connections us...
+computermanagement.type.disable.cimrm                     False    Globally disables all connections us...
+computermanagement.type.disable.powershellremoting        True     Globally disables all connections us...
+computermanagement.type.disable.wmi                       True     Globally disables all connections us...
+
+
+    Module: formatting
+
+
+FullName                          Value                Description
+--------                          -----                -----------
+formatting.batchseparator         GO                   The default batch separator used in export of sc...
+formatting.date                   dd MMM yyyy          The default formatting of Dates
+formatting.datetime               yyyy-MM-dd HH:mm:... The default formatting style for full datetime o...
+formatting.disable.customdatetime False                Controls whether custom DateTime formats are use...
+formatting.disable.customtimespan False                Controls whether custom TimeSpan formats are use...
+formatting.size.digits            2                    How many digits are used when displaying a size ...
+formatting.size.style             Dynamic              Controls how size objects are displayed by defau...
+formatting.time                   HH:mm:ss             The default formatting style for full datetime o...
+formatting.uformat                %Y%m%d%H%M%S         The default uformat style for formatting dates i...
+
+
+    Module: import
+
+
+FullName                      Value Description
+--------                      ----- -----------
+import.alwaysbuildlibrary     False Causes the module to compile the library from source on every impor...
+import.encryptionmessagecheck True  Does not warn about new Microsoft encryption defaults
+import.serialimport           False Enabling this will cause the module to perform import in a serial m...
+import.sqlpscheck             True  Does not warn about sqlps being imported at the time of the dbatool...
+import.strictsecuritymode     False Causes the module to import its components only from the module dir...
+
+
+    Module: logging
+
+
+FullName                      Value      Description
+--------                      -----      -----------
+logging.errorlogenabled       True       Governs, whether a log of recent errors is kept in memory. Thi...
+logging.errorlogfileenabled   True       Governs, whether log files for errors are written. This settin...
+logging.maxerrorcount         128        The maximum number of error records maintained in-memory. This...
+logging.maxerrorfilebytes     20971520   The maximum size all error files combined may have. When this ...
+logging.maxlogfileage         7.00:00:00 Any logfile older than this will automatically be cleansed. Th...
+logging.maxmessagecount       1024       The maximum number of messages that can be maintained in the i...
+logging.maxmessagefilebytes   5242880    The maximum size of a given logfile. When reaching this limit,...
+logging.maxmessagefilecount   5          The maximum number of logfiles maintained at a time. Exceeding...
+logging.maxtotalfoldersize    104857600  This is the upper limit of length all items in the log folder ...
+logging.messagelogenabled     True       Governs, whether a log of recent messages is kept in memory. T...
+logging.messagelogfileenabled True       Governs, whether a log file for the system messages is written...
+
+
+    Module: message
+
+
+FullName                         Value Description
+--------                         ----- -----------
+message.consoleoutput.disable    False Global toggle that allows disabling all regular messages to scre...
+message.maximumdebug             9     The maximum message level where debug information is still written.
+message.maximuminfo              3     The maximum message level to still display to the user directly.
+message.maximumverbose           6     The maxium message level where verbose information is still writ...
+message.minimumdebug             1     The minimum required message level where debug information is wr...
+message.minimuminfo              1     The minimum required message level for messages that will be sho...
+message.minimumverbose           4     The minimum required message level where verbose information is ...
+message.nestedlevel.decrement    0     How many levels should be reduced per callstack depth. This make...
+message.style.breadcrumbs        False Controls how messages are displayed. Enables Breadcrumb display,...
+message.style.functionname       True  Controls how messages are displayed. Enables command name, showi...
+message.style.timestamp          True  Controls how messages are displayed. Enables timestamp display, ...
+message.transform.errorqueuesize 512   The size of the queue for transformation errors. May be useful f...
+
+
+    Module: path
+
+
+FullName                  Value                Description
+--------                  -----                -----------
+path.dbatoolsdata         C:\Users\BenMille... The path where dbatools stores persistent data on a per ...
+path.dbatoolsexport       E:\OneDriveDBADuc... The default path where dbatools writes scripts generated...
+path.dbatoolslogpath      C:\Users\BenMille... The path where dbatools writes all its logs and debuggin...
+path.dbatoolstemp         C:\Users\BenMille... The path where dbatools stores temporary data.
+path.managed.appdata      C:\Users\BenMille... Path pointing at the AppData path. Used with Get-Dbatool...
+path.managed.localappdata C:\Users\BenMille... Path pointing at the LocalAppData path. Used with Get-Db...
+path.managed.programdata  C:\ProgramData       Path pointing at the ProgramData path. Used with Get-Dba...
+path.managed.temp         C:\Users\BENMIL~1... Path pointing at the temp path. Used with Get-DbatoolsPath.
+path.servers              C:\Users\BenMille... The file in which dbatools stores the current user's ser...
+path.tagcache             C:\Program Files\... The file in which dbatools stores the tag cache. That ca...
+
+
+    Module: psremoting
+
+
+FullName                                       Value    Description
+--------                                       -----    -----------
+psremoting.pssession.port                               Changes the -Port parameter value used by New-P...
+psremoting.pssession.usessl                    False    Changes the value of -UseSSL parameter used by ...
+psremoting.pssessionoption.includeportinspn    False    Changes the value of -IncludePortInSPN paramete...
+psremoting.pssessionoption.skipcacheck         False    Changes the value of -SkipCACheck parameter use...
+psremoting.pssessionoption.skipcncheck         False    Changes the value of -SkipCNCheck parameter use...
+psremoting.pssessionoption.skiprevocationcheck False    Changes the value of -SkipRevocationCheck param...
+psremoting.sessions.enable                     True     Globally enables session caching for PowerShell...
+psremoting.sessions.expirationtimeout          00:05:00 The timeout interval for PowerShell remote sess...
+
+
+    Module: sql
+
+
+FullName                           Value                Description
+--------                           -----                -----------
+sql.alwaysencrypted.enable         False                Not yet implemented
+sql.alwaysencrypted.enclave                             Not yet implemented
+sql.connection.clientname          dbatools PowerShe... The client name - defaults to 'dbatools PowerSh...
+sql.connection.database                                 The default database for all connections unless...
+sql.connection.encrypt             True                 Encrypt connection to server
+sql.connection.multisubnetfailover False                Use MultiSubnetFailover by default
+sql.connection.packetsize          4096                 Packet size
+sql.connection.protocol                                 Network protocol
+sql.connection.timeout             15                   The number of seconds before sql server connect...
+sql.connection.trustcert           True                 Trust SQL Server certificate
+sql.execution.timeout              0                    Statement timeout
+
+
+    Module: tabexpansion
+
+
+FullName                          Value    Description
+--------                          -----    -----------
+tabexpansion.disable              False    Globally disables all TEPP functionality by dbatools
+tabexpansion.disable.asynchronous False    Globally disables asynchronous TEPP updates in the background
+tabexpansion.disable.synchronous  True     Globally disables synchronous TEPP updates, performed whenev...
+tabexpansion.updateinterval       00:03:00 The frequency in which TEPP tries to update each cache for a...
+tabexpansion.updatetimeout        00:00:30 After this timespan has passed without connections to a serv...
+
+
+]633;E;Get-DbatoolsConfig;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$data = Invoke-DbaQuery @dbademo -Database master -Query "Select Name, database_id from sys.databases" -as DataTable
+]633;E;$data = Invoke-DbaQuery @dbademo -Database master -Query "Select Name, database_id from sys.databases" -as DataTable;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sdatabases -Schema dbo -InputObject $data -AutoCreateTable
+>> TerminatingError(Write-DbaDbTableData): "Cannot validate argument on parameter 'SqlInstance'. The argument is null. Provide a valid value for the argument, and then try running the command again."
+Write-DbaDbTableData : Cannot validate argument on parameter 'SqlInstance'. The argument is null. Provide a valid value 
+for the argument, and then try running the command again.
+At line:1 char:35
++ Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sd ...
++                                   ~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Write-DbaDbTableData], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationError,Write-DbaDbTableData
+Write-DbaDbTableData : Cannot validate argument on parameter 'SqlInstance'. The argument is null. Provide
+a valid value for the argument, and then try running the command again.
+At line:1 char:35
++ Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sd ...
++                                   ~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Write-DbaDbTableData], ParameterBindingValidationExceptio
+   n
+    + FullyQualifiedErrorId : ParameterArgumentValidationError,Write-DbaDbTableData
+
+]633;E;Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sdatabases -Schema dbo -InputObject $data -AutoCreateTable;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>demoserver = "localhost\s2019"
+demoserver : The term 'demoserver' is not recognized as the name of a cmdlet, function, script file, or operable 
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ demoserver = "localhost\s2019"
++ ~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (demoserver:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+demoserver : The term 'demoserver' is not recognized as the name of a cmdlet, function, script file, or
+operable program. Check the spelling of the name, or if a path was included, verify that the path is
+correct and try again.
+At line:1 char:1
++ demoserver = "localhost\s2019"
++ ~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (demoserver:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+]633;E;demoserver = "localhost\x5cs2019";4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$dbademo = @{
+    SqlInstance = "localhost\S2019"
+}
+]633;E;$dbademo = @{\x0a    SqlInstance = "localhost\x5cS2019"\x0a};4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$comtools = @{
+    SqlInstance = "localhost\s2019"
+    Database = "master"
+}
+]633;E;$comtools = @{\x0a    SqlInstance = "localhost\x5cs2019"\x0a    Database = "master"\x0a};4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$data = Invoke-DbaQuery @dbademo -Database master -Query "Select Name, database_id from sys.databases" -as DataTable
+]633;E;$data = Invoke-DbaQuery @dbademo -Database master -Query "Select Name, database_id from sys.databases" -as DataTable;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sdatabases -Schema dbo -InputObject $data -AutoCreateTable
+>> TerminatingError(Write-DbaDbTableData): "Cannot validate argument on parameter 'SqlInstance'. The argument is null. Provide a valid value for the argument, and then try running the command again."
+Write-DbaDbTableData : Cannot validate argument on parameter 'SqlInstance'. The argument is null. Provide a valid value 
+for the argument, and then try running the command again.
+At line:1 char:35
++ Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sd ...
++                                   ~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Write-DbaDbTableData], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationError,Write-DbaDbTableData
+Write-DbaDbTableData : Cannot validate argument on parameter 'SqlInstance'. The argument is null. Provide
+a valid value for the argument, and then try running the command again.
+At line:1 char:35
++ Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sd ...
++                                   ~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Write-DbaDbTableData], ParameterBindingValidationExceptio
+   n
+    + FullyQualifiedErrorId : ParameterArgumentValidationError,Write-DbaDbTableData
+
+]633;E;Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sdatabases -Schema dbo -InputObject $data -AutoCreateTable;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$demoserver = "localhost\s2019"
+]633;E;$demoserver = "localhost\x5cs2019";4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$dbademo = @{
+    SqlInstance = "localhost\S2019"
+}
+]633;E;$dbademo = @{\x0a    SqlInstance = "localhost\x5cS2019"\x0a};4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$comtools = @{
+    SqlInstance = "localhost\s2019"
+    Database = "master"
+}
+]633;E;$comtools = @{\x0a    SqlInstance = "localhost\x5cs2019"\x0a    Database = "master"\x0a};4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$data = Invoke-DbaQuery @dbademo -Database master -Query "Select Name, database_id from sys.databases" -as DataTable
+]633;E;$data = Invoke-DbaQuery @dbademo -Database master -Query "Select Name, database_id from sys.databases" -as DataTable;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sdatabases -Schema dbo -InputObject $data -AutoCreateTable
+]633;E;Write-DbaDbTableData -SqlInstance $demoserver -database DBA -Table sdatabases -Schema dbo -InputObject $data -AutoCreateTable;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Get-DbaDbFile -SqlInstance $demoserver -Database DBA
+
+
+ComputerName             : DBADUCKPC
+InstanceName             : S2019
+SqlInstance              : DBADUCKPC\S2019
+Database                 : DBA
+DatabaseID               : 6
+FileGroupName            : PRIMARY
+ID                       : 1
+Type                     : 0
+TypeDescription          : ROWS
+LogicalName              : DBA
+PhysicalName             : D:\SQLDATA19\DBA.mdf
+State                    : ONLINE
+MaxSize                  : Unlimited
+Growth                   : 65536
+GrowthType               : kb
+NextGrowthEventSize      : 64.00 MB
+Size                     : 1,024.00 MB
+UsedSpace                : 3.00 MB
+AvailableSpace           : 1,021.00 MB
+IsOffline                : False
+IsReadOnly               : False
+IsReadOnlyMedia          : False
+IsSparse                 : False
+NumberOfDiskWrites       : 13
+NumberOfDiskReads        : 63
+ReadFromDisk             : 3.66 MB
+WrittenToDisk            : 104.00 KB
+VolumeFreeSpace          : 310.66 GB
+FileGroupDataSpaceId     : 1
+FileGroupType            : FG
+FileGroupTypeDescription : ROWS_FILEGROUP
+FileGroupDefault         : True
+FileGroupReadOnly        : False
+
+ComputerName             : DBADUCKPC
+InstanceName             : S2019
+SqlInstance              : DBADUCKPC\S2019
+Database                 : DBA
+DatabaseID               : 6
+FileGroupName            :
+ID                       : 2
+Type                     : 1
+TypeDescription          : LOG
+LogicalName              : DBA_log
+PhysicalName             : D:\SQLLOG19\DBA_log.ldf
+State                    : ONLINE
+MaxSize                  : 2.00 TB
+Growth                   : 65536
+GrowthType               : kb
+NextGrowthEventSize      : 64.00 MB
+Size                     : 512.00 MB
+UsedSpace                : 1.72 MB
+AvailableSpace           : 510.28 MB
+IsOffline                : False
+IsReadOnly               : False
+IsReadOnlyMedia          : False
+IsSparse                 : False
+NumberOfDiskWrites       : 45
+NumberOfDiskReads        : 11
+ReadFromDisk             : 1,000.00 KB
+WrittenToDisk            : 965.00 KB
+VolumeFreeSpace          : 310.66 GB
+FileGroupDataSpaceId     :
+FileGroupType            :
+FileGroupTypeDescription :
+FileGroupDefault         :
+FileGroupReadOnly        :
+
+
+
+]633;E;Get-DbaDbFile -SqlInstance $demoserver -Database DBA;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$file = Get-DbaDbFile -SqlInstance $demoserver -Database DBA
+]633;E;$file = Get-DbaDbFile -SqlInstance $demoserver -Database DBA;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$file.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+
+
+]633;E;$file.GetType();4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Get-DbaDatabase -SqlInstance $demoserver -Database dbachecks
+]633;E;Get-DbaDatabase -SqlInstance $demoserver -Database dbachecks;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db = Get-DbaDatabase -SqlInstance $demoserver -Database dbachecks
+]633;E;$db = Get-DbaDatabase -SqlInstance $demoserver -Database dbachecks;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db.GetType()
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $db.GetType()
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $db.GetType()
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+
+]633;E;$db.GetType();4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Get-DbaDatabase -SqlInstance $demoserver -Database dbachecks
+]633;E;Get-DbaDatabase -SqlInstance $demoserver -Database dbachecks;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db = Get-DbaDatabase -SqlInstance @dbademo -Database dbachecks
+>> TerminatingError(Get-DbaDatabase): "Missing an argument for parameter 'SqlInstance'. Specify a parameter of type 'Dataplat.Dbatools.Parameter.DbaInstanceParameter[]' and try again."
+Get-DbaDatabase : Missing an argument for parameter 'SqlInstance'. Specify a parameter of type 
+'Dataplat.Dbatools.Parameter.DbaInstanceParameter[]' and try again.
+At line:1 char:23
++ $db = Get-DbaDatabase -SqlInstance @dbademo -Database dbachecks
++                       ~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : MissingArgument,Get-DbaDatabase
+Get-DbaDatabase : Missing an argument for parameter 'SqlInstance'. Specify a parameter of type
+'Dataplat.Dbatools.Parameter.DbaInstanceParameter[]' and try again.
+At line:1 char:23
++ $db = Get-DbaDatabase -SqlInstance @dbademo -Database dbachecks
++                       ~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : MissingArgument,Get-DbaDatabase
+
+]633;E;$db = Get-DbaDatabase -SqlInstance @dbademo -Database dbachecks;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db.GetType()
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $db.GetType()
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $db.GetType()
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+
+]633;E;$db.GetType();4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>Get-DbaDatabase -SqlInstance localhost\s2019 -Database dba
+
+Name                 Status           Size     Space  Recovery Compat. Owner                     Collation
+                                            Available  Model     Level
+----                 ------           ---- ---------- -------- ------- -----                     ---------
+DBA                  Normal         1.5 GB 1021.11 MB Simple       150 sa                        SQL_Latin
+                                                                                                 1_General
+                                                                                                 _CP1_CI_A
+                                                                                                 S
+
+
+]633;E;Get-DbaDatabase -SqlInstance localhost\x5cs2019 -Database dba;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db = Get-DbaDatabase -SqlInstance @dbademo -Database dba
+>> TerminatingError(Get-DbaDatabase): "Missing an argument for parameter 'SqlInstance'. Specify a parameter of type 'Dataplat.Dbatools.Parameter.DbaInstanceParameter[]' and try again."
+Get-DbaDatabase : Missing an argument for parameter 'SqlInstance'. Specify a parameter of type 
+'Dataplat.Dbatools.Parameter.DbaInstanceParameter[]' and try again.
+At line:1 char:23
++ $db = Get-DbaDatabase -SqlInstance @dbademo -Database dba
++                       ~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : MissingArgument,Get-DbaDatabase
+Get-DbaDatabase : Missing an argument for parameter 'SqlInstance'. Specify a parameter of type
+'Dataplat.Dbatools.Parameter.DbaInstanceParameter[]' and try again.
+At line:1 char:23
++ $db = Get-DbaDatabase -SqlInstance @dbademo -Database dba
++                       ~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-DbaDatabase], ParameterBindingException
+    + FullyQualifiedErrorId : MissingArgument,Get-DbaDatabase
+
+]633;E;$db = Get-DbaDatabase -SqlInstance @dbademo -Database dba;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db.GetType()
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $db.GetType()
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+You cannot call a method on a null-valued expression.
+At line:1 char:1
++ $db.GetType()
++ ~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (:) [], RuntimeException
+    + FullyQualifiedErrorId : InvokeMethodOnNull
+
+]633;E;$db.GetType();4345fb93-2a0d-4278-893f-86313aa945fb]633;D;1]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db = Get-DbaDatabase -SqlInstance localhost\s2019 -Database dba
+]633;E;$db = Get-DbaDatabase -SqlInstance localhost\x5cs2019 -Database dba;4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>$db.GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     False    Database                                 Microsoft.SqlServer.Management.Smo.ScriptNam...
+
+
+]633;E;$db.GetType();4345fb93-2a0d-4278-893f-86313aa945fb]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cBenMiller-DBAduckPS C:\Users\BenMiller-DBAduck> ]633;B
+PS>stop-transcript
+**********************
+Windows PowerShell transcript end
+End time: 20231116221903
+**********************
