@@ -88,7 +88,7 @@ foreach ($db in ($server.Databases))
 	$dbobj.IsReadCommittedSnapshotOn = $db.IsReadCommittedSnapshotOn
 	$dbobj.IterationId = $IterationId
 	
-	[void]$ary.Add($dbobj)
+	$null = $ary.Add($dbobj)
 }
 $dt = ConvertTo-DbaDataTable -InputObject $ary
 
