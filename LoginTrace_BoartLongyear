@@ -1,0 +1,117 @@
+
+select * from sys.dm_xe_sessions
+select * from sys.traces
+/*
+exec sp_trace_setstatus 2,1
+exec sp_trace_setstatus 3,2
+*/
+
+--SQL2005
+
+-- Create a server-side trace with 5 rollover files and a limit of 20MB per file
+DECLARE @TraceID INT;
+DECLARE @TraceFile NVARCHAR(500) 
+SET @TraceFile = N'D:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\Log\FullLogin';
+declare @maxfilesize bigint
+set @maxfilesize = 20 
+
+-- Create the trace
+--EXEC sp_trace_create @TraceID output, 2, N'C:\temp\ActiveLogins.trc', @maxfilesize, NULL
+EXEC sp_trace_create @traceid =@TraceID OUTPUT, @options = 2, @tracefile = @TraceFile, @maxfilesize=@maxfilesize,@stoptime = NULL, @FileCount =  5;
+
+-- Add login events to the trace
+--DECLARE @TraceID INT;
+--Set @traceID = 2
+Declare @on bit
+Set @on = 1
+--EXEC sp_trace_setevent @TraceID, 14, 11, @on; -- Audit Login: LoginName
+--EXEC sp_trace_setevent @TraceID, 14, 15, @on; -- Audit Login: Database ID
+--EXEC sp_trace_setevent @TraceID, 14, 35, @on; -- Audit Login: DatabaseName
+--EXEC sp_trace_setevent @TraceID, 14, 6, @on; -- Audit Login: NTUserName
+--EXEC sp_trace_setevent @TraceID, 14, 8, @on; -- Audit Login: HostName
+--EXEC sp_trace_setevent @TraceID, 14, 10, @on; -- Audit Login: ApplicationName
+--EXEC sp_trace_setevent @TraceID, 14, 14, @on; -- Audit Login: StartTime
+--exec sp_trace_setevent @TraceID, 14, 1, @on
+exec sp_trace_setevent @TraceID, 14, 10, @on
+exec sp_trace_setevent @TraceID, 14, 3, @on
+exec sp_trace_setevent @TraceID, 14, 6, @on
+exec sp_trace_setevent @TraceID, 14, 7, @on
+exec sp_trace_setevent @TraceID, 14, 8, @on
+exec sp_trace_setevent @TraceID, 14, 11, @on
+exec sp_trace_setevent @TraceID, 14, 12, @on
+exec sp_trace_setevent @TraceID, 14, 14, @on
+exec sp_trace_setevent @TraceID, 14, 21, @on
+exec sp_trace_setevent @TraceID, 14, 23, @on
+exec sp_trace_setevent @TraceID, 14, 26, @on
+exec sp_trace_setevent @TraceID, 14, 35, @on
+exec sp_trace_setevent @TraceID, 14, 57, @on
+exec sp_trace_setevent @TraceID, 14, 60, @on
+exec sp_trace_setevent @TraceID, 14, 64, @on
+-- Add more columns as needed
+
+-- Set the trace rollover options
+--EXEC sp_trace_setstatus @TraceID, 2; -- Set rollover files
+--EXEC sp_trace_set maxfilesize @TraceID, @maxfilesize = 20; -- Set max file size (20MB)
+-- ONLY on SQL02 exec sp_trace_setfilter 2, 11, 0, 1, N'amarchivemgrsqlsa'
+-- ONLY on SQL05 exec sp_trace_setfilter 2, 11, 0, 1, N'BPAServer'
+-- ONLY on SQL06 exec sp_trace_setfilter 2, 11, 0, 1, N'IvantiEMAdmin'
+/*
+exec sp_trace_setstatus 2,0
+exec sp_trace_setstatus 2,1
+*/
+
+
+
+-- Start the trace
+EXEC sp_trace_setstatus @TraceID, 1; -- Start the trace
+
+-- Print a success message
+PRINT 'Server-side trace created with 5 rollover files and a limit of 20MB per file.';
+
+
+
+Declare @path varchar (255)
+Select @path =  [path] from sys.traces where [path] like '%FullLogin%' --and id = 2
+select @path
+--select * from sys.traces
+select Servername,LoginName,ApplicationName,HostName,DatabaseName,count(*) as [LoginCount], Min(starttime)as MinStart, MAX(starttime) as MaxStart
+--select *
+from fn_trace_gettable(@path, default) where LoginName is not null
+group by Servername,LoginName,ApplicationName,HostName,DatabaseName
+
+select * from sys.databases where database_id = 5
+
+------------------------------
+-- network protocol: TCP/IP  set quoted_identifier on  set arithabort off  set numeric_roundabort off  set ansi_warnings on  set ansi_padding on  set ansi_nulls on  set concat_null_yields_null on  set cursor_close_on_commit off  set implicit_transactions off  set language us_english  set dateformat mdy  set datefirst 7  set transaction isolation level read committed  
+
+select * from sys.traces
+
+--SQL01
+select Servername,LoginName,ApplicationName,HostName,db_name(Databaseid) as [Database],count(*) as [LoginCount], Min(starttime)as MinStart, MAX(starttime) as MaxStart
+ --select *
+from fn_trace_gettable('D:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\Log\FullLogin.trc',DEFAULT)group by Servername,LoginName,ApplicationName,HostName,DatabaseID
+
+--SQL02
+select Servername,LoginName,ApplicationName,HostName,db_name(Databaseid) as [Database],count(*) as [LoginCount], Min(starttime)as MinStart, MAX(starttime) as MaxStart
+ --select *
+from fn_trace_gettable('E:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\Log\FullLogin.trc',DEFAULT)group by Servername,LoginName,ApplicationName,HostName,DatabaseID
+
+--SQL03
+select Servername,LoginName,ApplicationName,HostName,db_name(Databaseid) as [Database],count(*) as [LoginCount], Min(starttime)as MinStart, MAX(starttime) as MaxStart
+ --select *
+from fn_trace_gettable('F:\SQL\Data\MSSQL10_50.MSSQLSERVER\MSSQL\Log\FullLogin.trc',DEFAULT)group by Servername,LoginName,ApplicationName,HostName,DatabaseID
+
+--SQL05
+select Servername,LoginName,ApplicationName,HostName,db_name(Databaseid) as [Database],count(*) as [LoginCount], Min(starttime)as MinStart, MAX(starttime) as MaxStart
+ --select *
+from fn_trace_gettable('C:\Program Files\Microsoft SQL Server\MSSQL10_50.MSSQLSERVER\MSSQL\Log\FullLogin.trc',DEFAULT)group by Servername,LoginName,ApplicationName,HostName,DatabaseID
+
+--SQL06
+select Servername,LoginName,ApplicationName,HostName,db_name(Databaseid) as [Database],count(*) as [LoginCount], Min(starttime)as MinStart, MAX(starttime) as MaxStart
+ --select *
+from fn_trace_gettable('E:\SQL\Data\MSSQL13.MSSQLSERVER\MSSQL\Log\FullLogin.trc',DEFAULT)group by Servername,LoginName,ApplicationName,HostName,DatabaseID
+
+
+select * from sys.traces
+
+
